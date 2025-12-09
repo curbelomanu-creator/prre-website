@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificación KYC / AML – PRRE Fund</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --border: #e1e5ee;
+      --primary: #0f766e;
+      --primary-soft: #e0f5f2;
+      --danger: #b91c1c;
+      --warning: #b45309;
+      --success: #15803d;
+      --text: #111827;
+      --muted: #6b7280;
+      --shadow: 0 12px 30px rgba(15,23,42,0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 32px 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    h1.page-title {
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .intro-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px 20px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .intro-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .intro-text {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.5;
+      white-space: pre-line; /* respeta saltos de línea del texto */
+    }
+
+    /* Toggle persona física / jurídica */
+    .persona-toggle {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 4px;
+      background: #e5e7eb;
+      margin-bottom: 20px;
+    }
+
+    .persona-toggle button {
+      border: none;
+      background: transparent;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--muted);
+      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    }
+
+    .persona-toggle button.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 4px 10px rgba(15,23,42,0.12);
+      transform: translateY(-1px);
+    }
+
+    /* Secciones de documentos */
+    .docs-section {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 32px;
+    }
+
+    .docs-section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .docs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .doc-item {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: 12px;
+      row-gap: 8px;
+      align-items: center;
+    }
+
+    @media (max-width: 640px) {
+      .doc-item {
+        grid-template-columns: 1fr;
+        align-items: flex-start;
+      }
+    }
+
+    .doc-main {
+      min-width: 0;
+    }
+
+    .doc-name {
+      font-size: 0.96rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .doc-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .doc-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    @media (max-width: 640px) {
+      .doc-actions {
+        align-items: flex-start;
+      }
+    }
+
+    .btn {
+      font-size: 0.85rem;
+      border-radius: 999px;
+      padding: 7px 14px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn:hover {
+      box-shadow: 0 4px 10px rgba(15,23,42,0.14);
+      transform: translateY(-1px);
+    }
+
+    .status-badge {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-pending {
+      background: #fee2e2;
+      color: var(--danger);
+    }
+
+    .status-review {
+      background: #fef3c7;
+      color: var(--warning);
+    }
+
+    .status-approved {
+      background: #dcfce7;
+      color: var(--success);
+    }
+
+    .view-link {
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .kyc-footer-note {
+      font-size: 0.86rem;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">Verificación KYC / AML</h1>
+
+    <!-- TEXTO EXPLICATIVO -->
+    <section class="intro-card">
+      <div class="intro-title">¿Por qué te pedimos esta información?</div>
+      <p class="intro-text">
+¿Por qué te pedimos esta información?
+Como parte de nuestras obligaciones legales y de nuestras políticas internas de cumplimiento, debemos verificar la identidad de cada inversionista y el origen de los fondos que se invierten en el Fondo.
+Este proceso se conoce como KYC/AML (Know Your Customer / Anti-Money Laundering) y sigue estándares internacionales (FATF/GAFI, Basel y Wolfsberg).
+La información y los documentos que cargues se utilizarán exclusivamente para fines de verificación y cumplimiento normativo, y se mantendrán protegidos de acuerdo con nuestras políticas de confidencialidad y seguridad.
+      </p>
+    </section>
+
+    <!-- TOGGLE PERSONA FÍSICA / JURÍDICA -->
+    <div class="persona-toggle" aria-label="Tipo de inversor">
+      <button id="btn-fisica" class="active" type="button" onclick="setPersona('fisica')">
+        Soy Persona Física
+      </button>
+      <button id="btn-juridica" type="button" onclick="setPersona('juridica')">
+        Soy Persona Jurídica
+      </button>
+    </div>
+
+    <!-- SECCIÓN PERSONA FÍSICA -->
+    <section id="section-fisica" class="docs-section">
+      <h2 class="docs-section-title">
+        Documentos requeridos para Personas Físicas
+      </h2>
+
+      <div class="docs-list">
+
+        <!-- 1. Documento de identidad (pasaporte) -->
+        <div class="doc-item" data-doc-id="pf-1">
+          <div class="doc-main">
+            <div class="doc-name">1. Documento de identidad (pasaporte)</div>
+            <div class="doc-desc">
+              Cargar foto o PDF de tu pasaporte vigente.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 2. Comprobante de domicilio -->
+        <div class="doc-item" data-doc-id="pf-2">
+          <div class="doc-main">
+            <div class="doc-name">
+              2. Comprobante de domicilio (últimos 3 meses)
+            </div>
+            <div class="doc-desc">
+              Factura de servicios, estado bancario o documento oficial donde figure tu dirección.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 3. Estados de cuenta bancarios -->
+        <div class="doc-item" data-doc-id="pf-3">
+          <div class="doc-main">
+            <div class="doc-name">
+              3. Estados de cuenta bancarios (últimos 3 meses)
+            </div>
+            <div class="doc-desc">
+              Estados de cuenta de la cuenta bancaria desde donde harás la inversión, mostrando movimientos recientes.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 4. Origen de fondos (si aplica) -->
+        <div class="doc-item" data-doc-id="pf-4">
+          <div class="doc-main">
+            <div class="doc-name">
+              4. Documento que respalde el origen de los fondos (si aplica)
+            </div>
+            <div class="doc-desc">
+              Por ejemplo, contrato de venta de propiedad, comprobante de salario, liquidación de inversión, etc.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 5. Formulario KYC/AML -->
+        <div class="doc-item" data-doc-id="pf-5">
+          <div class="doc-main">
+            <div class="doc-name">
+              5. Formulario KYC / AML PRRE Fund (completo y firmado)
+            </div>
+            <div class="doc-desc">
+              Descarga, completa y firma el formulario KYC/AML del Fondo. Luego súbelo aquí.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <a class="btn btn-secondary" href="#descargar-kyc-fisica" target="_blank">
+              Descargar formulario KYC / AML
+            </a>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir formulario firmado
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver formulario cargado
+            </a>
+            <input type="file" accept=".pdf" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 6. Información cuenta bancaria remitente -->
+        <div class="doc-item" data-doc-id="pf-6">
+          <div class="doc-main">
+            <div class="doc-name">
+              6. Información de la cuenta bancaria remitente
+            </div>
+            <div class="doc-desc">
+              Certificado, carta del banco o captura de pantalla donde se vea el titular, país y últimos 4 dígitos de la cuenta desde la que enviarás los fondos.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="kyc-footer-note">
+        Para completar el proceso de “Nueva Inversión”, todos los documentos
+        obligatorios deben estar cargados. La aprobación final puede quedar
+        sujeta a revisión por parte del equipo de cumplimiento de PRRE Fund.
+      </p>
+    </section>
+
+    <!-- SECCIÓN PERSONA JURÍDICA -->
+    <section id="section-juridica" class="docs-section hidden">
+      <h2 class="docs-section-title">
+        Documentos requeridos para Personas Jurídicas
+      </h2>
+
+      <div class="docs-list">
+
+        <!-- 1. Certificado de Incorporación -->
+        <div class="doc-item" data-doc-id="pj-1">
+          <div class="doc-main">
+            <div class="doc-name">
+              1. Certificado de Incorporación / Registro de la empresa
+            </div>
+            <div class="doc-desc">
+              Documento oficial de constitución de la empresa.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 2. Good Standing -->
+        <div class="doc-item" data-doc-id="pj-2">
+          <div class="doc-main">
+            <div class="doc-name">
+              2. Certificado de Buena Reputación (Good Standing)
+            </div>
+            <div class="doc-desc">
+              Certificado de vigencia o “Good Standing” emitido por la autoridad competente (si aplica en tu jurisdicción).
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 3. Estatutos / Bylaws / Operating Agreement -->
+        <div class="doc-item" data-doc-id="pj-3">
+          <div class="doc-main">
+            <div class="doc-name">
+              3. Estatutos / Bylaws / Operating Agreement de la empresa
+            </div>
+            <div class="doc-desc">
+              Documento que establece las reglas internas de la empresa.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 4. Identificación fiscal -->
+        <div class="doc-item" data-doc-id="pj-4">
+          <div class="doc-main">
+            <div class="doc-name">
+              4. Identificación fiscal de la empresa
+            </div>
+            <div class="doc-desc">
+              Número de identificación tributaria (TIN o equivalente), con respaldo documental.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 5. UBOs -->
+        <div class="doc-item" data-doc-id="pj-5">
+          <div class="doc-main">
+            <div class="doc-name">
+              5. Listado de accionistas / beneficiarios finales (UBO ≥ 25%)
+            </div>
+            <div class="doc-desc">
+              Documento donde se indiquen los accionistas o beneficiarios finales con un 25% o más de participación.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.xlsx,.xls" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 6. Pasaporte representante -->
+        <div class="doc-item" data-doc-id="pj-6">
+          <div class="doc-main">
+            <div class="doc-name">
+              6. Pasaporte del representante autorizado
+            </div>
+            <div class="doc-desc">
+              Documento de identidad del representante legal que firma en nombre de la empresa.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 7. Estados de cuenta bancarios -->
+        <div class="doc-item" data-doc-id="pj-7">
+          <div class="doc-main">
+            <div class="doc-name">
+              7. Estados de cuenta bancarios de la empresa (últimos 3 meses)
+            </div>
+            <div class="doc-desc">
+              Estados de la cuenta desde la que se realizará la inversión.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 8. Origen de fondos -->
+        <div class="doc-item" data-doc-id="pj-8">
+          <div class="doc-main">
+            <div class="doc-name">
+              8. Documento que respalde el origen de los fondos
+            </div>
+            <div class="doc-desc">
+              Ejemplo: estados financieros, contratos comerciales, comprobantes de venta, etc.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 9. Formulario KYC/AML corporativo -->
+        <div class="doc-item" data-doc-id="pj-9">
+          <div class="doc-main">
+            <div class="doc-name">
+              9. Formulario KYC / AML Corporativo PRRE Fund (completo y firmado)
+            </div>
+            <div class="doc-desc">
+              Descarga, completa y firma el formulario KYC/AML para empresas. Luego súbelo aquí.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <a class="btn btn-secondary" href="#descargar-kyc-corporativo" target="_blank">
+              Descargar formulario KYC / AML corporativo
+            </a>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir formulario firmado
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver formulario cargado
+            </a>
+            <input type="file" accept=".pdf" class="hidden" data-file-input>
+          </div>
+        </div>
+
+        <!-- 10. Información cuenta bancaria remitente -->
+        <div class="doc-item" data-doc-id="pj-10">
+          <div class="doc-main">
+            <div class="doc-name">
+              10. Información de la cuenta bancaria remitente
+            </div>
+            <div class="doc-desc">
+              Certificado, carta del banco o captura de pantalla con titular, país y últimos 4 dígitos de la cuenta de la empresa desde la que enviarás los fondos.
+            </div>
+          </div>
+          <div class="doc-actions">
+            <span class="status-badge status-pending" data-status-label>
+              ❌ Pendiente
+            </span>
+            <button class="btn btn-primary" type="button" data-upload-btn>
+              Subir documento
+            </button>
+            <a class="view-link hidden" data-view-link target="_blank">
+              Ver documento cargado
+            </a>
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" data-file-input>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="kyc-footer-note">
+        Para completar el proceso de “Nueva Inversión”, todos los documentos
+        obligatorios deben estar cargados. La aprobación final puede quedar
+        sujeta a revisión y aprobación por parte del equipo de cumplimiento de PRRE Fund.
+      </p>
+    </section>
+  </div>
+
+  <script>
+    const STORAGE_KEY_PREFIX = "prre-kyc-doc-"; // prre-kyc-doc-pf-1 etc.
+
+    function setPersona(tipo) {
+      const btnFis = document.getElementById("btn-fisica");
+      const btnJur = document.getElementById("btn-juridica");
+      const secFis = document.getElementById("section-fisica");
+      const secJur = document.getElementById("section-juridica");
+
+      if (tipo === "fisica") {
+        btnFis.classList.add("active");
+        btnJur.classList.remove("active");
+        secFis.classList.remove("hidden");
+        secJur.classList.add("hidden");
+      } else {
+        btnJur.classList.add("active");
+        btnFis.classList.remove("active");
+        secJur.classList.remove("hidden");
+        secFis.classList.add("hidden");
+      }
+
+      // opcional: guardar preferencia de tipo de persona
+      localStorage.setItem("prre-kyc-persona", tipo);
+    }
+
+    // Simulación de subida de archivo (aquí se debe enganchar el backend real)
+    async function uploadDocumentToServer(file, docId) {
+      // TODO: enviar al backend o servicio de storage (por ejemplo, mediante fetch a tu API).
+      // El backend debería devolver una URL segura para volver a descargar o ver el archivo.
+      // Para demo, usamos un objectURL local (no persiste entre sesiones si se recarga duro).
+      const url = URL.createObjectURL(file);
+      return { url };
+    }
+
+    function saveDocState(docId, payload) {
+      const key = STORAGE_KEY_PREFIX + docId;
+      localStorage.setItem(key, JSON.stringify(payload));
+    }
+
+    function loadDocState(docId) {
+      const key = STORAGE_KEY_PREFIX + docId;
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+
+    function setStatusVisual(container, status, url, fileName) {
+      const label = container.querySelector("[data-status-label]");
+      const viewLink = container.querySelector("[data-view-link]");
+
+      if (!label) return;
+
+      label.classList.remove("status-pending", "status-review", "status-approved");
+
+      if (status === "review") {
+        label.classList.add("status-review");
+        label.textContent = "⏳ En revisión";
+      } else if (status === "approved") {
+        label.classList.add("status-approved");
+        label.textContent = "✅ Completado / Aprobado";
+      } else {
+        label.classList.add("status-pending");
+        label.textContent = "❌ Pendiente";
+      }
+
+      if (url) {
+        viewLink.classList.remove("hidden");
+        viewLink.href = url;
+        viewLink.textContent = fileName ? `Ver: ${fileName}` : "Ver documento cargado";
+      } else {
+        viewLink.classList.add("hidden");
+        viewLink.removeAttribute("href");
+      }
+    }
+
+    function initUploads() {
+      const docItems = document.querySelectorAll(".doc-item");
+
+      docItems.forEach((item) => {
+        const docId = item.getAttribute("data-doc-id");
+        const uploadBtn = item.querySelector("[data-upload-btn]");
+        const fileInput = item.querySelector("[data-file-input]");
+
+        // Restaurar estado guardado
+        const saved = loadDocState(docId);
+        if (saved && saved.status) {
+          setStatusVisual(item, saved.status, saved.url, saved.fileName);
+        }
+
+        if (uploadBtn && fileInput) {
+          uploadBtn.addEventListener("click", () => fileInput.click());
+
+          fileInput.addEventListener("change", async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = "Subiendo...";
+
+            try {
+              const result = await uploadDocumentToServer(file, docId);
+              const payload = {
+                status: "review",
+                url: result.url,
+                fileName: file.name,
+                uploadedAt: new Date().toISOString()
+              };
+              saveDocState(docId, payload);
+              setStatusVisual(item, "review", result.url, file.name);
+            } catch (e) {
+              console.error("Error al subir documento", e);
+              alert("Hubo un problema al subir el documento. Intenta nuevamente.");
+            } finally {
+              uploadBtn.disabled = false;
+              uploadBtn.textContent = "Subir documento";
+            }
+          });
+        }
+      });
+    }
+
+    // Cargar tipo de persona guardado
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedPersona = localStorage.getItem("prre-kyc-persona");
+      if (savedPersona === "juridica") {
+        setPersona("juridica");
+      } else {
+        setPersona("fisica");
+      }
+
+      initUploads();
+    });
+  </script>
+</body>
+</html>
