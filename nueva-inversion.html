@@ -233,7 +233,7 @@
     <!-- PASO 2 -->
     <article class="step-card"
              data-step="2"
-             onclick="goToUrl(2, 'https://sites.google.com/view/prrefund/nueva-inversi%C3%B3n/firmar-documento')">
+             onclick="goToUrl(2, 'subscription-agreement.html')">
 
       <div class="step-status">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="3">
@@ -248,9 +248,8 @@
         </p>
 
         <a class="step-link"
-           target="_blank"
-           onclick="event.stopPropagation(); markStepCompleted(2);"
-           href="https://sites.google.com/view/prrefund/nueva-inversi%C3%B3n/firmar-documento">
+           onclick="event.stopPropagation(); markStepCompleted(2); goToUrl(2, 'subscription-agreement.html');"
+           href="subscription-agreement.html">
            Abrir y firmar
         </a>
 
