@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard de Inversionista – PRRE Fund</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Chart.js para los gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --primary: #0f766e;
+      --primary-soft: #e0f5f2;
+      --accent: #1d4ed8;
+      --text: #111827;
+      --muted: #6b7280;
+      --radius: 18px;
+      --shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e0f2fe, #f3f4f6 40%);
+      color: var(--text);
+      padding: 24px 12px 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .dashboard-header {
+      margin-bottom: 20px;
+    }
+
+    .dashboard-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    .dashboard-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .investor-name {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Tarjetas resumen */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 22px;
+    }
+
+    @media (max-width: 900px) {
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .summary-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .summary-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .summary-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .summary-tag {
+      font-size: 0.75rem;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border-radius: 999px;
+      padding: 2px 8px;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+
+    /* Layout secciones principales */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .grid-2-balanced {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2,
+      .grid-2-balanced {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 16px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 220px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #eff6ff;
+      color: var(--accent);
+    }
+
+    canvas {
+      max-width: 100%;
+      height: 220px;
+    }
+
+    .reports-list {
+      list-style: none;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .reports-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid #f3f4f6;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .reports-list a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .reports-list a:hover {
+      text-decoration: underline;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      border-radius: 999px;
+      padding: 1px 7px;
+      background: #f9fafb;
+      color: var(--muted);
+      border: 1px solid #e5e7eb;
+    }
+
+    .video-frame {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+
+    .video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .project-list {
+      list-style: none;
+      font-size: 0.86rem;
+      margin-top: 4px;
+    }
+
+    .project-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .project-name {
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
+    .project-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+  </style>
+</head>
+<body>
+<div class="dashboard">
+
+  <!-- ENCABEZADO -->
+  <header class="dashboard-header">
+    <div class="dashboard-title">Dashboard del Inversionista</div>
+    <div class="dashboard-subtitle">
+      Bienvenido, <span class="investor-name">[Nombre del Inversionista]</span>.  
+      Aquí puedes ver el estado de tus inversiones con PRRE Fund LLC en tiempo real.
+    </div>
+  </header>
+
+  <!-- TARJETAS RESUMEN -->
+  <section class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-label">Inversión total comprometida</div>
+      <div class="summary-value" id="sum-invested">$ 250,000</div>
+      <div class="summary-tag">Portafolio activo</div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-label">Preferred return cobrado</div>
+      <div class="summary-value" id="sum-preferred">$ 18,750</div>
+      <div class="summary-tag">Retorno acumulado</div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-label">Casas vendidas asociadas a tu inversión</div>
+      <div class="summary-value" id="sum-houses">14</div>
+      <div class="summary-tag">Ventas realizadas</div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-label">Estado general</div>
+      <div class="summary-value" id="sum-status">En curso</div>
+      <div class="summary-tag">Actualizado al último trimestre</div>
+    </div>
+  </section>
+
+  <!-- FILA 1: Ventas de casas + Preferred return -->
+  <section class="grid-2">
+    <!-- Gráfico ventas casas -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Ventas de casas</div>
+          <div class="card-subtitle">Unidades vendidas por mes (ejemplo)</div>
+        </div>
+        <span class="badge">Tríalo Housing Development</span>
+      </div>
+      <canvas id="chartHouses"></canvas>
+    </div>
+
+    <!-- Gráfico preferred return -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Preferred return pagado</div>
+          <div class="card-subtitle">Flujo de pagos trimestrales (ejemplo)</div>
+        </div>
+        <span class="badge">Retorno preferencial</span>
+      </div>
+      <canvas id="chartPreferred"></canvas>
+    </div>
+  </section>
+
+  <!-- FILA 2: Inversión invertida/acumulada + Reportes trimestrales -->
+  <section class="grid-2">
+    <!-- Gráfico inversión -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Inversión aportada y acumulada</div>
+          <div class="card-subtitle">Evolución de tu capital en el fondo (ejemplo)</div>
+        </div>
+        <span class="badge">Capital</span>
+      </div>
+      <canvas id="chartCapital"></canvas>
+    </div>
+
+    <!-- Reportes trimestrales -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Reportes trimestrales</div>
+          <div class="card-subtitle">Resultados financieros y avance de obra</div>
+        </div>
+      </div>
+
+      <ul class="reports-list">
+        <!-- Cambiá los href por tus PDFs reales -->
+        <li>
+          <div>
+            Q3 2025 – Informe consolidado
+          </div>
+          <a href="#reporte-q3-2025" target="_blank" class="pill">Ver PDF</a>
+        </li>
+        <li>
+          <div>
+            Q2 2025 – Rendimiento del portafolio
+          </div>
+          <a href="#reporte-q2-2025" target="_blank" class="pill">Ver PDF</a>
+        </li>
+        <li>
+          <div>
+            Q1 2025 – Inicio de ventas Valle Tania
+          </div>
+          <a href="#reporte-q1-2025" target="_blank" class="pill">Ver PDF</a>
+        </li>
+        <li>
+          <div>
+            Q4 2024 – Cierre de año
+          </div>
+          <a href="#reporte-q4-2024" target="_blank" class="pill">Ver PDF</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FILA 3: Video en vivo + Proyectos -->
+  <section class="grid-2-balanced">
+    <!-- Video de proyectos en vivo -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Proyecto en vivo</div>
+          <div class="card-subtitle">Cámara o video actualizado de la obra</div>
+        </div>
+        <span class="badge">Streaming</span>
+      </div>
+
+      <div class="video-frame">
+        <!-- Reemplazá el src por tu video de YouTube/Vimeo o cámara IP embebida -->
+        <iframe
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          title="Proyecto en vivo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Lista de proyectos del inversionista -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Tus proyectos</div>
+          <div class="card-subtitle">Resumen de los desarrollos donde participas</div>
+        </div>
+      </div>
+
+      <ul class="project-list">
+        <li>
+          <div class="project-name">Valle Tania Development – Guánica</div>
+          <div class="project-meta">
+            Participación: 80,000 USD · Casas vendidas: 6 / 120 · Estado: En construcción
+          </div>
+        </li>
+        <li>
+          <div class="project-name">Estancias del Parra – Yauco</div>
+          <div class="project-meta">
+            Participación: 100,000 USD · Casas vendidas: 4 / 90 · Estado: Preventa
+          </div>
+        </li>
+        <li>
+          <div class="project-name">Paseos del Valle – Guayanilla</div>
+          <div class="project-meta">
+            Participación: 70,000 USD · Casas vendidas: 4 / 80 · Estado: Diseño / permisos
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+  // ============ DATOS DE EJEMPLO ============
+  // Podés reemplazar todo esto con datos reales desde tu backend.
+
+  const housesMonths = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago"];
+  const housesSold = [0, 1, 2, 3, 3, 1, 2, 2]; // ventas mensuales (ejemplo)
+
+  const preferredLabels = ["Q1 2025", "Q2 2025", "Q3 2025", "Q4 2025"];
+  const preferredPaid = [3500, 4500, 5200, 5550]; // pagos trimestrales (ejemplo)
+
+  const capitalLabels = ["Inicio", "Mes 3", "Mes 6", "Mes 9", "Mes 12"];
+  const capitalContributed = [100000, 150000, 200000, 230000, 250000];
+  const capitalAccrued = [101800, 153000, 206500, 239200, 262000]; // acumulado con retorno (ejemplo)
+
+  // ============ CONFIGURACIÓN GRÁFICOS ============
+
+  // Ventas de casas
+  const ctxHouses = document.getElementById("chartHouses").getContext("2d");
+  new Chart(ctxHouses, {
+    type: "bar",
+    data: {
+      labels: housesMonths,
+      datasets: [
+        {
+          label: "Casas vendidas",
+          data: housesSold,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: false,
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1 },
+        },
+      },
+    },
+  });
+
+  // Preferred return pagado
+  const ctxPreferred = document.getElementById("chartPreferred").getContext("2d");
+  new Chart(ctxPreferred, {
+    type: "line",
+    data: {
+      labels: preferredLabels,
+      datasets: [
+        {
+          label: "Preferred return pagado (USD)",
+          data: preferredPaid,
+          tension: 0.3,
+          fill: true,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+        },
+      },
+    },
+  });
+
+  // Capital invertido y acumulado
+  const ctxCapital = document.getElementById("chartCapital").getContext("2d");
+  new Chart(ctxCapital, {
+    type: "line",
+    data: {
+      labels: capitalLabels,
+      datasets: [
+        {
+          label: "Capital aportado",
+          data: capitalContributed,
+          tension: 0.3,
+        },
+        {
+          label: "Capital acumulado (con retorno)",
+          data: capitalAccrued,
+          tension: 0.3,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: "bottom" },
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+        },
+      },
+    },
+  });
+</script>
+</body>
+</html>
