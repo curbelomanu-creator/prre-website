@@ -31,7 +31,15 @@
     .container { width: 100%; max-width: 1200px; }
 
     .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 12px; }
-    .back-button { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--primary); font-weight: 600; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease; }
+    .back-button {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 14px; border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff; color: var(--primary);
+      font-weight: 600; text-decoration: none;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
     .back-button:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14); }
 
     h1.page-title { font-size: 1.7rem; font-weight: 650; margin-bottom: 6px; }
@@ -86,7 +94,7 @@
 
     .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
     .label { font-weight: 600; font-size: 0.9rem; }
-    input[type="text"], input[type="number"], input[type="url"], input[type="date"], textarea {
+    input[type="text"], input[type="number"], input[type="date"], textarea {
       width: 100%; border: 1px solid var(--border); border-radius: 10px;
       padding: 10px 12px; font-size: 0.95rem; color: var(--text);
       background: #fff; transition: border 0.15s ease, box-shadow 0.15s ease;
@@ -126,7 +134,7 @@
     </div>
 
     <h1 class="page-title">Firma el Subscription Agreement</h1>
-    <p class="page-subtitle">Sube el PDF, añade tu firma y datos requeridos y revisa la vista previa antes de enviar.</p>
+    <p class="page-subtitle">Sube el PDF oficial, añade tus datos y firma, y descarga una copia firmada.</p>
 
     <div class="layout">
       <section class="card viewer-card">
@@ -138,15 +146,13 @@
           <div class="viewer-actions">
             <button class="btn btn-outline" type="button" id="pdfUploadBtn">Subir PDF</button>
             <input id="pdfInput" type="file" accept=".pdf,application/pdf" hidden>
-            <input id="pdfUrl" type="url" placeholder="o pega un enlace a tu PDF" style="max-width:240px;" />
-            <button class="btn btn-primary" type="button" id="loadUrlBtn">Cargar</button>
           </div>
         </div>
 
         <div class="pdf-container" id="pdfContainer">
           <object id="pdfViewer" class="pdf-object" type="application/pdf" data="">
             <div class="pdf-fallback">
-              El visor de PDF no está disponible. Sube el documento o proporciona un enlace para verlo aquí mismo.
+              El visor de PDF no está disponible. Sube el documento para verlo aquí mismo.
             </div>
           </object>
           <div class="overlay-panel" id="overlayPanel">
@@ -203,12 +209,18 @@
               <input id="textInput" type="text" placeholder="Ej: Acepto los términos del acuerdo">
             </div>
           </div>
-          <button class="btn btn-primary" type="button" id="applyBtn">Aplicar datos y firma</button>
-          <p class="hint-box" style="margin-top:12px;">Los datos y la firma solo se almacenan localmente en tu navegador para esta sesión. Para guardar una copia firmada real, descarga o imprime el PDF después de aplicar tu firma.</p>
+          <button class="btn btn-primary" type="button" id="generatePdfBtn">Aplicar datos y descargar PDF firmado</button>
+          <p class="hint-box" style="margin-top:12px;">
+            Los datos y la firma se procesan solo en tu navegador para generar el PDF firmado. 
+            Ninguna información se envía a servidores de PRRE Fund a través de esta página.
+          </p>
         </div>
       </section>
     </div>
   </div>
+
+  <!-- Librería pdf-lib desde CDN -->
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
   <script>
     const overlay = {
@@ -220,13 +232,11 @@
       signature: document.getElementById('ov-signature'),
     };
 
-    const STORAGE_KEY = 'prre-subscription-meta';
     const pdfViewer = document.getElementById('pdfViewer');
     const pdfInput = document.getElementById('pdfInput');
     const pdfUploadBtn = document.getElementById('pdfUploadBtn');
-    const pdfUrlInput = document.getElementById('pdfUrl');
-    const loadUrlBtn = document.getElementById('loadUrlBtn');
-    const applyBtn = document.getElementById('applyBtn');
+    const generatePdfBtn = document.getElementById('generatePdfBtn');
+
     const sigCanvas = document.getElementById('sigCanvas');
     const padHint = document.getElementById('padHint');
     const sigUpload = document.getElementById('sigUpload');
@@ -241,7 +251,10 @@
 
     const ctx = sigCanvas.getContext('2d');
     let drawing = false;
+    let originalPdfBytes = null;      // aquí guardamos el PDF original
+    let signatureDataUrl = '';        // firma actual (canvas o imagen)
 
+    // ====== FIRMA A MANO EN CANVAS ======
     function resizeCanvas() {
       const { width } = sigCanvas.getBoundingClientRect();
       const height = 160;
@@ -279,9 +292,11 @@
       ctx.fillStyle = '#fff';
       ctx.fillRect(0, 0, sigCanvas.width, sigCanvas.height);
       padHint.style.display = 'block';
+      signatureDataUrl = '';
+      overlay.signature.innerHTML = '';
     }
 
-    function applySignature(src) {
+    function applySignatureToOverlay(src) {
       overlay.signature.innerHTML = '';
       if (!src) return;
       const img = new Image();
@@ -289,71 +304,117 @@
       overlay.signature.appendChild(img);
     }
 
-    function applyOverlay() {
-      overlay.name.textContent = nameInput.value || '—';
-      overlay.amount.textContent = amountInput.value ? `$${Number(amountInput.value).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '—';
-      overlay.address.textContent = addressInput.value || '—';
-      overlay.date.textContent = dateInput.value || '—';
-      overlay.text.textContent = textInput.value || '—';
-
-      const signatureData = overlay.signature.querySelector('img')?.src || '';
-      saveState({ signatureData });
-    }
-
-    function saveState(extra = {}) {
-      const payload = {
-        name: nameInput.value,
-        amount: amountInput.value,
-        address: addressInput.value,
-        date: dateInput.value,
-        text: textInput.value,
-        signature: extra.signatureData || overlay.signature.querySelector('img')?.src || '',
-        pdfUrl: pdfViewer?.data || ''
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    }
-
-    function loadState() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      try {
-        const data = JSON.parse(raw);
-        nameInput.value = data.name || '';
-        amountInput.value = data.amount || '';
-        addressInput.value = data.address || '';
-        dateInput.value = data.date || '';
-        textInput.value = data.text || '';
-        if (data.signature) applySignature(data.signature);
-        if (data.pdfUrl) {
-          pdfViewer.data = data.pdfUrl;
-          pdfViewer.setAttribute('data', data.pdfUrl);
-        }
-        applyOverlay();
-      } catch (e) { console.error('No se pudo cargar el estado guardado', e); }
-    }
-
+    // ====== PDF: CARGA Y PREVISUALIZACIÓN ======
     function loadPdfFromFile(file) {
       if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
         alert('Por favor selecciona un archivo PDF.');
         return;
       }
+
+      // Previsualización
       const url = URL.createObjectURL(file);
       pdfViewer.data = url;
       pdfViewer.setAttribute('data', url);
-      saveState({ pdfUrl: url });
+
+      // Guardamos bytes del PDF para pdf-lib
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        originalPdfBytes = e.target.result; // ArrayBuffer
+      };
+      reader.readAsArrayBuffer(file);
     }
 
-    function loadPdfFromUrl() {
-      const url = pdfUrlInput.value.trim();
-      if (!url) {
-        alert('Ingresa una URL válida del PDF.');
+    // ====== APLICAR DATOS A LA VISTA DE LA DERECHA ======
+    function updateOverlayPreview() {
+      overlay.name.textContent = nameInput.value || '—';
+      overlay.amount.textContent = amountInput.value
+        ? `$${Number(amountInput.value).toLocaleString('en-US', { minimumFractionDigits: 2 })}`
+        : '—';
+      overlay.address.textContent = addressInput.value || '—';
+      overlay.date.textContent = dateInput.value || '—';
+      overlay.text.textContent = textInput.value || '—';
+    }
+
+    // ====== GENERAR PDF FIRMADO CON pdf-lib ======
+    async function generateSignedPdf() {
+      if (!originalPdfBytes) {
+        alert('Primero debes subir el PDF oficial del Subscription Agreement.');
         return;
       }
-      pdfViewer.data = url;
-      pdfViewer.setAttribute('data', url);
-      saveState({ pdfUrl: url });
+
+      updateOverlayPreview();
+
+      const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+      try {
+        const pdfDoc = await PDFDocument.load(originalPdfBytes);
+        const pages = pdfDoc.getPages();
+        const page = pages[0]; // solo primera página; se puede extender
+
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const fontSize = 11;
+        const textColor = rgb(0, 0, 0);
+
+        const pageWidth = page.getWidth();
+        const marginLeft = 70;
+        let y = 140; // altura base (desde abajo). Ajustar según diseño real.
+
+        // Textos básicos
+        const nameText = nameInput.value ? `Nombre: ${nameInput.value}` : '';
+        const amountText = amountInput.value ? `Monto (USD): $${Number(amountInput.value).toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '';
+        const addressText = addressInput.value ? `Domicilio: ${addressInput.value}` : '';
+        const dateText = dateInput.value ? `Fecha: ${dateInput.value}` : '';
+        const extraText = textInput.value ? textInput.value : '';
+
+        const lines = [nameText, amountText, addressText, dateText, extraText].filter(Boolean);
+
+        lines.forEach((line) => {
+          page.drawText(line, {
+            x: marginLeft,
+            y,
+            size: fontSize,
+            font,
+            color: textColor,
+          });
+          y += 14;
+        });
+
+        // Firma (si existe)
+        if (signatureDataUrl) {
+          // Convertimos dataURL a bytes para pdf-lib
+          const sigBytes = await fetch(signatureDataUrl).then(r => r.arrayBuffer());
+          const sigImage = await pdfDoc.embedPng(sigBytes);
+          const sigWidth = 180;
+          const sigHeight = 70;
+          const sigX = pageWidth - sigWidth - 70;
+          const sigY = 120; // Altura base para la firma
+
+          page.drawImage(sigImage, {
+            x: sigX,
+            y: sigY,
+            width: sigWidth,
+            height: sigHeight,
+          });
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'subscription-agreement-firmado.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error(err);
+        alert('Ocurrió un error al generar el PDF firmado. Intenta nuevamente.');
+      }
     }
 
+    // ====== INICIALIZACIÓN ======
     function initPad() {
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
@@ -366,42 +427,45 @@
       sigCanvas.addEventListener('touchend', endDraw);
     }
 
+    // Eventos
     pdfUploadBtn.addEventListener('click', () => pdfInput.click());
     pdfInput.addEventListener('change', (e) => {
       const file = e.target.files?.[0];
       if (file) loadPdfFromFile(file);
     });
-    loadUrlBtn.addEventListener('click', loadPdfFromUrl);
 
-    applyBtn.addEventListener('click', () => {
-      applyOverlay();
-      alert('Datos aplicados a la vista previa. Descarga o imprime el PDF desde el visor de tu navegador.');
-    });
+    clearPad.addEventListener('click', clearSignature);
 
-    clearPad.addEventListener('click', () => { clearSignature(); overlay.signature.innerHTML = ''; saveState({ signatureData: '' }); });
     usePad.addEventListener('click', () => {
       const dataUrl = sigCanvas.toDataURL('image/png');
-      applySignature(dataUrl);
-      applyOverlay();
+      signatureDataUrl = dataUrl;
+      applySignatureToOverlay(dataUrl);
+      updateOverlayPreview();
     });
 
     sigUpload.addEventListener('change', (e) => {
       const file = e.target.files?.[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = () => { applySignature(reader.result); applyOverlay(); };
+      reader.onload = () => {
+        signatureDataUrl = reader.result;
+        applySignatureToOverlay(signatureDataUrl);
+        updateOverlayPreview();
+      };
       reader.readAsDataURL(file);
     });
 
     [nameInput, amountInput, addressInput, dateInput, textInput].forEach((input) => {
-      input.addEventListener('input', () => saveState({}));
+      input.addEventListener('input', updateOverlayPreview);
     });
+
+    generatePdfBtn.addEventListener('click', generateSignedPdf);
 
     document.addEventListener('DOMContentLoaded', () => {
       const today = new Date().toISOString().slice(0, 10);
       if (!dateInput.value) dateInput.value = today;
       initPad();
-      loadState();
+      updateOverlayPreview();
     });
   </script>
 </body>
