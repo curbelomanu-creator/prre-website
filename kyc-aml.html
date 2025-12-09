@@ -47,6 +47,35 @@
       margin-bottom: 10px;
     }
 
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .back-button:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
+    }
+
     .intro-card {
       background: var(--card-bg);
       border-radius: var(--radius);
@@ -248,7 +277,10 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="page-title">Verificación KYC / AML</h1>
+    <div class="page-header">
+      <h1 class="page-title">Verificación KYC / AML</h1>
+      <a class="back-button" href="nueva-inversion.html">← Volver a Nueva Inversión</a>
+    </div>
 
     <!-- TEXTO EXPLICATIVO -->
     <section class="intro-card">

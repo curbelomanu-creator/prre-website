@@ -30,8 +30,9 @@
 
     .container { width: 100%; max-width: 1200px; }
 
-    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 12px; }
+    .back-button { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--primary); font-weight: 600; text-decoration: none; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease; }
+    .back-button:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14); }
 
     h1.page-title { font-size: 1.7rem; font-weight: 650; margin-bottom: 6px; }
     .page-subtitle { color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
@@ -120,7 +121,7 @@
 <body>
   <div class="container">
     <div class="page-header">
-      <a class="back-link" href="nueva-inversion.html">← Volver a Nueva Inversión</a>
+      <a class="back-button" href="nueva-inversion.html">← Volver a Nueva Inversión</a>
       <span class="muted">Paso 2: Firma digital del Subscription Agreement</span>
     </div>
 
@@ -135,8 +136,8 @@
             <div class="muted">Carga el PDF oficial del Subscription Agreement.</div>
           </div>
           <div class="viewer-actions">
-            <label class="btn btn-outline" for="pdfInput">Subir PDF</label>
-            <input id="pdfInput" type="file" accept="application/pdf" hidden>
+            <button class="btn btn-outline" type="button" id="pdfUploadBtn">Subir PDF</button>
+            <input id="pdfInput" type="file" accept=".pdf,application/pdf" hidden>
             <input id="pdfUrl" type="url" placeholder="o pega un enlace a tu PDF" style="max-width:240px;" />
             <button class="btn btn-primary" type="button" id="loadUrlBtn">Cargar</button>
           </div>
@@ -222,6 +223,7 @@
     const STORAGE_KEY = 'prre-subscription-meta';
     const pdfViewer = document.getElementById('pdfViewer');
     const pdfInput = document.getElementById('pdfInput');
+    const pdfUploadBtn = document.getElementById('pdfUploadBtn');
     const pdfUrlInput = document.getElementById('pdfUrl');
     const loadUrlBtn = document.getElementById('loadUrlBtn');
     const applyBtn = document.getElementById('applyBtn');
@@ -322,15 +324,23 @@
         dateInput.value = data.date || '';
         textInput.value = data.text || '';
         if (data.signature) applySignature(data.signature);
-        if (data.pdfUrl) pdfViewer.data = data.pdfUrl;
+        if (data.pdfUrl) {
+          pdfViewer.data = data.pdfUrl;
+          pdfViewer.setAttribute('data', data.pdfUrl);
+        }
         applyOverlay();
       } catch (e) { console.error('No se pudo cargar el estado guardado', e); }
     }
 
     function loadPdfFromFile(file) {
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        alert('Por favor selecciona un archivo PDF.');
+        return;
+      }
       const url = URL.createObjectURL(file);
       pdfViewer.data = url;
-      saveState({});
+      pdfViewer.setAttribute('data', url);
+      saveState({ pdfUrl: url });
     }
 
     function loadPdfFromUrl() {
@@ -340,7 +350,8 @@
         return;
       }
       pdfViewer.data = url;
-      saveState({});
+      pdfViewer.setAttribute('data', url);
+      saveState({ pdfUrl: url });
     }
 
     function initPad() {
@@ -355,6 +366,7 @@
       sigCanvas.addEventListener('touchend', endDraw);
     }
 
+    pdfUploadBtn.addEventListener('click', () => pdfInput.click());
     pdfInput.addEventListener('change', (e) => {
       const file = e.target.files?.[0];
       if (file) loadPdfFromFile(file);

@@ -37,16 +37,43 @@
       max-width: 720px;
     }
 
+  .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
     .page-title {
       font-size: 1.6rem;
       font-weight: 600;
-      margin-bottom: 8px;
     }
 
-    .page-subtitle {
+  .page-subtitle {
       font-size: 0.95rem;
       color: var(--muted);
-      margin-bottom: 24px;
+      margin: 6px 0 24px;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .back-button:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
     }
 
     .steps {
@@ -189,7 +216,10 @@
 <body>
 <div class="container">
 
-  <h1 class="page-title">Nueva inversión</h1>
+  <div class="page-header">
+    <h1 class="page-title">Nueva inversión</h1>
+    <a class="back-button" href="index.html">← Volver al dashboard</a>
+  </div>
   <p class="page-subtitle">
     Completa estos pasos para participar en una nueva oportunidad de inversión.
   </p>
