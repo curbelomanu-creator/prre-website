@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nueva Inversión – PRRE Fund</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card-bg: #ffffff;
+      --border: #e1e5ee;
+      --primary: #0f766e;
+      --primary-soft: #e0f5f2;
+      --text: #111827;
+      --muted: #6b7280;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 32px 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 16px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.14);
+    }
+
+    .step-status {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--muted);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .step-card.completed .step-status {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .step-status svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff;
+      display: none;
+    }
+
+    .step-card.completed .step-status svg {
+      display: block;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-description {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .doc-pill {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      margin-right: 8px;
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: var(--text);
+      background: #fff;
+    }
+
+    .doc-pill:hover {
+      border-color: var(--primary);
+      box-shadow: 0 3px 10px rgba(15,23,42,0.12);
+    }
+
+    .step-link {
+      color: var(--primary);
+      text-decoration: underline;
+      font-size: 0.9rem;
+    }
+
+    .step-footer {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .done {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Bloque final SOMETER */
+    .submit-block {
+      margin-top: 8px;
+      padding: 18px 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .submit-text {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .btn-submit {
+      width: 100%;
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.98rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(15, 118, 110, 0.35);
+      transition: 0.15s ease;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(15, 118, 110, 0.45);
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1 class="page-title">Nueva inversión</h1>
+  <p class="page-subtitle">
+    Completa estos pasos para participar en una nueva oportunidad de inversión.
+  </p>
+
+  <div class="steps">
+
+    <!-- PASO 1 -->
+    <article class="step-card" data-step="1" onclick="toggleStepCompleted(event,1)">
+      <div class="step-status">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="3">
+          <path d="M5 13l4 4L19 7" stroke="currentColor"/>
+        </svg>
+      </div>
+
+      <div style="flex:1;">
+        <div class="step-title">Revisa la documentación</div>
+        <p class="step-description">
+          Descarga y analiza los documentos fundamentales que explican detalladamente
+          la oportunidad de inversión y los términos de participación.
+        </p>
+
+        <a class="doc-pill" target="_blank"
+           onclick="event.stopPropagation(); markStepCompleted(1);"
+           href="https://drive.google.com/file/d/1dg1oqDpLGRBUDBHf1_QAHIMilX0NvqVa/view?usp=sharing">
+           PPM
+        </a>
+
+        <a class="doc-pill" target="_blank"
+           onclick="event.stopPropagation(); markStepCompleted(1);"
+           href="https://drive.google.com/file/d/1cxqUaiLxk_O9AcPQq5aDVbQSG78rixSB/view?usp=sharing">
+           Operating Agreement
+        </a>
+
+        <div class="step-footer">
+          <span id="status-label-1">Pendiente</span>
+          <span>Haz clic para completar paso</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- PASO 2 -->
+    <article class="step-card"
+             data-step="2"
+             onclick="goToUrl(2, 'https://sites.google.com/view/prrefund/nueva-inversi%C3%B3n/firmar-documento')">
+
+      <div class="step-status">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="3">
+          <path d="M5 13l4 4L19 7" stroke="currentColor"/>
+        </svg>
+      </div>
+
+      <div style="flex:1;">
+        <div class="step-title">Firma el Subscription Agreement</div>
+        <p class="step-description">
+          Firma digitalmente el documento.
+        </p>
+
+        <a class="step-link"
+           target="_blank"
+           onclick="event.stopPropagation(); markStepCompleted(2);"
+           href="https://sites.google.com/view/prrefund/nueva-inversi%C3%B3n/firmar-documento">
+           Abrir y firmar
+        </a>
+
+        <div class="step-footer">
+          <span id="status-label-2">Pendiente</span>
+          <span>Haz clic para continuar</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- PASO 3 -->
+    <article class="step-card"
+             data-step="3"
+             onclick="goToUrl(3, 'kyc-aml.html')">
+
+      <div class="step-status">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="3">
+          <path d="M5 13l4 4L19 7" stroke="currentColor"/>
+        </svg>
+      </div>
+
+      <div style="flex:1;">
+        <div class="step-title">Completa el proceso KYC / AML</div>
+        <p class="step-description">
+          La ley y los estándares internacionales de cumplimiento nos exigen verificar tu identidad,
+          tu domicilio y el origen de los fondos antes de poder recibir tu inversión.
+        </p>
+
+        <a class="step-link"
+           target="_blank"
+           onclick="event.stopPropagation(); markStepCompleted(3);"
+           href="kyc-aml.html">
+           Ingresar al formulario
+        </a>
+
+        <div class="step-footer">
+          <span id="status-label-3">Pendiente</span>
+          <span>Haz clic para continuar</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- BLOQUE SOMETER -->
+  <div class="submit-block">
+    <p class="submit-text">
+      Somete toda la documentación para que nuestro equipo pueda analizarla.
+      Una vez aceptada tu inversión, te enviaremos el Subscription Agreement
+      firmado por PRRE Fund, junto con la información de la cuenta donde debes
+      realizar la transferencia. Nuestro objetivo es responderte en un máximo de
+      5 días hábiles.
+    </p>
+    <button class="btn-submit" type="button" onclick="onSubmitAll()">
+      SOMETER
+    </button>
+  </div>
+
+</div>
+
+<script>
+function goToUrl(step, url) {
+  setStepState(step, true);
+  window.open(url, "_blank"); // abre en pestaña nueva
+}
+
+function toggleStepCompleted(event, stepNumber) {
+  setStepState(stepNumber, true);
+}
+
+function markStepCompleted(stepNumber) {
+  setStepState(stepNumber, true);
+}
+
+function setStepState(stepNumber, completed) {
+  const card = document.querySelector(`.step-card[data-step="${stepNumber}"]`);
+  const label = document.getElementById(`status-label-${stepNumber}`);
+
+  if (completed) {
+    card.classList.add("completed");
+    label.textContent = "Completado";
+    label.classList.add("done");
+    localStorage.setItem(`prre-step-${stepNumber}`, "1");
+  }
+}
+
+// Acción del botón SOMETER (por ahora solo muestra alerta, listo para conectar a backend)
+function onSubmitAll() {
+  // Aquí podrías validar que los pasos 1, 2 y 3 estén completos,
+  // y luego llamar a tu backend o mostrar un mensaje más elaborado.
+  alert("Tu solicitud ha sido sometida. Nuestro equipo revisará la documentación y te contactará por email.");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  [1,2,3].forEach(step => {
+    if (localStorage.getItem(`prre-step-${step}`) === "1") {
+      setStepState(step, true);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
