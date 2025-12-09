@@ -401,13 +401,17 @@
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
 
+        // 1) Actualizar visor con el PDF firmado
+        pdfViewer.data = url;
+        pdfViewer.setAttribute('data', url);
+
+        // 2) Descargar el PDF firmado
         const a = document.createElement('a');
         a.href = url;
         a.download = 'subscription-agreement-firmado.pdf';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
       } catch (err) {
         console.error(err);
         alert('Ocurrió un error al generar el PDF firmado. Intenta nuevamente.');
