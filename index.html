@@ -208,10 +208,12 @@
 
     .chart-wrapper {
       margin-top: 10px;
+      height: 340px;
     }
 
     canvas {
       max-width: 100%;
+      height: 100% !important;
     }
 
     /* Listas horizontales (reportes, videos) */
@@ -357,25 +359,22 @@
     <article class="summary-card">
       <div class="summary-label">Inversión inicial realizada</div>
       <div class="summary-value">$220,000.00</div>
-      <div class="summary-extra">Capital aportado al inicio del periodo (enero 2025).</div>
     </article>
 
     <article class="summary-card">
       <div class="summary-label">Rendimiento acumulado</div>
-      <div class="summary-value green">$20,245.50</div>
-      <div class="summary-extra">Equivale a un +9.20% sobre tu inversión inicial al 12.º mes.</div>
+      <div class="summary-value green">$20,245.50 <span class="summary-extra">(+9.20%)</span></div>
     </article>
 
     <article class="summary-card">
       <div class="summary-label">Dinero retirado</div>
       <div class="summary-value">$0.00</div>
-      <div class="summary-extra">En este ejemplo no se han retirado intereses; todo se ha capitalizado.</div>
+      <div class="summary-extra">Todavía no haz realizado ningún retiro.</div>
     </article>
 
     <article class="summary-card">
       <div class="summary-label">Días transcurridos</div>
       <div class="summary-value">365 / 720</div>
-      <div class="summary-extra">Primer año completado de un periodo total de 24 meses.</div>
     </article>
   </section>
 
@@ -383,14 +382,12 @@
     <div class="section-header">
       <div>
         <div class="section-title">Evolución de tu inversión</div>
-        <div class="section-subtitle">
-          Crecimiento de tu capital con un retorno preferencial del 9% anual, capitalizado cada 6 meses (ejemplo a 24 meses).
-        </div>
+        <div class="section-subtitle">Crecimiento de tu capital hasta el presente.</div>
       </div>
     </div>
 
     <div class="chart-wrapper">
-      <canvas id="chartRendimiento" height="100"></canvas>
+      <canvas id="chartRendimiento"></canvas>
     </div>
   </section>
 
@@ -464,19 +461,6 @@
       <article class="video-card">
         <iframe
           class="video-frame"
-          src="https://www.youtube.com/embed/VIDEO_ID_VALLE_TANIA_2"
-          title="Proyecto Valle Tania Development – Recorrido general"
-          allowfullscreen
-        ></iframe>
-        <div class="video-body">
-          <div class="video-title">Proyecto Valle Tania Development – Recorrido general</div>
-          <div class="video-caption">Visión general del master plan, calles internas y tipologías de viviendas.</div>
-        </div>
-      </article>
-
-      <article class="video-card">
-        <iframe
-          class="video-frame"
           src="https://www.youtube.com/embed/VIDEO_ID_PARRA_1"
           title="Proyecto Estancias del Parra – Avance de obra"
           allowfullscreen
@@ -484,19 +468,6 @@
         <div class="video-body">
           <div class="video-title">Proyecto Estancias del Parra – Avance de obra</div>
           <div class="video-caption">Progreso de urbanización, infraestructura y etapa constructiva.</div>
-        </div>
-      </article>
-
-      <article class="video-card">
-        <iframe
-          class="video-frame"
-          src="https://www.youtube.com/embed/VIDEO_ID_PARRA_2"
-          title="Proyecto Estancias del Parra – Recorrido general"
-          allowfullscreen
-        ></iframe>
-        <div class="video-body">
-          <div class="video-title">Proyecto Estancias del Parra – Recorrido general</div>
-          <div class="video-caption">Vista integral del proyecto y su integración con el entorno.</div>
         </div>
       </article>
     </div>
