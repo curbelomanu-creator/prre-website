@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Seguridad y Transparencia – PRRE Fund</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #0f766e;
+      --border: #e2e8f0;
+      --card: #ffffff;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 32px 18px 44px;
+      display: flex;
+      justify-content: center;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 32px; }
+
+    .top-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .top-nav a { color: var(--muted); font-weight: 600; }
+    .pill-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border);
+      background: #fff; color: var(--primary); font-weight: 650;
+      box-shadow: 0 6px 16px rgba(15,23,42,0.08);
+      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .pill-link:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,23,42,0.12); }
+
+    h1.page-title { font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; }
+    h2.section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.01em; }
+    p.lead { font-size: 1rem; color: var(--muted); line-height: 1.7; max-width: 840px; }
+
+    .section { display: flex; flex-direction: column; gap: 12px; }
+    .section p { line-height: 1.6; color: var(--muted); font-size: 1rem; }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .doc-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .doc-title { font-weight: 700; font-size: 1.02rem; }
+    .doc-desc { color: var(--muted); font-size: 0.94rem; line-height: 1.5; }
+    .doc-btn {
+      align-self: flex-start;
+      margin-top: 4px;
+      padding: 9px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--primary);
+      background: #fff;
+      color: var(--primary);
+      font-weight: 650;
+      font-size: 0.92rem;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.12s ease;
+    }
+    .doc-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(15, 118, 110, 0.16); background: #f0fdf4; }
+
+    .aml-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .aml-summary { color: var(--muted); line-height: 1.6; }
+    .aml-toggle {
+      align-self: flex-start;
+      padding: 9px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--primary);
+      background: #fff;
+      color: var(--primary);
+      font-weight: 650;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.12s ease;
+    }
+    .aml-toggle:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(15, 118, 110, 0.16); background: #f0fdf4; }
+    .aml-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      border-top: 1px solid var(--border);
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .aml-content.open { padding-top: 12px; margin-top: 6px; max-height: 2400px; }
+    .aml-content h3 { font-size: 1.02rem; margin: 10px 0 6px; }
+    .aml-content h4 { font-size: 0.96rem; margin: 8px 0 4px; }
+    .aml-content p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px; }
+
+    .disclaimer { font-size: 0.88rem; color: #475569; line-height: 1.6; max-width: 960px; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="top-nav">
+    <a href="index.html" class="pill-link">← Volver al panel</a>
+  </div>
+
+  <header class="section">
+    <h1 class="page-title">Seguridad y Transparencia</h1>
+    <p class="lead">
+      Conoce la información legal, los documentos oficiales y el marco regulatorio que sustentan a Puerto Rico Real Estate Fund LLC.
+    </p>
+  </header>
+
+  <section class="section" aria-labelledby="info-legal-title">
+    <h2 class="section-title" id="info-legal-title">Información Legal de la Compañía</h2>
+    <p><strong>Nombre legal de la compañía:</strong><br>Puerto Rico Real Estate Fund LLC</p>
+    <p><strong>Actividad:</strong><br>Puerto Rico Real Estate Fund LLC adquiere, desarrolla, opera y vende proyectos inmobiliarios de diversa escala —principalmente urbanizaciones, residencias y edificios multifamiliares— y permite que inversionistas participen en su crecimiento mediante la adquisición de participación societaria en la compañía.</p>
+    <p><strong>Registro oficial:</strong><br>La compañía está debidamente registrada en el Departamento de Estado del Estado Libre Asociado de Puerto Rico.</p>
+    <a class="pill-link" href="https://rcp.estado.pr.gov/es/entity-information?c=568126-1511" target="_blank" rel="noopener noreferrer">Ver Registro Oficial</a>
+  </section>
+
+  <section class="section" aria-labelledby="docs-title">
+    <h2 class="section-title" id="docs-title">Documentos Legales Oficiales</h2>
+    <p class="lead" style="max-width: 900px;">
+      Los siguientes documentos oficiales han sido emitidos por el Departamento de Estado y el Departamento de Hacienda de Puerto Rico. Brindan verificación formal de que Puerto Rico Real Estate Fund LLC existe legalmente, está activa y cumple con sus obligaciones registrales y contributivas.
+    </p>
+    <div class="doc-grid">
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Existencia</div>
+        <div class="doc-desc">Confirma que la compañía está vigente y registrada oficialmente.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1bZllARXb3iVF2mUsGr7Glt50xKAed7kV/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Organización como LLC</div>
+        <div class="doc-desc">Acredita la constitución legal de Puerto Rico Real Estate Fund LLC como compañía de responsabilidad limitada.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1koP3DTKFQEglLVLGwJP0QmH3A0BU1hy6/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Persona Jurídica</div>
+        <div class="doc-desc">Identifica a la compañía como una entidad jurídica ante las autoridades competentes.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1n5TXaercKbqI4LcOoR9ZOlKddsll638n/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Registro de Comerciante</div>
+        <div class="doc-desc">Confirma que la empresa está registrada ante Hacienda para poder operar comercialmente.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1BxNDDloIUJ1XfAOYDj_Gikl4GjTul1C3/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="marco-title">
+    <h2 class="section-title" id="marco-title">Marco Regulatorio de Nuestras Ofertas</h2>
+    <p>
+      Puerto Rico Real Estate Fund LLC estructura sus ofertas de inversión conforme a las exenciones disponibles bajo la legislación federal de valores de Estados Unidos y la normativa del Estado Libre Asociado de Puerto Rico.
+    </p>
+    <p>
+      Las ofertas dirigidas a inversionistas internacionales se realizan bajo Regulation S del Securities Act de 1933, lo cual permite efectuar ventas de participaciones exclusivamente fuera de Estados Unidos y únicamente a personas que no sean “U.S. Persons”.
+    </p>
+    <p>
+      Asimismo, para ciertos casos aplicables, pueden estructurarse ofertas privadas dirigidas a inversionistas acreditados residentes en Estados Unidos conforme a Rule 506(c) de Regulation D.
+    </p>
+    <p>
+      Puerto Rico Real Estate Fund LLC no es una “investment company” bajo el Investment Company Act de 1940, ya que no se dedica a invertir en valores de terceros, sino en proyectos inmobiliarios propios. Su actividad principal consiste en adquirir, desarrollar y operar bienes raíces, lo que ubica a la compañía dentro de la exclusión prevista en la Sección 3(b)(1) del Acta.
+    </p>
+  </section>
+
+  <section class="aml-card" aria-labelledby="aml-title">
+    <h2 class="section-title" id="aml-title">Política Interna de Prevención de Lavado de Dinero (AML)</h2>
+    <p class="aml-summary">Nuestra política interna de prevención de lavado de dinero y debida diligencia se basa en los principios del Wolfsberg Group para banca privada y en las mejores prácticas de cumplimiento aplicables a ofertas bajo Regulation S.</p>
+    <button class="aml-toggle" type="button" id="amlToggle">Ver política completa</button>
+    <div class="aml-content" id="amlContent">
+      <h3>POLÍTICA INTERNA DE PREVENCIÓN DE LAVADO DE DINERO (AML) Y DEBIDA DILIGENCIA<br/>
+      PUERTO RICO REAL ESTATE FUND LLC</h3>
+      <p><em>Basada en los Wolfsberg AML Principles for Private Banking y en Regulation S</em></p>
+
+      <h4>Preámbulo</h4>
+      <p>
+        Puerto Rico Real Estate Fund LLC (en adelante, “la Compañía”) adopta de manera expresa los principios contenidos en los
+        Wolfsberg Anti-Money Laundering Principles for Private Banking (2012) como marco rector de su programa de prevención de
+        lavado de dinero y debida diligencia, adaptados al carácter de vehículo de inversión privado. Estos principios se orientan
+        a prevenir el uso de las operaciones financieras con fines criminales, proteger la reputación de la entidad y asegurar que
+        existan políticas y procedimientos robustos, basados en un enfoque de riesgo, aprobados y supervisados por la Alta Gerencia.
+      </p>
+      <p>
+        Adicionalmente, la Compañía estructura sus ofertas de inversión bajo la Regulation S del Securities Act de 1933, lo que
+        implica que las ofertas y ventas de participaciones se realizan exclusivamente fuera de Estados Unidos y no a U.S. Persons,
+        salvo que exista un registro o una exención aplicable.
+      </p>
+
+      <h3>1. Aceptación de Clientes: Principios Generales</h3>
+      <h4>1.1 Enfoque general</h4>
+      <p>
+        La Compañía solo aceptará inversionistas cuya legitimidad, origen de patrimonio y origen de fondos puedan ser razonablemente
+        establecidos como lícitos. La responsabilidad primaria de recomendar la aceptación de un cliente recae sobre el equipo
+        responsable de la relación con inversionistas, pero la aprobación final está sujeta a los controles internos y a la revisión
+        de la función de cumplimiento. La mera observancia formal de los procedimientos no libera a los responsables de su obligación
+        de evaluar el riesgo del cliente y de aplicar criterio profesional, en línea con los principios de aceptación de clientes
+        descritos por el Wolfsberg Group.
+      </p>
+
+      <h4>1.2 Identificación y verificación de identidad</h4>
+      <p>
+        La Compañía establecerá la identidad de todos los inversionistas y de los beneficiarios finales antes de formalizar cualquier
+        relación de inversión. En el caso de personas físicas, se obtendrán como mínimo nombre completo, fecha de nacimiento,
+        nacionalidad, dirección y país de residencia fiscal. En el caso de personas jurídicas, se obtendrá la información de constitución,
+        registro, domicilio legal, número de identificación fiscal y la identidad de sus representantes autorizados. Esta información
+        será verificada mediante documentos oficiales vigentes y fuentes independientes fiables, siguiendo el estándar de identificación
+        y verificación recogido en los principios Wolfsberg.
+      </p>
+
+      <h4>1.3 Beneficiarios finales (Beneficial Owners)</h4>
+      <p>
+        Para todos los casos en que el inversionista actúe a través de sociedades, estructuras de inversión o figuras jurídicas
+        interpuestas, la Compañía identificará a las personas físicas que ejerzan el control último sobre los fondos o que sean la
+        fuente real del patrimonio invertido. Se entenderá como beneficiarios finales a quienes, directa o indirectamente, posean o
+        controlen un porcentaje relevante de participación económica o de voto, o influyan de manera determinante en las decisiones
+        sobre los activos. La estructura de propiedad será analizada en la medida necesaria para comprender quién provee los fondos,
+        quién controla los activos y quién se beneficia económicamente de la inversión, en coherencia con las pautas específicas
+        de Wolfsberg para personas físicas, sociedades, trusts, partnerships y fundaciones.
+      </p>
+
+      <h4>1.4 Intermediarios y terceros que actúan en nombre de clientes</h4>
+      <p>
+        Cuando la relación con la Compañía sea introducida o gestionada por intermediarios (por ejemplo, asesores de inversión,
+        family offices o gestores externos), la Compañía evaluará la naturaleza de esa relación y aplicará debida diligencia tanto
+        sobre el intermediario como sobre los clientes finales a los que representa. Solo se aceptarán intermediarios que cuenten
+        con obligaciones regulatorias o políticas internas de debida diligencia que resulten satisfactorias para la Compañía y que
+        sean consistentes con los principios Wolfsberg. Asimismo, en los casos en que existan apoderados, firmantes autorizados o
+        personas con poder de firma sobre las participaciones, la Compañía procurará entender la relación entre estas personas, el
+        titular formal y el beneficiario final, verificando su identidad cuando corresponda.
+      </p>
+
+      <h4>1.5 Clientes no presenciales y canales electrónicos</h4>
+      <p>
+        En aquellas relaciones originadas sin contacto presencial, incluyendo registros a través del portal de inversores, la Compañía
+        aplicará medidas reforzadas para establecer y verificar la identidad del cliente y de los beneficiarios finales. Se adoptarán
+        procedimientos específicos para reducir los riesgos asociados a clientes no presenciales, tal como recomienda el Wolfsberg Group
+        cuando evalúa las relaciones iniciadas por canales electrónicos o “walk-in clients”.
+      </p>
+
+      <h3>2. Debida Diligencia y Enfoque Basado en Riesgo</h3>
+      <h4>2.1 Perfil del cliente y recopilación de información</h4>
+      <p>
+        Además de la identificación formal, la Compañía recopilará información suficiente para construir un perfil de cada inversionista
+        y de sus beneficiarios finales, de forma tal que un revisor independiente pueda comprender razonablemente la naturaleza de la
+        relación, la actividad económica del cliente, su origen de patrimonio y la racionalidad del monto invertido. Esta información
+        incluirá, entre otros, el propósito de la inversión, el tamaño esperado de la participación, el nivel de actividad previsto,
+        el origen de la riqueza y el origen específico de los fondos que se aportan al Fondo, siguiendo las categorías recomendadas
+        por Wolfsberg para la debida diligencia de nuevos clientes.
+      </p>
+
+      <h4>2.2 Verificación del origen de la riqueza y de los fondos</h4>
+      <p>
+        La Compañía documentará y, cuando corresponda, corroborará el origen de la riqueza general del inversionista (source of wealth)
+        y el origen de los fondos aportados a la inversión (source of funds). La evaluación considerará si la riqueza fue adquirida mediante
+        actividad empresarial, empleo profesional, inversiones, herencias o ventas de activos, entre otros supuestos. A su vez, se identificará
+        la institución financiera y la jurisdicción desde la que se transmitirán los fondos, distinguiendo claramente entre el patrimonio
+        global y el flujo concreto de recursos destinado a la inversión, tal como se sugiere en el apéndice de debida diligencia de los Principles.
+      </p>
+
+      <h4>2.3 Clasificación de riesgo y debida diligencia reforzada</h4>
+      <p>
+        La Compañía aplicará un enfoque basado en riesgo al clasificar a sus clientes. Se considerarán factores como el país de residencia
+        y de origen de los fondos, el sector económico, el nivel de complejidad de la estructura jurídica, la condición de Persona Expuesta
+        Políticamente (PEP) y el volumen de la inversión. Aquellos clientes cuya situación encaje en las categorías que, según Wolfsberg,
+        requieren una diligencia reforzada —por ejemplo, clientes vinculados a jurisdicciones con estándares insuficientes de AML, sectores
+        vulnerables al lavado de dinero o PEP con influencia relevante sobre recursos públicos— serán sometidos a procedimientos adicionales
+        de análisis, aprobación y seguimiento.
+      </p>
+
+      <h4>2.4 Clientes prohibidos</h4>
+      <p>
+        La Compañía definirá en su normativa interna categorías de clientes que no serán aceptados ni mantenidos, en línea con la facultad
+        reconocida en los Principles para que cada institución establezca tipologías de clientes prohibidos. En particular, la Compañía no
+        aceptará clientes cuyo origen de fondos no pueda ser verificado de manera razonable, aquellos vinculados a actividades
+        manifiestamente ilícitas o a listas de sanciones relevantes, ni aquellos cuya participación contravenga las restricciones de
+        Regulation S, incluyendo U.S. Persons o estructuras utilizadas para eludir dicha normativa.
+      </p>
+
+      <h4>2.5 Aprobación por Alta Gerencia</h4>
+      <p>
+        Las relaciones que, por su naturaleza o perfil de riesgo, requieran debida diligencia reforzada serán objeto de aprobación explícita
+        por parte de la Alta Gerencia y/o del Oficial de Cumplimiento de la Compañía. De manera consistente con los Principios Wolfsberg,
+        las relaciones con PEP y otros clientes de riesgo elevado solo se establecerán cuando exista una decisión consciente y documentada
+        de la instancia de gestión superior.
+      </p>
+
+      <h3>3. Cumplimiento de Regulation S y Exclusión de U.S. Persons</h3>
+      <h4>3.1 Marco general de Regulation S</h4>
+      <p>
+        La Compañía ofrecerá y venderá sus participaciones exclusivamente en transacciones que califiquen como “offshore transactions” y
+        únicamente a personas que no sean U.S. Persons, de acuerdo con la definición contenida en la Regulation S y sus reglas de implementación.
+        Esto implica que las ofertas y ventas no se realizan a personas situadas en Estados Unidos y que la Compañía debe tener una convicción
+        razonable de que el comprador se encuentra fuera de dicho territorio al momento de la orden de compra.
+      </p>
+
+      <h4>3.2 Política de No-U.S. Persons</h4>
+      <p>
+        Como parte de su proceso de debida diligencia, la Compañía exigirá declaraciones específicas mediante las cuales cada inversionista
+        confirme que no es una U.S. Person, que no actúa por cuenta o en beneficio de U.S. Persons y que los fondos no se originan en cuentas
+        ubicadas en Estados Unidos, salvo que exista otra exención o registro aplicable. Cualquier indicio de conexión sustancial con Estados
+        Unidos motivará un análisis adicional y, en su caso, el rechazo de la inversión.
+      </p>
+
+      <h3>4. Actualización de Expedientes y Revisión Periódica</h3>
+      <h4>4.1 Actualización de información</h4>
+      <p>
+        La Compañía mantendrá los expedientes de cada cliente actualizados de forma periódica y siempre que se registren cambios relevantes
+        en la situación del inversionista, tales como modificaciones en la estructura de propiedad, en el volumen de inversión, en la jurisdicción
+        de residencia o en el origen de fondos. Esta obligación de actualización refleja lo establecido en los Principles, que asignan al gestor
+        de la relación la responsabilidad de mantener el expediente al día, sujeto a revisión por instancias de control.
+      </p>
+
+      <h4>4.2 Frecuencia y profundidad de las revisiones</h4>
+      <p>
+        La frecuencia y profundidad de las revisiones dependerán del tamaño, complejidad y riesgo de la relación. Las relaciones clasificadas
+        como de mayor riesgo, incluidas las que involucren PEP, serán revisadas con mayor frecuencia y con la participación de la Alta Gerencia,
+        en consonancia con las recomendaciones de Wolfsberg sobre la revisión regular de los expedientes de clientes de alto riesgo.
+      </p>
+
+      <h3>5. Identificación y Gestión de Actividades Inusuales o Sospechosas</h3>
+      <h4>5.1 Definición de actividades inusuales o sospechosas</h4>
+      <p>
+        La Compañía contará con políticas y procedimientos escritos que definan qué se considera actividad inusual o sospechosa y que proporcionen
+        ejemplos que faciliten su identificación. Esta definición incluirá transacciones que no resulten coherentes con el perfil del cliente o
+        su expediente de debida diligencia, movimientos de fondos de naturaleza “in and out” sin justificación económica aparente, incrementos
+        abruptos de volumen o patrones de operación que, por su estructura, sugieran un posible intento de ocultar el origen o destino de los recursos.
+      </p>
+
+      <h4>5.2 Identificación de actividades inusuales</h4>
+      <p>
+        Las actividades inusuales podrán identificarse mediante el monitoreo de transacciones, los contactos directos con el cliente, la información
+        proveniente de medios externos o cualquier cambio significativo en el entorno del cliente que pueda afectar el nivel de riesgo. El personal
+        responsable de la relación deberá estar familiarizado con la actividad esperada en cada cuenta y ser capaz de reconocer desviaciones que
+        requieran análisis adicional, tal como exige el marco Wolfsberg.
+      </p>
+
+      <h4>5.3 Análisis y decisiones frente a actividades sospechosas</h4>
+      <p>
+        Cuando se detecte una actividad inusual que no tenga una explicación razonable, la situación será analizada por el Oficial de Cumplimiento,
+        en coordinación con la Alta Gerencia cuando corresponda. Las medidas posibles incluyen la continuación de la relación bajo una supervisión
+        intensificada, la terminación ordenada de la relación o la presentación de reportes a las autoridades competentes, según exijan las leyes
+        aplicables. Esta secuencia de análisis, decisión y eventual reporte refleja la pauta de actuación prevista por los Principles para actividades sospechosas.
+      </p>
+
+      <h3>6. Monitoreo, Cribado de Sanciones y Manejo de Efectivo</h3>
+      <h4>6.1 Programa de monitoreo</h4>
+      <p>
+        La Compañía mantendrá un programa de monitoreo de operaciones proporcional a la naturaleza y volumen de sus actividades. El monitoreo
+        combinará el conocimiento específico del cliente por parte del equipo de relación con mecanismos de revisión sistemática, manuales o
+        automatizados, de manera acorde con la exigencia de “sufficient monitoring programmes” recogida en los Principles.
+      </p>
+
+      <h4>6.2 Cribado de sanciones</h4>
+      <p>
+        La Compañía implementará un programa adecuado de cribado de sanciones que incluya la revisión de clientes y de transacciones frente a listas
+        de sanciones aplicables. Esta revisión se llevará a cabo al inicio de la relación y de forma continua, especialmente cuando se actualicen
+        las listas relevantes, siguiendo el criterio de que tanto clientes como operaciones deben ser evaluados frente a las sanciones vigentes.
+      </p>
+
+      <h4>6.3 Política sobre efectivo y cuentas de concentración</h4>
+      <p>
+        La Compañía no aceptará aportes en efectivo ni utilizará cuentas internas de “concentración” que impidan asociar la identidad del cliente
+        con el movimiento de fondos. Todas las inversiones deberán realizarse mediante transferencias desde cuentas bancarias identificadas,
+        a nombre del propio inversionista o de la entidad inversionista, en línea con las advertencias de Wolfsberg sobre el uso de cuentas internas
+        que dificulten el monitoreo de la actividad del cliente.
+      </p>
+
+      <h3>7. Estructura de Control Interno y Responsabilidades</h3>
+      <h4>7.1 Capas de control</h4>
+      <p>
+        La política AML de la Compañía se apoyará en varias capas de control que incluyen al equipo de relación con inversionistas, la línea de gestión,
+        las unidades operativas, la función de Cumplimiento y, cuando exista, la función de Auditoría Interna. Cada capa tendrá responsabilidades
+        claramente definidas en cuanto a la revisión de expedientes, la validación de información, el monitoreo de actividades y el seguimiento de hallazgos,
+        siguiendo el modelo de “control layers” propuesto por el Wolfsberg Group.
+      </p>
+
+      <h4>7.2 Función de Cumplimiento y organización AML</h4>
+      <p>
+        La Compañía dispondrá de una función de Cumplimiento con independencia operativa suficiente y recursos adecuados para coordinar la implementación
+        de esta política, asesorar en la aceptación de clientes, supervisar el monitoreo y canalizar los reportes internos de actividades sospechosas. Esta
+        función actuará como eje del programa AML, tal como contempla Wolfsberg al exigir una organización específica responsable de la prevención del lavado de dinero.
+      </p>
+
+      <h3>8. Reportes, Formación y Conservación de Registros</h3>
+      <h4>8.1 Reportes internos y a la Alta Gerencia</h4>
+      <p>
+        La Compañía establecerá mecanismos de reporte periódico a la Alta Gerencia sobre cuestiones relevantes de AML, tales como el número de reportes internos
+        de operaciones inusuales, la evolución de las herramientas de monitoreo, los cambios regulatorios o las acciones de capacitación. Este esquema de información
+        está alineado con el énfasis de los Principles en la necesidad de reportes regulares sobre temas de lavado de dinero a la dirección.
+      </p>
+
+      <h4>8.2 Formación y concienciación</h4>
+      <p>
+        Todos los empleados con contacto con inversionistas, así como el personal de Cumplimiento y otras áreas clave, recibirán formación periódica sobre
+        identificación y prevención de lavado de dinero, incluyendo la detección de actividades inusuales, el manejo de clientes de alto riesgo y las obligaciones
+        derivadas de Regulation S. La formación se impartirá al incorporarse el personal y se actualizará de forma recurrente, en línea con el requerimiento de
+        programas de entrenamiento contenido en los Principles.
+      </p>
+
+      <h4>8.3 Conservación de registros</h4>
+      <p>
+        La Compañía mantendrá todos los registros relacionados con debida diligencia, documentación KYC, monitoreo y reportes internos durante un periodo mínimo de
+        cinco años, o por el plazo superior que exijan las leyes aplicables. Este periodo mínimo de conservación coincide con el estándar de retención de documentos
+        previsto por los Wolfsberg Principles para documentación AML.
+      </p>
+
+      <h3>9. Excepciones, Desviaciones y Revisión de la Política</h3>
+      <h4>9.1 Excepciones y desviaciones controladas</h4>
+      <p>
+        Cualquier excepción o desviación frente a los procedimientos establecidos en esta política requerirá una evaluación explícita del riesgo y la aprobación
+        documentada por una unidad independiente, normalmente la función de Cumplimiento, y, cuando corresponda, la Alta Gerencia. La Compañía adoptará un
+        procedimiento formal de excepciones coherente con la exigencia de Wolfsberg de contar con un mecanismo específico para aprobar desviaciones bien justificadas.
+      </p>
+
+      <h4>9.2 Revisión y actualización de la política</h4>
+      <p>
+        Esta política será revisada de manera periódica, al menos una vez al año, o con mayor frecuencia si cambian las condiciones regulatorias, los riesgos inherentes
+        al modelo de negocio o los estándares del Wolfsberg Group o de la Regulation S. Cualquier actualización será aprobada por la Alta Gerencia y comunicada a todo
+        el personal relevante, garantizando que el programa AML de la Compañía se mantenga alineado con las mejores prácticas internacionales.
+      </p>
+    </div>
+  </section>
+
+  <footer class="disclaimer">
+    Esta información se presenta con fines informativos y de transparencia. No constituye asesoramiento legal, fiscal ni una oferta pública de valores. Toda inversión implica riesgos, incluyendo la posible pérdida total o parcial del capital invertido.
+  </footer>
+</div>
+
+<script>
+  const amlToggle = document.getElementById('amlToggle');
+  const amlContent = document.getElementById('amlContent');
+  amlToggle.addEventListener('click', () => {
+    const isOpen = amlContent.classList.toggle('open');
+    amlToggle.textContent = isOpen ? 'Ocultar política completa' : 'Ver política completa';
+  });
+</script>
+</body>
+</html>

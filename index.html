@@ -37,8 +37,66 @@
       max-width: 1200px;
     }
 
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      position: sticky;
+      top: 10px;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+
+    .nav-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.12s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      border-color: var(--primary-soft);
+      background: #f9fafb;
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+      background: var(--primary-soft);
+      border-color: var(--primary-soft);
+    }
+
     .dashboard-header {
       margin-bottom: 20px;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .dashboard-title {
@@ -51,6 +109,29 @@
     .dashboard-subtitle {
       font-size: 0.9rem;
       color: var(--muted);
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, #0f766e, #14b8a6);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(20, 184, 166, 0.25);
+      transition: transform 120ms ease, box-shadow 120ms ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(20, 184, 166, 0.3);
     }
 
     .investor-name {
@@ -249,12 +330,26 @@
 <body>
 <div class="dashboard">
 
+  <nav class="top-nav" aria-label="Menú principal">
+    <div class="nav-title">Portal PRRE Fund</div>
+    <div class="nav-links">
+      <a class="nav-link active" href="index.html">Panel</a>
+      <a class="nav-link" href="nueva-inversion.html">Nueva Inversión</a>
+      <a class="nav-link" href="seguridad-transparencia.html">Seguridad y Transparencia</a>
+    </div>
+  </nav>
+
   <!-- ENCABEZADO -->
   <header class="dashboard-header">
-    <div class="dashboard-title">Dashboard del Inversionista</div>
-    <div class="dashboard-subtitle">
-      Bienvenido, <span class="investor-name">[Nombre del Inversionista]</span>.  
-      Aquí puedes ver el estado de tus inversiones con PRRE Fund LLC en tiempo real.
+    <div class="header-bar">
+      <div>
+        <div class="dashboard-title">Dashboard del Inversionista</div>
+        <div class="dashboard-subtitle">
+          Bienvenido, <span class="investor-name">[Nombre del Inversionista]</span>.
+          Aquí puedes ver el estado de tus inversiones con PRRE Fund LLC en tiempo real.
+        </div>
+      </div>
+      <a class="cta-button" href="nueva-inversion.html">Nueva Inversión</a>
     </div>
   </header>
 
