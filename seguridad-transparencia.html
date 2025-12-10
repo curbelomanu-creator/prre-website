@@ -207,11 +207,23 @@
       align-items: center;
       justify-content: flex-start;
       margin-bottom: 4px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .doc-logo svg {
-      height: 48px;
+    .doc-logo img {
+      max-height: 64px;
+      max-width: 140px;
       width: auto;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+      background: #ffffff;
+      padding: 6px 8px;
+    }
+
+    .doc-card.hacienda .doc-logo img {
+      max-width: 110px;
     }
 
     .doc-title {
@@ -236,6 +248,33 @@
     }
 
     /* Marco regulatorio */
+    .reg-wrapper {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .reg-logo {
+      max-width: 190px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+      align-self: center;
+    }
+
+    .reg-logo img {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
     .reg-text {
       font-size: 0.95rem;
       line-height: 1.7;
@@ -404,12 +443,7 @@
     </a>
 
     <div class="doc-logo" aria-hidden="true" style="margin-top:12px;">
-      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="60" cy="60" r="58" fill="#0f766e" opacity="0.1" stroke="#0f766e" stroke-width="2"></circle>
-        <circle cx="60" cy="60" r="44" fill="#ffffff" stroke="#0f766e" stroke-width="3"></circle>
-        <text x="60" y="64" text-anchor="middle" fill="#0f766e" font-size="24" font-weight="700" font-family="system-ui, sans-serif">PR</text>
-        <text x="60" y="84" text-anchor="middle" fill="#6b7280" font-size="10" font-family="system-ui, sans-serif">Gobierno de Puerto Rico</text>
-      </svg>
+      <img src="Sello del Gobierno de Puerto Rico.png" alt="Sello del Gobierno de Puerto Rico" style="max-height:64px; max-width:64px; box-shadow:none; padding:0;" />
     </div>
   </section>
 
@@ -425,12 +459,8 @@
       <!-- Doc 1 -->
       <div class="doc-card">
         <div class="doc-logo" aria-hidden="true">
-          <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="4" width="82" height="82" rx="12" fill="#0f766e" opacity="0.08" stroke="#0f766e" stroke-width="3" />
-            <text x="45" y="55" text-anchor="middle" fill="#0f766e" font-size="34" font-weight="700" font-family="system-ui, sans-serif">DE</text>
-            <text x="120" y="42" fill="#0f766e" font-size="18" font-weight="700" font-family="system-ui, sans-serif">Departamento de Estado</text>
-            <text x="120" y="64" fill="#6b7280" font-size="12" font-family="system-ui, sans-serif">Gobierno de Puerto Rico</text>
-          </svg>
+          <img src="Departamento de Estado.png" alt="Departamento de Estado de Puerto Rico" />
+          <img src="Sello del Gobierno de Puerto Rico.png" alt="Sello del Gobierno de Puerto Rico" />
         </div>
         <div class="doc-title">Certificado de Existencia</div>
         <div class="doc-desc">
@@ -446,12 +476,7 @@
       <!-- Doc 2 -->
       <div class="doc-card">
         <div class="doc-logo" aria-hidden="true">
-          <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="4" width="82" height="82" rx="12" fill="#0f766e" opacity="0.08" stroke="#0f766e" stroke-width="3" />
-            <text x="45" y="55" text-anchor="middle" fill="#0f766e" font-size="34" font-weight="700" font-family="system-ui, sans-serif">DE</text>
-            <text x="120" y="42" fill="#0f766e" font-size="18" font-weight="700" font-family="system-ui, sans-serif">Departamento de Estado</text>
-            <text x="120" y="64" fill="#6b7280" font-size="12" font-family="system-ui, sans-serif">Gobierno de Puerto Rico</text>
-          </svg>
+          <img src="Departamento de Estado.png" alt="Departamento de Estado de Puerto Rico" />
         </div>
         <div class="doc-title">Certificado de Organización como LLC</div>
         <div class="doc-desc">
@@ -467,12 +492,7 @@
       <!-- Doc 3 -->
       <div class="doc-card">
         <div class="doc-logo" aria-hidden="true">
-          <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="4" width="82" height="82" rx="12" fill="#0f766e" opacity="0.08" stroke="#0f766e" stroke-width="3" />
-            <text x="45" y="55" text-anchor="middle" fill="#0f766e" font-size="34" font-weight="700" font-family="system-ui, sans-serif">DE</text>
-            <text x="120" y="42" fill="#0f766e" font-size="18" font-weight="700" font-family="system-ui, sans-serif">Departamento de Estado</text>
-            <text x="120" y="64" fill="#6b7280" font-size="12" font-family="system-ui, sans-serif">Gobierno de Puerto Rico</text>
-          </svg>
+          <img src="Departamento de Estado.png" alt="Departamento de Estado de Puerto Rico" />
         </div>
         <div class="doc-title">Certificado de Persona Jurídica</div>
         <div class="doc-desc">
@@ -486,14 +506,9 @@
       </div>
 
       <!-- Doc 4 -->
-      <div class="doc-card">
+      <div class="doc-card hacienda">
         <div class="doc-logo" aria-hidden="true">
-          <svg viewBox="0 0 320 90" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="4" width="82" height="82" rx="12" fill="#0f766e" opacity="0.08" stroke="#0f766e" stroke-width="3" />
-            <text x="45" y="55" text-anchor="middle" fill="#b45309" font-size="32" font-weight="700" font-family="system-ui, sans-serif">DH</text>
-            <text x="120" y="42" fill="#0f766e" font-size="18" font-weight="700" font-family="system-ui, sans-serif">Departamento de Hacienda</text>
-            <text x="120" y="64" fill="#6b7280" font-size="12" font-family="system-ui, sans-serif">Gobierno de Puerto Rico</text>
-          </svg>
+          <img src="Departamento de hacienda.png" alt="Departamento de Hacienda de Puerto Rico" />
         </div>
         <div class="doc-title">Certificado de Registro de Comerciante</div>
         <div class="doc-desc">
@@ -511,26 +526,31 @@
   <!-- Marco regulatorio -->
   <section class="section">
     <h2>Marco regulatorio de nuestras ofertas</h2>
-    <div class="reg-text">
-      <p>
-        Puerto Rico Real Estate Fund LLC estructura sus ofertas de inversión conforme a las exenciones disponibles bajo la legislación
-        federal de valores de Estados Unidos y la normativa del Estado Libre Asociado de Puerto Rico.
-      </p>
-      <p>
-        Las ofertas dirigidas a inversionistas internacionales se realizan bajo <strong>Regulation S del Securities Act de 1933</strong>,
-        lo cual permite efectuar ventas de participaciones exclusivamente fuera de Estados Unidos y únicamente a personas que no sean
-        “U.S. Persons”.
-      </p>
-      <p>
-        Asimismo, para ciertos casos aplicables, pueden estructurarse ofertas privadas dirigidas a inversionistas acreditados residentes
-        en Estados Unidos conforme a <strong>Rule 506(c) de Regulation D</strong>.
-      </p>
-      <p>
-        Puerto Rico Real Estate Fund LLC no es una “investment company” bajo el <strong>Investment Company Act de 1940</strong>, ya que
-        no se dedica a invertir en valores de terceros, sino en proyectos inmobiliarios propios. Su actividad principal consiste en
-        adquirir, desarrollar y operar bienes raíces, lo que ubica a la compañía dentro de la exclusión prevista en la Sección 3(b)(1)
-        de dicho Acta.
-      </p>
+    <div class="reg-wrapper">
+      <div class="reg-text">
+        <p>
+          Puerto Rico Real Estate Fund LLC estructura sus ofertas de inversión conforme a las exenciones disponibles bajo la legislación
+          federal de valores de Estados Unidos y la normativa del Estado Libre Asociado de Puerto Rico.
+        </p>
+        <p>
+          Las ofertas dirigidas a inversionistas internacionales se realizan bajo <strong>Regulation S del Securities Act de 1933</strong>,
+          lo cual permite efectuar ventas de participaciones exclusivamente fuera de Estados Unidos y únicamente a personas que no sean
+          “U.S. Persons”.
+        </p>
+        <p>
+          Asimismo, para ciertos casos aplicables, pueden estructurarse ofertas privadas dirigidas a inversionistas acreditados residentes
+          en Estados Unidos conforme a <strong>Rule 506(c) de Regulation D</strong>.
+        </p>
+        <p>
+          Puerto Rico Real Estate Fund LLC no es una “investment company” bajo el <strong>Investment Company Act de 1940</strong>, ya que
+          no se dedica a invertir en valores de terceros, sino en proyectos inmobiliarios propios. Su actividad principal consiste en
+          adquirir, desarrollar y operar bienes raíces, lo que ubica a la compañía dentro de la exclusión prevista en la Sección 3(b)(1)
+          de dicho Acta.
+        </p>
+      </div>
+      <div class="reg-logo" aria-hidden="true">
+        <img src="Logo del SEC.png" alt="Logo de la Securities and Exchange Commission" />
+      </div>
     </div>
   </section>
 
