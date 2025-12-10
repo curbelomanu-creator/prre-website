@@ -2,54 +2,58 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard de Inversionista – PRRE Fund</title>
+  <title>Dashboard del Inversionista – PRRE Fund LLC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Chart.js para los gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
     :root {
       --bg: #f3f4f6;
       --card-bg: #ffffff;
       --border: #e5e7eb;
-      --primary: #0f766e;
-      --primary-soft: #e0f5f2;
-      --accent: #1d4ed8;
       --text: #111827;
       --muted: #6b7280;
-      --radius: 18px;
-      --shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
+      --primary: #0f766e;
+      --primary-soft: #e0f2f1;
+      --accent: #10b981;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 14px 35px rgba(15, 23, 42, 0.08);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #e0f2fe, #f3f4f6 40%);
+      background: var(--bg);
       color: var(--text);
-      padding: 24px 12px 40px;
+      padding: 24px 16px 40px;
       display: flex;
       justify-content: center;
     }
 
-    .dashboard {
+    .page {
       width: 100%;
       max-width: 1200px;
     }
 
+    /* Navegación superior */
     .top-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       margin-bottom: 18px;
       padding: 12px 14px;
       background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      border-radius: 12px;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
       position: sticky;
       top: 10px;
-      backdrop-filter: blur(6px);
       z-index: 10;
     }
 
@@ -63,6 +67,7 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     .nav-link {
@@ -87,73 +92,54 @@
       border-color: var(--primary-soft);
     }
 
-    .dashboard-header {
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.15s ease;
+      box-shadow: 0 8px 18px rgba(15, 118, 110, 0.18);
+    }
+
+    .nav-cta:hover {
+      filter: brightness(0.96);
+      box-shadow: 0 10px 22px rgba(15, 118, 110, 0.24);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
       margin-bottom: 20px;
     }
 
-    .header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .dashboard-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      margin-bottom: 4px;
-    }
-
-    .dashboard-subtitle {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    .cta-button {
-      background: linear-gradient(135deg, #0f766e, #14b8a6);
-      color: white;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(20, 184, 166, 0.25);
-      transition: transform 120ms ease, box-shadow 120ms ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(20, 184, 166, 0.3);
-    }
-
-    .investor-name {
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    /* Tarjetas resumen */
+    /* Resumen superior */
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin: 18px 0 22px;
+      gap: 14px;
+      margin-bottom: 24px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 980px) {
       .summary-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
       .summary-grid {
         grid-template-columns: 1fr;
       }
@@ -161,10 +147,10 @@
 
     .summary-card {
       background: var(--card-bg);
-      border-radius: var(--radius);
+      border-radius: var(--radius-md);
       border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      padding: 12px 14px;
+      padding: 14px 16px;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.04);
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -172,454 +158,446 @@
 
     .summary-label {
       font-size: 0.8rem;
+      font-weight: 600;
       color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .summary-value {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
     }
 
-    .summary-tag {
-      font-size: 0.75rem;
-      color: var(--primary);
-      background: var(--primary-soft);
-      border-radius: 999px;
-      padding: 2px 8px;
-      align-self: flex-start;
-      margin-top: 4px;
-    }
-
-    /* Layout secciones principales */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .grid-2-balanced {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    @media (max-width: 900px) {
-      .grid-2,
-      .grid-2-balanced {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      padding: 16px 16px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: 220px;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .card-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .card-subtitle {
+    .summary-extra {
       font-size: 0.8rem;
       color: var(--muted);
     }
 
-    .badge {
-      font-size: 0.75rem;
-      border-radius: 999px;
-      padding: 2px 8px;
-      background: #eff6ff;
+    .summary-value.green {
       color: var(--accent);
+    }
+
+    /* Sección gráfico */
+    .section-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 20px;
+      margin-bottom: 22px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 650;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .chart-wrapper {
+      margin-top: 10px;
     }
 
     canvas {
       max-width: 100%;
-      height: 220px;
     }
 
-    .reports-list {
-      list-style: none;
-      font-size: 0.85rem;
-      margin-top: 4px;
+    /* Listas horizontales (reportes, videos) */
+    .list-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 10px;
+      margin-bottom: 18px;
     }
 
-    .reports-list li {
-      padding: 6px 0;
-      border-bottom: 1px solid #f3f4f6;
+    .list {
+      margin-top: 14px;
+    }
+
+    .list-row {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      gap: 10px;
     }
 
-    .reports-list a {
-      color: var(--accent);
+    .list-row:first-of-type {
+      border-top: none;
+    }
+
+    .list-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .list-link {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #2563eb;
       text-decoration: none;
     }
 
-    .reports-list a:hover {
+    .list-link:hover {
       text-decoration: underline;
     }
 
-    .pill {
-      font-size: 0.75rem;
+    .list-desc {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
       border-radius: 999px;
-      padding: 1px 7px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.15s ease;
+    }
+
+    .btn-green {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-green:hover {
+      filter: brightness(0.95);
+    }
+
+    /* Videos */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 800px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .video-card {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
       background: #f9fafb;
-      color: var(--muted);
-      border: 1px solid #e5e7eb;
     }
 
     .video-frame {
-      position: relative;
       width: 100%;
-      padding-bottom: 56.25%; /* 16:9 */
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: #000;
+      height: 210px;
+      border: none;
+      display: block;
     }
 
-    .video-frame iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
+    .video-body {
+      padding: 10px 12px;
     }
 
-    .project-list {
-      list-style: none;
-      font-size: 0.86rem;
-      margin-top: 4px;
-    }
-
-    .project-list li {
-      padding: 6px 0;
-      border-bottom: 1px solid #f3f4f6;
-    }
-
-    .project-name {
+    .video-title {
+      font-size: 0.95rem;
       font-weight: 600;
-      font-size: 0.88rem;
+      margin-bottom: 4px;
     }
 
-    .project-meta {
-      font-size: 0.8rem;
+    .video-caption {
+      font-size: 0.85rem;
       color: var(--muted);
     }
-
   </style>
 </head>
 <body>
-<div class="dashboard">
-
-  <nav class="top-nav" aria-label="Menú principal">
-    <div class="nav-title">Portal PRRE Fund</div>
+<div class="page">
+  <nav class="top-nav" aria-label="Navegación principal">
+    <div class="nav-title">Portal del Inversionista</div>
     <div class="nav-links">
-      <a class="nav-link active" href="index.html">Panel</a>
+      <a class="nav-link active" href="index.html">Dashboard</a>
       <a class="nav-link" href="nueva-inversion.html">Nueva Inversión</a>
+      <a class="nav-link" href="kyc-aml.html">KYC / AML</a>
+      <a class="nav-link" href="subscription-agreement.html">Subscription Agreement</a>
       <a class="nav-link" href="seguridad-transparencia.html">Seguridad y Transparencia</a>
+      <a class="nav-cta" href="nueva-inversion.html">Nueva inversión</a>
     </div>
   </nav>
 
-  <!-- ENCABEZADO -->
-  <header class="dashboard-header">
-    <div class="header-bar">
-      <div>
-        <div class="dashboard-title">Dashboard del Inversionista</div>
-        <div class="dashboard-subtitle">
-          Bienvenido, <span class="investor-name">[Nombre del Inversionista]</span>.
-          Aquí puedes ver el estado de tus inversiones con PRRE Fund LLC en tiempo real.
-        </div>
-      </div>
-      <a class="cta-button" href="nueva-inversion.html">Nueva Inversión</a>
-    </div>
+  <header>
+    <h1>Dashboard del Inversionista</h1>
+    <p class="subtitle">
+      Bienvenido, <strong><span id="investorName">Nombre del inversionista</span></strong>. Aquí puedes ver el estado de tus
+      inversiones con PRRE Fund LLC en tiempo real.
+    </p>
   </header>
 
-  <!-- TARJETAS RESUMEN -->
   <section class="summary-grid">
-    <div class="summary-card">
-      <div class="summary-label">Inversión total comprometida</div>
-      <div class="summary-value" id="sum-invested">$ 250,000</div>
-      <div class="summary-tag">Portafolio activo</div>
+    <article class="summary-card">
+      <div class="summary-label">Inversión inicial realizada</div>
+      <div class="summary-value">$220,000.00</div>
+      <div class="summary-extra">Capital aportado al inicio del periodo (enero 2025).</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-label">Rendimiento acumulado</div>
+      <div class="summary-value green">$20,245.50</div>
+      <div class="summary-extra">Equivale a un +9.20% sobre tu inversión inicial al 12.º mes.</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-label">Dinero retirado</div>
+      <div class="summary-value">$0.00</div>
+      <div class="summary-extra">En este ejemplo no se han retirado intereses; todo se ha capitalizado.</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-label">Días transcurridos</div>
+      <div class="summary-value">365 / 720</div>
+      <div class="summary-extra">Primer año completado de un periodo total de 24 meses.</div>
+    </article>
+  </section>
+
+  <section class="section-card">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Evolución de tu inversión</div>
+        <div class="section-subtitle">
+          Crecimiento de tu capital con un retorno preferencial del 9% anual, capitalizado cada 6 meses (ejemplo a 24 meses).
+        </div>
+      </div>
     </div>
 
-    <div class="summary-card">
-      <div class="summary-label">Preferred return cobrado</div>
-      <div class="summary-value" id="sum-preferred">$ 18,750</div>
-      <div class="summary-tag">Retorno acumulado</div>
-    </div>
-
-    <div class="summary-card">
-      <div class="summary-label">Casas vendidas asociadas a tu inversión</div>
-      <div class="summary-value" id="sum-houses">14</div>
-      <div class="summary-tag">Ventas realizadas</div>
-    </div>
-
-    <div class="summary-card">
-      <div class="summary-label">Estado general</div>
-      <div class="summary-value" id="sum-status">En curso</div>
-      <div class="summary-tag">Actualizado al último trimestre</div>
+    <div class="chart-wrapper">
+      <canvas id="chartRendimiento" height="100"></canvas>
     </div>
   </section>
 
-  <!-- FILA 1: Ventas de casas + Preferred return -->
-  <section class="grid-2">
-    <!-- Gráfico ventas casas -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Ventas de casas</div>
-          <div class="card-subtitle">Unidades vendidas por mes (ejemplo)</div>
-        </div>
-        <span class="badge">Tríalo Housing Development</span>
+  <section class="list-card">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Reportes trimestrales</div>
+        <div class="section-subtitle">Resultados financieros y avance de obra.</div>
       </div>
-      <canvas id="chartHouses"></canvas>
     </div>
 
-    <!-- Gráfico preferred return -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Preferred return pagado</div>
-          <div class="card-subtitle">Flujo de pagos trimestrales (ejemplo)</div>
+    <div class="list">
+      <div class="list-row">
+        <div class="list-text">
+          <a href="#" class="list-link">Primer trimestre – 2025</a>
+          <div class="list-desc">Reporte trimestral Nº1 – 2025</div>
         </div>
-        <span class="badge">Retorno preferencial</span>
-      </div>
-      <canvas id="chartPreferred"></canvas>
-    </div>
-  </section>
-
-  <!-- FILA 2: Inversión invertida/acumulada + Reportes trimestrales -->
-  <section class="grid-2">
-    <!-- Gráfico inversión -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Inversión aportada y acumulada</div>
-          <div class="card-subtitle">Evolución de tu capital en el fondo (ejemplo)</div>
-        </div>
-        <span class="badge">Capital</span>
-      </div>
-      <canvas id="chartCapital"></canvas>
-    </div>
-
-    <!-- Reportes trimestrales -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Reportes trimestrales</div>
-          <div class="card-subtitle">Resultados financieros y avance de obra</div>
-        </div>
+        <a class="btn btn-green" href="#" target="_blank" rel="noopener noreferrer">Ver PDF</a>
       </div>
 
-      <ul class="reports-list">
-        <!-- Cambiá los href por tus PDFs reales -->
-        <li>
-          <div>
-            Q3 2025 – Informe consolidado
-          </div>
-          <a href="#reporte-q3-2025" target="_blank" class="pill">Ver PDF</a>
-        </li>
-        <li>
-          <div>
-            Q2 2025 – Rendimiento del portafolio
-          </div>
-          <a href="#reporte-q2-2025" target="_blank" class="pill">Ver PDF</a>
-        </li>
-        <li>
-          <div>
-            Q1 2025 – Inicio de ventas Valle Tania
-          </div>
-          <a href="#reporte-q1-2025" target="_blank" class="pill">Ver PDF</a>
-        </li>
-        <li>
-          <div>
-            Q4 2024 – Cierre de año
-          </div>
-          <a href="#reporte-q4-2024" target="_blank" class="pill">Ver PDF</a>
-        </li>
-      </ul>
+      <div class="list-row">
+        <div class="list-text">
+          <a href="#" class="list-link">Segundo trimestre – 2025</a>
+          <div class="list-desc">Reporte trimestral Nº2 – 2025</div>
+        </div>
+        <a class="btn btn-green" href="#" target="_blank" rel="noopener noreferrer">Ver PDF</a>
+      </div>
+
+      <div class="list-row">
+        <div class="list-text">
+          <a href="#" class="list-link">Tercer trimestre – 2025</a>
+          <div class="list-desc">Reporte trimestral Nº3 – 2025</div>
+        </div>
+        <a class="btn btn-green" href="#" target="_blank" rel="noopener noreferrer">Ver PDF</a>
+      </div>
+
+      <div class="list-row">
+        <div class="list-text">
+          <a href="#" class="list-link">Cuarto trimestre – 2025</a>
+          <div class="list-desc">Reporte trimestral Nº4 – 2025</div>
+        </div>
+        <a class="btn btn-green" href="#" target="_blank" rel="noopener noreferrer">Ver PDF</a>
+      </div>
     </div>
   </section>
 
-  <!-- FILA 3: Video en vivo + Proyectos -->
-  <section class="grid-2-balanced">
-    <!-- Video de proyectos en vivo -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Proyecto en vivo</div>
-          <div class="card-subtitle">Cámara o video actualizado de la obra</div>
+  <section class="list-card">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Visualiza los proyectos en tiempo real</div>
+        <div class="section-subtitle">
+          Seguimiento audiovisual del avance de los desarrollos en los que participa tu inversión.
         </div>
-        <span class="badge">Streaming</span>
       </div>
+    </div>
 
-      <div class="video-frame">
-        <!-- Reemplazá el src por tu video de YouTube/Vimeo o cámara IP embebida -->
+    <div class="video-grid">
+      <article class="video-card">
         <iframe
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-          title="Proyecto en vivo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          class="video-frame"
+          src="https://www.youtube.com/embed/VIDEO_ID_VALLE_TANIA_1"
+          title="Proyecto Valle Tania Development – Avance de obra"
           allowfullscreen
         ></iframe>
-      </div>
-    </div>
-
-    <!-- Lista de proyectos del inversionista -->
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Tus proyectos</div>
-          <div class="card-subtitle">Resumen de los desarrollos donde participas</div>
+        <div class="video-body">
+          <div class="video-title">Proyecto Valle Tania Development – Avance de obra</div>
+          <div class="video-caption">Actualizaciones periódicas de la construcción y habilitación del proyecto.</div>
         </div>
-      </div>
+      </article>
 
-      <ul class="project-list">
-        <li>
-          <div class="project-name">Valle Tania Development – Guánica</div>
-          <div class="project-meta">
-            Participación: 80,000 USD · Casas vendidas: 6 / 120 · Estado: En construcción
-          </div>
-        </li>
-        <li>
-          <div class="project-name">Estancias del Parra – Yauco</div>
-          <div class="project-meta">
-            Participación: 100,000 USD · Casas vendidas: 4 / 90 · Estado: Preventa
-          </div>
-        </li>
-        <li>
-          <div class="project-name">Paseos del Valle – Guayanilla</div>
-          <div class="project-meta">
-            Participación: 70,000 USD · Casas vendidas: 4 / 80 · Estado: Diseño / permisos
-          </div>
-        </li>
-      </ul>
+      <article class="video-card">
+        <iframe
+          class="video-frame"
+          src="https://www.youtube.com/embed/VIDEO_ID_VALLE_TANIA_2"
+          title="Proyecto Valle Tania Development – Recorrido general"
+          allowfullscreen
+        ></iframe>
+        <div class="video-body">
+          <div class="video-title">Proyecto Valle Tania Development – Recorrido general</div>
+          <div class="video-caption">Visión general del master plan, calles internas y tipologías de viviendas.</div>
+        </div>
+      </article>
+
+      <article class="video-card">
+        <iframe
+          class="video-frame"
+          src="https://www.youtube.com/embed/VIDEO_ID_PARRA_1"
+          title="Proyecto Estancias del Parra – Avance de obra"
+          allowfullscreen
+        ></iframe>
+        <div class="video-body">
+          <div class="video-title">Proyecto Estancias del Parra – Avance de obra</div>
+          <div class="video-caption">Progreso de urbanización, infraestructura y etapa constructiva.</div>
+        </div>
+      </article>
+
+      <article class="video-card">
+        <iframe
+          class="video-frame"
+          src="https://www.youtube.com/embed/VIDEO_ID_PARRA_2"
+          title="Proyecto Estancias del Parra – Recorrido general"
+          allowfullscreen
+        ></iframe>
+        <div class="video-body">
+          <div class="video-title">Proyecto Estancias del Parra – Recorrido general</div>
+          <div class="video-caption">Vista integral del proyecto y su integración con el entorno.</div>
+        </div>
+      </article>
     </div>
   </section>
 </div>
 
 <script>
-  // ============ DATOS DE EJEMPLO ============
-  // Podés reemplazar todo esto con datos reales desde tu backend.
+  // document.getElementById("investorName").textContent = "Emanuel";
 
-  const housesMonths = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago"];
-  const housesSold = [0, 1, 2, 3, 3, 1, 2, 2]; // ventas mensuales (ejemplo)
+  const labels = [
+    "Ene 2025", "Feb 2025", "Mar 2025", "Abr 2025", "May 2025", "Jun 2025",
+    "Jul 2025", "Ago 2025", "Sep 2025", "Oct 2025", "Nov 2025", "Dic 2025",
+    "Ene 2026", "Feb 2026", "Mar 2026", "Abr 2026", "May 2026", "Jun 2026",
+    "Jul 2026", "Ago 2026", "Sep 2026", "Oct 2026", "Nov 2026", "Dic 2026"
+  ];
 
-  const preferredLabels = ["Q1 2025", "Q2 2025", "Q3 2025", "Q4 2025"];
-  const preferredPaid = [3500, 4500, 5200, 5550]; // pagos trimestrales (ejemplo)
+  const capitalData = [
+    220000.00,
+    220000.00,
+    220000.00,
+    220000.00,
+    220000.00,
+    229900.00,
+    229900.00,
+    229900.00,
+    229900.00,
+    229900.00,
+    229900.00,
+    240245.50,
+    240245.50,
+    240245.50,
+    240245.50,
+    240245.50,
+    240245.50,
+    251056.55,
+    251056.55,
+    251056.55,
+    251056.55,
+    251056.55,
+    251056.55,
+    262354.09
+  ];
 
-  const capitalLabels = ["Inicio", "Mes 3", "Mes 6", "Mes 9", "Mes 12"];
-  const capitalContributed = [100000, 150000, 200000, 230000, 250000];
-  const capitalAccrued = [101800, 153000, 206500, 239200, 262000]; // acumulado con retorno (ejemplo)
+  const ctx = document.getElementById("chartRendimiento").getContext("2d");
 
-  // ============ CONFIGURACIÓN GRÁFICOS ============
-
-  // Ventas de casas
-  const ctxHouses = document.getElementById("chartHouses").getContext("2d");
-  new Chart(ctxHouses, {
-    type: "bar",
-    data: {
-      labels: housesMonths,
-      datasets: [
-        {
-          label: "Casas vendidas",
-          data: housesSold,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: {
-          display: false,
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { stepSize: 1 },
-        },
-      },
-    },
-  });
-
-  // Preferred return pagado
-  const ctxPreferred = document.getElementById("chartPreferred").getContext("2d");
-  new Chart(ctxPreferred, {
+  new Chart(ctx, {
     type: "line",
     data: {
-      labels: preferredLabels,
+      labels,
       datasets: [
         {
-          label: "Preferred return pagado (USD)",
-          data: preferredPaid,
-          tension: 0.3,
-          fill: true,
-        },
-      ],
+          label: "Capital acumulado",
+          data: capitalData,
+          borderColor: "#0f766e",
+          backgroundColor: "rgba(15,118,110,0.12)",
+          borderWidth: 2,
+          tension: 0.25,
+          pointRadius: 3,
+          pointHoverRadius: 4,
+          fill: true
+        }
+      ]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: true,
+          labels: {
+            font: { size: 11 }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function (ctx) {
+              const value = ctx.parsed.y || 0;
+              return "Capital: $" + value.toLocaleString("en-US", { minimumFractionDigits: 2 });
+            }
+          }
+        }
       },
       scales: {
         y: {
           beginAtZero: false,
+          ticks: {
+            callback: function (value) {
+              return "$" + value.toLocaleString("en-US");
+            }
+          }
         },
-      },
-    },
-  });
-
-  // Capital invertido y acumulado
-  const ctxCapital = document.getElementById("chartCapital").getContext("2d");
-  new Chart(ctxCapital, {
-    type: "line",
-    data: {
-      labels: capitalLabels,
-      datasets: [
-        {
-          label: "Capital aportado",
-          data: capitalContributed,
-          tension: 0.3,
-        },
-        {
-          label: "Capital acumulado (con retorno)",
-          data: capitalAccrued,
-          tension: 0.3,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { position: "bottom" },
-      },
-      scales: {
-        y: {
-          beginAtZero: false,
-        },
-      },
-    },
+        x: {
+          ticks: {
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: true,
+            maxTicksLimit: 12
+          }
+        }
+      }
+    }
   });
 </script>
 </body>
