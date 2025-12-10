@@ -6,832 +6,194 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg: #f3f4f6;
-      --card-bg: #ffffff;
-      --border: #e5e7eb;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --muted: #475569;
       --primary: #0f766e;
-      --primary-soft: #e0f5f2;
-      --accent: #0369a1;
-      --danger: #b91c1c;
-      --text: #111827;
-      --muted: #6b7280;
+      --border: #e2e8f0;
+      --card: #ffffff;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
       --radius: 18px;
-      --shadow-soft: 0 14px 35px rgba(15, 23, 42, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #e0f2fe, #f3f4f6 45%);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
       color: var(--text);
-      padding: 28px 16px 40px;
+      padding: 32px 18px 44px;
       display: flex;
       justify-content: center;
     }
 
-    .page {
-      width: 100%;
-      max-width: 1120px;
-    }
+    a { color: inherit; text-decoration: none; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    .page { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 32px; }
 
-    /* Header / breadcrumb */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+    .top-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .top-nav a { color: var(--muted); font-weight: 600; }
+    .pill-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border);
+      background: #fff; color: var(--primary); font-weight: 650;
+      box-shadow: 0 6px 16px rgba(15,23,42,0.08);
+      transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
+    .pill-link:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(15,23,42,0.12); }
 
-    .crumbs {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.86rem;
-      color: var(--muted);
-    }
+    h1.page-title { font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; }
+    h2.section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.01em; }
+    p.lead { font-size: 1rem; color: var(--muted); line-height: 1.7; max-width: 840px; }
 
-    .crumbs a {
-      text-decoration: none;
-      color: var(--muted);
-    }
+    .section { display: flex; flex-direction: column; gap: 12px; }
+    .section p { line-height: 1.6; color: var(--muted); font-size: 1rem; }
 
-    .crumbs span.current {
-      color: var(--primary);
-      font-weight: 600;
-    }
-
-    .btn-small {
-      border-radius: 999px;
-      padding: 7px 14px;
-      font-size: 0.85rem;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: 0.15s ease;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
-    }
-
-    .btn-small:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
-    }
-
-    /* Hero */
-    .hero {
-      background: radial-gradient(circle at top left, #dcfce7, #e5f3ff 45%, #ffffff 100%);
-      border-radius: 26px;
-      padding: 22px 22px 20px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
+    .doc-grid {
       display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(260px, 2fr);
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
     }
-
-    @media (max-width: 880px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      background: rgba(16, 185, 129, 0.1);
-      color: #047857;
-      margin-bottom: 6px;
-      border: 1px solid rgba(16, 185, 129, 0.25);
-    }
-
-    .hero h1 {
-      font-size: 1.7rem;
-      margin-bottom: 6px;
-    }
-
-    .hero p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 560px;
-      margin-bottom: 12px;
-    }
-
-    .hero-highlight {
-      font-size: 0.88rem;
-      color: var(--text);
-      background: #ffffffc7;
-      border-radius: 14px;
-      padding: 8px 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid rgba(15, 118, 110, 0.2);
-    }
-
-    .hero-right {
-      justify-self: center;
-      align-self: stretch;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .badge-stack {
-      background: #ffffffdd;
-      border-radius: 20px;
-      padding: 14px 14px 12px;
-      border: 1px dashed rgba(15, 118, 110, 0.25);
-      font-size: 0.86rem;
-    }
-
-    .badge-title {
-      font-size: 0.9rem;
-      font-weight: 650;
-      margin-bottom: 6px;
-      color: var(--primary);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .badge-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 6px 10px;
-      margin-top: 6px;
-    }
-
-    @media (max-width: 500px) {
-      .badge-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .mini-pill {
-      font-size: 0.8rem;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    /* Regulatory banner */
-    .reg-banner {
-      margin-top: 14px;
-      padding: 10px 12px;
+    .doc-card {
+      background: var(--card);
+      border: 1px solid var(--border);
       border-radius: 16px;
-      border: 1px solid rgba(37, 99, 235, 0.22);
-      background: linear-gradient(90deg, rgba(219, 234, 254, 0.95), #eff6ff);
-      font-size: 0.86rem;
-      line-height: 1.5;
+      padding: 16px 16px 14px;
+      box-shadow: var(--shadow);
       display: flex;
+      flex-direction: column;
       gap: 8px;
-      align-items: flex-start;
     }
-
-    .reg-banner-icon {
-      font-size: 1rem;
-      margin-top: 1px;
-    }
-
-    /* Sections layout */
-    .sections {
-      margin-top: 26px;
-      display: grid;
-      grid-template-columns: minmax(0, 3.2fr) minmax(260px, 2.3fr);
-      gap: 18px;
-    }
-
-    @media (max-width: 880px) {
-      .sections {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .section-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
-      padding: 18px 18px 16px;
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 650;
-      margin-bottom: 6px;
-    }
-
-    .section-sub {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .reg-list {
-      list-style: none;
-      font-size: 0.9rem;
+    .doc-title { font-weight: 700; font-size: 1.02rem; }
+    .doc-desc { color: var(--muted); font-size: 0.94rem; line-height: 1.5; }
+    .doc-btn {
+      align-self: flex-start;
       margin-top: 4px;
-    }
-
-    .reg-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
-      margin-bottom: 6px;
-    }
-
-    .reg-list li span.bullet {
-      margin-top: 3px;
-      font-size: 0.65rem;
-      color: var(--primary);
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    /* Credenciales / docs */
-    .credentials-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    @media (max-width: 600px) {
-      .credentials-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .cred-card {
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 12px 12px 11px;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .cred-pill {
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .cred-title {
-      font-size: 0.94rem;
-      font-weight: 650;
-      margin-top: 3px;
-    }
-
-    .cred-text {
-      font-size: 0.84rem;
-      color: var(--muted);
-    }
-
-    .cred-link {
-      margin-top: 6px;
-      font-size: 0.83rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--primary);
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .cred-link span.icon {
-      font-size: 0.86rem;
-    }
-
-    /* Docs list */
-    .doc-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .doc-item {
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 9px 11px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      background: #ffffff;
-    }
-
-    .doc-title {
-      font-size: 0.9rem;
-      font-weight: 620;
-    }
-
-    .doc-desc {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .doc-actions {
-      margin-top: 4px;
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      align-items: center;
-      font-size: 0.8rem;
-    }
-
-    .doc-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      font-weight: 600;
-      text-decoration: none;
-      color: var(--primary);
-      background: #f9fafb;
-      transition: 0.12s ease;
-    }
-
-    .doc-link:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
-      transform: translateY(-0.5px);
-    }
-
-    .doc-tag {
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 0.73rem;
-      background: var(--primary-soft);
-      color: var(--primary);
-    }
-
-    /* Seguridad portal */
-    .shield-list {
-      list-style: none;
-      font-size: 0.87rem;
-      margin-top: 6px;
-    }
-
-    .shield-list li {
-      display: flex;
-      gap: 7px;
-      margin-bottom: 6px;
-    }
-
-    .shield-list li span.icon {
-      font-size: 0.9rem;
-      margin-top: 1px;
-    }
-
-    /* AML accordion */
-    .aml-summary {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    /* Modal AML */
-    .aml-trigger {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #f9fafb;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      color: var(--primary);
-      transition: 0.15s ease;
-    }
-
-    .aml-trigger:hover {
-      border-color: var(--primary);
-      background: #ffffff;
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
-      transform: translateY(-1px);
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(17, 24, 39, 0.48);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      padding: 16px;
-    }
-
-    .modal-backdrop.open { display: flex; }
-
-    .modal-card {
-      background: #ffffff;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
-      max-width: 900px;
-      width: 100%;
-      max-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .modal-header {
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .modal-title {
-      font-size: 1rem;
-      font-weight: 650;
-      color: var(--text);
-    }
-
-    .modal-close {
-      border: 1px solid var(--border);
-      background: #f9fafb;
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: 0.12s ease;
-      color: var(--muted);
-    }
-
-    .modal-close:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
-    }
-
-    .modal-body {
-      padding: 14px 16px 16px;
-      overflow: auto;
-      font-size: 0.88rem;
-      line-height: 1.6;
-      color: #374151;
-    }
-
-    .modal-body h3 { font-size: 0.98rem; margin-top: 12px; margin-bottom: 6px; font-weight: 650; }
-    .modal-body h4 { font-size: 0.9rem; margin-top: 8px; margin-bottom: 4px; font-weight: 600; }
-    .modal-body p { margin-bottom: 6px; }
-
-    /* Disclaimer */
-    .disclaimer {
-      margin-top: 18px;
-      font-size: 0.75rem;
-      color: #4b5563;
-      padding: 10px 12px;
+      padding: 9px 14px;
       border-radius: 12px;
-      border: 1px dashed #e5e7eb;
-      background: #f9fafb;
+      border: 1px solid var(--primary);
+      background: #fff;
+      color: var(--primary);
+      font-weight: 650;
+      font-size: 0.92rem;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.12s ease;
     }
+    .doc-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(15, 118, 110, 0.16); background: #f0fdf4; }
+
+    .aml-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .aml-summary { color: var(--muted); line-height: 1.6; }
+    .aml-toggle {
+      align-self: flex-start;
+      padding: 9px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--primary);
+      background: #fff;
+      color: var(--primary);
+      font-weight: 650;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, background 0.12s ease;
+    }
+    .aml-toggle:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(15, 118, 110, 0.16); background: #f0fdf4; }
+    .aml-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      border-top: 1px solid var(--border);
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .aml-content.open { padding-top: 12px; margin-top: 6px; max-height: 2400px; }
+    .aml-content h3 { font-size: 1.02rem; margin: 10px 0 6px; }
+    .aml-content h4 { font-size: 0.96rem; margin: 8px 0 4px; }
+    .aml-content p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px; }
+
+    .disclaimer { font-size: 0.88rem; color: #475569; line-height: 1.6; max-width: 960px; }
   </style>
 </head>
 <body>
 <div class="page">
-
-  <!-- Barra superior -->
-  <div class="top-bar">
-    <div class="crumbs">
-      <a href="index.html">Portal del Inversionista</a>
-      <span>›</span>
-      <span class="current">Seguridad y transparencia</span>
-    </div>
-    <a class="btn-small" href="index.html">
-      ← Volver al panel
-    </a>
+  <div class="top-nav">
+    <a href="index.html" class="pill-link">← Volver al panel</a>
   </div>
 
-  <!-- Hero principal -->
-  <section class="hero">
-    <div>
-      <div class="hero-tag">
-        🛡️ Seguridad &amp; Cumplimiento
-      </div>
-      <h1>Seguridad y transparencia para tus inversiones</h1>
-      <p>
-        Puerto Rico Real Estate Fund LLC es una compañía legalmente constituida en el Estado Libre Asociado de Puerto Rico.
-        Esta página resume nuestro marco regulatorio, nuestros registros oficiales y los documentos que respaldan que
-        eres parte de una estructura real, formal y diseñada para proteger al inversionista.
-      </p>
-      <div class="hero-highlight">
-        ✅ Compañía real, verificada y registrada · 🧾 Documentos oficiales disponibles · ⚖️ Operamos bajo normativa de EE. UU. y Puerto Rico
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="badge-stack">
-        <div class="badge-title">
-          🏛️ Registro corporativo verificado
-        </div>
-        <p class="muted" style="font-size:0.86rem; margin-bottom:6px;">
-          Puerto Rico Real Estate Fund LLC está inscrita en el Registro de Corporaciones del Departamento de Estado de Puerto Rico.
-        </p>
-        <a class="cred-link" href="https://rcp.estado.pr.gov/es/entity-information?c=568126-1511" target="_blank" rel="noopener noreferrer">
-          <span class="icon">🔗</span>
-          Ver registro oficial en el Departamento de Estado
-        </a>
-      </div>
+  <header class="section">
+    <h1 class="page-title">Seguridad y Transparencia</h1>
+    <p class="lead">
+      Conoce la información legal, los documentos oficiales y el marco regulatorio que sustentan a Puerto Rico Real Estate Fund LLC.
+    </p>
+  </header>
 
-      <div class="badge-stack">
-        <div class="badge-title">
-          📜 Sello de Cumplimiento Regulatorio
-        </div>
-        <div class="badge-grid">
-          <span class="mini-pill">Regulation S · Securities Act 1933</span>
-          <span class="mini-pill">Rule 506(c) · Regulation D</span>
-          <span class="mini-pill">No Investment Company · ICA 1940 §3(b)(1)</span>
-          <span class="mini-pill">KYC / AML · FATF · Wolfsberg</span>
-        </div>
-      </div>
+  <section class="section" aria-labelledby="info-legal-title">
+    <h2 class="section-title" id="info-legal-title">Información Legal de la Compañía</h2>
+    <p><strong>Nombre legal de la compañía:</strong><br>Puerto Rico Real Estate Fund LLC</p>
+    <p><strong>Actividad:</strong><br>Puerto Rico Real Estate Fund LLC adquiere, desarrolla, opera y vende proyectos inmobiliarios de diversa escala —principalmente urbanizaciones, residencias y edificios multifamiliares— y permite que inversionistas participen en su crecimiento mediante la adquisición de participación societaria en la compañía.</p>
+    <p><strong>Registro oficial:</strong><br>La compañía está debidamente registrada en el Departamento de Estado del Estado Libre Asociado de Puerto Rico.</p>
+    <a class="pill-link" href="https://rcp.estado.pr.gov/es/entity-information?c=568126-1511" target="_blank" rel="noopener noreferrer">Ver Registro Oficial</a>
+  </section>
 
-      <div class="reg-banner">
-        <div class="reg-banner-icon">ℹ️</div>
-        <div>
-          Esta información se presenta con fines informativos y de transparencia. No constituye asesoramiento legal,
-          fiscal ni una oferta pública de valores. Toda inversión implica riesgos, incluyendo la posible pérdida total o parcial del capital invertido.
-        </div>
+  <section class="section" aria-labelledby="docs-title">
+    <h2 class="section-title" id="docs-title">Documentos Legales Oficiales</h2>
+    <p class="lead" style="max-width: 900px;">
+      Los siguientes documentos oficiales han sido emitidos por el Departamento de Estado y el Departamento de Hacienda de Puerto Rico. Brindan verificación formal de que Puerto Rico Real Estate Fund LLC existe legalmente, está activa y cumple con sus obligaciones registrales y contributivas.
+    </p>
+    <div class="doc-grid">
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Existencia</div>
+        <div class="doc-desc">Confirma que la compañía está vigente y registrada oficialmente.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1bZllARXb3iVF2mUsGr7Glt50xKAed7kV/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Organización como LLC</div>
+        <div class="doc-desc">Acredita la constitución legal de Puerto Rico Real Estate Fund LLC como compañía de responsabilidad limitada.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1koP3DTKFQEglLVLGwJP0QmH3A0BU1hy6/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Persona Jurídica</div>
+        <div class="doc-desc">Identifica a la compañía como una entidad jurídica ante las autoridades competentes.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1n5TXaercKbqI4LcOoR9ZOlKddsll638n/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-title">Certificado de Registro de Comerciante</div>
+        <div class="doc-desc">Confirma que la empresa está registrada ante Hacienda para poder operar comercialmente.</div>
+        <a class="doc-btn" href="https://drive.google.com/file/d/1BxNDDloIUJ1XfAOYDj_Gikl4GjTul1C3/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Ver documento</a>
       </div>
     </div>
   </section>
 
-  <!-- Contenido principal -->
-  <div class="sections">
-
-    <!-- Columna izquierda: marco regulatorio, protección, AML -->
-    <div>
-      <!-- Marco regulatorio -->
-      <section class="section-card">
-        <h2 class="section-title">Marco regulatorio de nuestra oferta</h2>
-        <p class="section-sub">
-          Nuestra estructura está diseñada para ofrecer participación en proyectos inmobiliarios propios, cumpliendo con las
-          exenciones disponibles en la normativa de valores de Estados Unidos y Puerto Rico.
-        </p>
-        <ul class="reg-list">
-          <li>
-            <span class="bullet">●</span>
-            <div>
-              <strong>Oferta bajo Regulation S (Securities Act de 1933).</strong><br />
-              Nuestra oferta a inversionistas no estadounidenses se realiza al amparo de la Regulation S, exclusivamente
-              para personas que no sean “U.S. Persons” y que invierten desde fuera de los Estados Unidos.
-            </div>
-          </li>
-          <li>
-            <span class="bullet">●</span>
-            <div>
-              <strong>Rule 506(c) de Regulation D.</strong><br />
-              Para inversionistas acreditados residentes en Estados Unidos, la estructura permite, en su caso, realizar ofertas
-              privadas bajo la exención prevista en la Regla 506(c), dirigida únicamente a “accredited investors”.
-            </div>
-          </li>
-          <li>
-            <span class="bullet">●</span>
-            <div>
-              <strong>No somos una “Investment Company” bajo el Investment Company Act de 1940.</strong><br />
-              Puerto Rico Real Estate Fund LLC no se dedica a invertir en “investment securities” en sentido financiero,
-              sino a adquirir, desarrollar, construir, operar y vender proyectos inmobiliarios propios. Nuestra actividad principal
-              es operativa y de desarrollo inmobiliario, lo que encuadra en la exclusión de la Sección 3(b)(1) del Investment Company Act.
-            </div>
-          </li>
-          <li>
-            <span class="bullet">●</span>
-            <div>
-              <strong>Compañía de responsabilidad limitada bajo la ley de Puerto Rico.</strong><br />
-              Operamos como Limited Liability Company (LLC) organizada conforme a las leyes del Estado Libre Asociado de Puerto Rico,
-              con un Operating Agreement que regula internamente la estructura de gobernanza, derechos económicos y proceso de
-              admisión de inversionistas.
-            </div>
-          </li>
-          <li>
-            <span class="bullet">●</span>
-            <div>
-              <strong>Estructura centrada en proyectos propios, no en terceros.</strong><br />
-              El Fondo no actúa como un vehículo que invierte en valores de terceros, sino como desarrollador y propietario
-              de proyectos inmobiliarios específicos. Los inversionistas participan en la compañía y en su portafolio de proyectos,
-              no en un portafolio de títulos financieros.
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- Protección del inversionista -->
-      <section class="section-card">
-        <h2 class="section-title">Cómo protegemos al inversionista</h2>
-        <p class="section-sub">
-          La seguridad no es solo legal: también es operativa, documental y tecnológica. Estos son algunos de los principios que seguimos.
-        </p>
-        <ul class="shield-list">
-          <li>
-            <span class="icon">🔐</span>
-            <div>
-              <strong>Portal en entorno seguro (HTTPS).</strong><br />
-              El acceso al Portal del Inversionista se realiza a través de conexiones cifradas (SSL/HTTPS), lo que protege la
-              información intercambiada entre tu navegador y nuestros servidores.
-            </div>
-          </li>
-          <li>
-            <span class="icon">🧾</span>
-            <div>
-              <strong>Documentación contractual clara y disponible.</strong><br />
-              El Private Placement Memorandum (PPM), el Operating Agreement y el Subscription Agreement describen la estructura,
-              los riesgos, el retorno preferencial y las condiciones de participación, de forma que el inversionista pueda tomar decisiones informadas.
-            </div>
-          </li>
-          <li>
-            <span class="icon">🛡️</span>
-            <div>
-              <strong>Proceso KYC / AML robusto.</strong><br />
-              Solicitamos información y documentos de identificación, domicilio, origen de fondos y datos bancarios para cumplir
-              con estándares internacionales (FATF/GAFI, Basel, Wolfsberg) y con nuestras políticas internas de prevención de lavado de dinero.
-            </div>
-          </li>
-          <li>
-            <span class="icon">🏦</span>
-            <div>
-              <strong>Transferencias solo a cuentas corporativas.</strong><br />
-              No recibimos fondos a través de esta página web. Una vez aprobada la inversión y firmado el Subscription Agreement,
-              los datos de las cuentas bancarias corporativas se envían directamente al inversionista por canales oficiales.
-            </div>
-          </li>
-          <li>
-            <span class="icon">📊</span>
-            <div>
-              <strong>Transparencia en la gestión del portafolio.</strong><br />
-              El objetivo del portal es que el inversionista pueda seguir de cerca la evolución de los proyectos,
-              el estado de su capital invertido y los retornos preferenciales pagados o devengados.
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- Política interna AML -->
-      <section class="section-card">
-        <h2 class="section-title">Política interna de AML y Debida Diligencia</h2>
-        <p class="aml-summary">
-          Nuestra política interna de prevención de lavado de dinero y debida diligencia se basa en los <strong>Wolfsberg AML Principles for Private Banking</strong>
-          y en los requisitos de <strong>Regulation S</strong>, adaptados a la realidad de un vehículo de inversión privado inmobiliario.
-        </p>
-        <button class="aml-trigger" type="button" id="amlOpenBtn">
-          <span>📜</span>
-          Ver política AML interna completa
-        </button>
-      </section>
-    </div>
-
-    <!-- Columna derecha: credenciales y documentos -->
-    <aside>
-      <!-- Credenciales / Módulo visual -->
-      <section class="section-card">
-        <h2 class="section-title">Credenciales y registros oficiales</h2>
-        <p class="section-sub">
-          Estos elementos permiten verificar que Puerto Rico Real Estate Fund LLC existe legalmente y está autorizada para operar.
-        </p>
-        <div class="credentials-grid">
-          <div class="cred-card">
-            <div class="cred-pill">🏛️ Registro de corporaciones</div>
-            <div class="cred-title">Registro en el Departamento de Estado</div>
-            <p class="cred-text">
-              Consulta directa en el Registro de Corporaciones del Estado Libre Asociado de Puerto Rico.
-            </p>
-            <a class="cred-link" href="https://rcp.estado.pr.gov/es/entity-information?c=568126-1511" target="_blank" rel="noopener noreferrer">
-              <span class="icon">🔗</span> Ver registro oficial
-            </a>
-          </div>
-          <div class="cred-card">
-            <div class="cred-pill">📌 Estructura legal</div>
-            <div class="cred-title">Limited Liability Company (LLC)</div>
-            <p class="cred-text">
-              Compañía de responsabilidad limitada con Operating Agreement que regula la relación entre el miembro gestor y los inversionistas.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Documentos legales -->
-      <section class="section-card">
-        <h2 class="section-title">Documentos legales de la compañía</h2>
-        <p class="section-sub">
-          Copias de los certificados oficiales emitidos por las autoridades competentes en Puerto Rico.
-        </p>
-        <div class="doc-list">
-          <div class="doc-item">
-            <div class="doc-title">Certificado de Existencia</div>
-            <div class="doc-desc">Confirma que la entidad está vigente y debidamente registrada.</div>
-            <div class="doc-actions">
-              <span class="doc-tag">Documento oficial</span>
-              <a class="doc-link" href="https://drive.google.com/file/d/1bZllARXb3iVF2mUsGr7Glt50xKAed7kV/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">
-                <span>Ver certificado</span> <span>📄</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="doc-item">
-            <div class="doc-title">Certificado de Organización como LLC</div>
-            <div class="doc-desc">Acredita la constitución de Puerto Rico Real Estate Fund LLC como compañía de responsabilidad limitada.</div>
-            <div class="doc-actions">
-              <span class="doc-tag">Documento oficial</span>
-              <a class="doc-link" href="https://drive.google.com/file/d/1koP3DTKFQEglLVLGwJP0QmH3A0BU1hy6/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">
-                <span>Ver certificado</span> <span>📄</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="doc-item">
-            <div class="doc-title">Certificado de Persona Jurídica</div>
-            <div class="doc-desc">Identifica a la compañía como persona jurídica ante las autoridades correspondientes.</div>
-            <div class="doc-actions">
-              <span class="doc-tag">Documento oficial</span>
-              <a class="doc-link" href="https://drive.google.com/file/d/1n5TXaercKbqI4LcOoR9ZOlKddsll638n/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">
-                <span>Ver certificado</span> <span>📄</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="doc-item">
-            <div class="doc-title">Certificado de Registro de Comerciante</div>
-            <div class="doc-desc">Registro de Comerciante emitido por el Departamento de Hacienda de Puerto Rico.</div>
-            <div class="doc-actions">
-              <span class="doc-tag">Obligación contributiva</span>
-              <a class="doc-link" href="https://drive.google.com/file/d/1BxNDDloIUJ1XfAOYDj_Gikl4GjTul1C3/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">
-                <span>Ver certificado</span> <span>📄</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </aside>
-  </div>
-
-  <!-- Disclaimer -->
-  <section class="disclaimer">
-    <strong>Aviso importante:</strong> La información contenida en esta página tiene fines exclusivamente informativos y de transparencia.
-    No constituye una oferta pública de valores ni un consejo de inversión, legal o fiscal. Toda decisión de inversión debe tomarse
-    tras revisar la documentación oficial (PPM, Operating Agreement, Subscription Agreement y formulario KYC/AML), evaluar los riesgos
-    y, en su caso, consultar con asesores profesionales independientes. La participación está limitada a los inversionistas que cumplan
-    con los requisitos aplicables bajo Regulation S y/o Regulation D, según corresponda.
+  <section class="section" aria-labelledby="marco-title">
+    <h2 class="section-title" id="marco-title">Marco Regulatorio de Nuestras Ofertas</h2>
+    <p>
+      Puerto Rico Real Estate Fund LLC estructura sus ofertas de inversión conforme a las exenciones disponibles bajo la legislación federal de valores de Estados Unidos y la normativa del Estado Libre Asociado de Puerto Rico.
+    </p>
+    <p>
+      Las ofertas dirigidas a inversionistas internacionales se realizan bajo Regulation S del Securities Act de 1933, lo cual permite efectuar ventas de participaciones exclusivamente fuera de Estados Unidos y únicamente a personas que no sean “U.S. Persons”.
+    </p>
+    <p>
+      Asimismo, para ciertos casos aplicables, pueden estructurarse ofertas privadas dirigidas a inversionistas acreditados residentes en Estados Unidos conforme a Rule 506(c) de Regulation D.
+    </p>
+    <p>
+      Puerto Rico Real Estate Fund LLC no es una “investment company” bajo el Investment Company Act de 1940, ya que no se dedica a invertir en valores de terceros, sino en proyectos inmobiliarios propios. Su actividad principal consiste en adquirir, desarrollar y operar bienes raíces, lo que ubica a la compañía dentro de la exclusión prevista en la Sección 3(b)(1) del Acta.
+    </p>
   </section>
-</div>
 
-<!-- Modal Política AML -->
-<div class="modal-backdrop" id="amlModal">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="amlModalTitle">
-    <div class="modal-header">
-      <div class="modal-title" id="amlModalTitle">Política interna de AML y Debida Diligencia</div>
-      <button class="modal-close" type="button" id="amlCloseBtn" aria-label="Cerrar">✕</button>
-    </div>
-    <div class="modal-body">
+  <section class="aml-card" aria-labelledby="aml-title">
+    <h2 class="section-title" id="aml-title">Política Interna de Prevención de Lavado de Dinero (AML)</h2>
+    <p class="aml-summary">Nuestra política interna de prevención de lavado de dinero y debida diligencia se basa en los principios del Wolfsberg Group para banca privada y en las mejores prácticas de cumplimiento aplicables a ofertas bajo Regulation S.</p>
+    <button class="aml-toggle" type="button" id="amlToggle">Ver política completa</button>
+    <div class="aml-content" id="amlContent">
       <h3>POLÍTICA INTERNA DE PREVENCIÓN DE LAVADO DE DINERO (AML) Y DEBIDA DILIGENCIA<br/>
       PUERTO RICO REAL ESTATE FUND LLC</h3>
       <p><em>Basada en los Wolfsberg AML Principles for Private Banking y en Regulation S</em></p>
@@ -1083,23 +445,19 @@
         el personal relevante, garantizando que el programa AML de la Compañía se mantenga alineado con las mejores prácticas internacionales.
       </p>
     </div>
-  </div>
+  </section>
+
+  <footer class="disclaimer">
+    Esta información se presenta con fines informativos y de transparencia. No constituye asesoramiento legal, fiscal ni una oferta pública de valores. Toda inversión implica riesgos, incluyendo la posible pérdida total o parcial del capital invertido.
+  </footer>
 </div>
 
 <script>
-  // Toggle para mostrar/ocultar la política AML completa
-  const amlOpenBtn = document.getElementById('amlOpenBtn');
-  const amlModal = document.getElementById('amlModal');
-  const amlCloseBtn = document.getElementById('amlCloseBtn');
-
-  function toggleAmlModal(show) {
-    amlModal.classList.toggle('open', show);
-  }
-
-  amlOpenBtn.addEventListener('click', () => toggleAmlModal(true));
-  amlCloseBtn.addEventListener('click', () => toggleAmlModal(false));
-  amlModal.addEventListener('click', (e) => {
-    if (e.target === amlModal) toggleAmlModal(false);
+  const amlToggle = document.getElementById('amlToggle');
+  const amlContent = document.getElementById('amlContent');
+  amlToggle.addEventListener('click', () => {
+    const isOpen = amlContent.classList.toggle('open');
+    amlToggle.textContent = isOpen ? 'Ocultar política completa' : 'Ver política completa';
   });
 </script>
 </body>
