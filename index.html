@@ -37,6 +37,56 @@
       max-width: 1200px;
     }
 
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      position: sticky;
+      top: 10px;
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+
+    .nav-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.12s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+      border-color: var(--primary-soft);
+      background: #f9fafb;
+    }
+
+    .nav-link.active {
+      color: var(--primary);
+      background: var(--primary-soft);
+      border-color: var(--primary-soft);
+    }
+
     .dashboard-header {
       margin-bottom: 20px;
     }
@@ -279,6 +329,15 @@
 </head>
 <body>
 <div class="dashboard">
+
+  <nav class="top-nav" aria-label="Menú principal">
+    <div class="nav-title">Portal PRRE Fund</div>
+    <div class="nav-links">
+      <a class="nav-link active" href="index.html">Panel</a>
+      <a class="nav-link" href="nueva-inversion.html">Nueva Inversión</a>
+      <a class="nav-link" href="seguridad-transparencia.html">Seguridad y Transparencia</a>
+    </div>
+  </nav>
 
   <!-- ENCABEZADO -->
   <header class="dashboard-header">
