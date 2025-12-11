@@ -4,16 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal del Proyecto – PRRE Fund</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css"
-    rel="stylesheet"
-  />
   <style>
     :root {
-      --bg: #0b1120;
-      --text: #e2e8f0;
-      --border: #1f2937;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --text: #0f172a;
+      --muted: #6b7280;
       --primary: #0f766e;
+      --primary-soft: #e0f5f2;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --shadow: 0 16px 35px rgba(15, 23, 42, 0.12);
+      --shadow-soft: 0 12px 24px rgba(15, 23, 42, 0.06);
     }
 
     * {
@@ -26,814 +31,696 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 24px 16px 40px;
+      padding: 26px 16px 44px;
+      display: flex;
+      justify-content: center;
     }
 
     .page {
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto 24px;
     }
 
+    /* Navegación */
     .top-nav {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 14px 18px;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #fff;
       border: 1px solid var(--border);
-      border-radius: 16px;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.22);
+      border-radius: 14px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 22px;
+      position: sticky;
+      top: 12px;
+      z-index: 10;
     }
 
-    .nav-title {
-      font-weight: 700;
-      font-size: 16px;
-      letter-spacing: 0.01em;
-      color: #e2e8f0;
+    .brand {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1rem;
+      text-decoration: none;
     }
 
     .nav-links {
       display: flex;
-      gap: 12px;
-      align-items: center;
+      gap: 10px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
-    .nav-link,
-    .nav-cta {
-      text-decoration: none;
-      color: #cbd5e1;
-      padding: 10px 14px;
-      border-radius: 12px;
+    .nav-link {
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: var(--muted);
       font-weight: 600;
-      font-size: 13px;
+      text-decoration: none;
       border: 1px solid transparent;
       transition: 0.15s ease;
     }
 
     .nav-link:hover {
-      color: #38bdf8;
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.08);
+      color: var(--primary);
+      border-color: var(--border);
+      background: #f8fafc;
     }
 
     .nav-link.active {
-      color: #0f172a;
-      background: #38bdf8;
-      border-color: #38bdf8;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border-color: #b8e9de;
     }
 
-    .nav-cta {
-      background: var(--primary);
-      color: #ecfeff;
-      padding: 10px 16px;
-      box-shadow: 0 12px 22px rgba(15, 118, 110, 0.28);
+    /* Encabezado */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
 
-    .nav-cta:hover {
-      background: #0d9488;
-      box-shadow: 0 14px 26px rgba(13, 148, 136, 0.3);
+    .page-title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 720px;
+      line-height: 1.5;
+    }
+
+    /* Layout principal */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 18px 18px 20px;
+    }
+
+    .card + .card { margin-top: 10px; }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .pill.success { background: #ecfdf3; color: #15803d; border: 1px solid #bbf7d0; }
+    .pill.warn { background: #fffbeb; color: #92400e; border: 1px solid #fcd34d; }
+    .pill.muted { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+
+    /* Hero */
+    .hero-card { position: relative; overflow: hidden; }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.12), transparent 36%),
+        radial-gradient(circle at 80% 0%, rgba(14, 165, 233, 0.16), transparent 40%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .mini-grid { grid-template-columns: 1fr; }
+    }
+
+    .metric-card {
+      background: rgba(15, 118, 110, 0.06);
+      border: 1px solid #cceae4;
+      border-radius: 14px;
+      padding: 12px 14px;
+    }
+
+    .metric-label { font-size: 0.9rem; color: var(--muted); }
+    .metric-value { font-size: 1.2rem; font-weight: 800; color: #0f766e; margin-top: 6px; }
+
+    .progress {
+      width: 100%;
+      height: 10px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 6px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #0f766e, #14b8a6);
+      width: 0%;
+      transition: width 0.24s ease;
+    }
+
+    /* Documentos e inversión */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .doc-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 12px 13px;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .doc-card a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .doc-card p { color: var(--muted); font-size: 0.9rem; }
+
+    .investment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .investment-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .investment-rate { font-size: 2rem; font-weight: 800; color: #0ea5e9; }
+    .investment-min { color: var(--muted); font-size: 0.95rem; }
+    .investment-title { font-weight: 800; margin: 6px 0 4px; }
+
+    /* Pasos */
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .step-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 14px 12px;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    @media (max-width: 560px) {
+      .step-card { grid-template-columns: 1fr; }
+      .step-number { width: 100%; max-width: 52px; }
+    }
+
+    .step-number {
+      height: 52px;
+      width: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: var(--primary);
+      background: #ecfdf3;
+    }
+
+    .step-header { display: flex; justify-content: space-between; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .badge.locked { background: #f8fafc; color: #94a3b8; border-color: #e2e8f0; }
+    .badge.current { background: #e0f2fe; color: #075985; border-color: #bfdbfe; }
+    .badge.completed { background: #ecfdf3; color: #15803d; border-color: #bbf7d0; }
+
+    .step-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .btn.soft { background: #ecfdf3; border-color: #bbf7d0; color: #166534; }
+    .btn.link { background: #f8fafc; color: var(--primary); border-color: #dbeafe; }
+
+    .btn:disabled { cursor: not-allowed; opacity: 0.6; }
+    .btn:hover:not(:disabled) { filter: brightness(0.97); box-shadow: var(--shadow-soft); }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 20;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 18px;
+      width: min(520px, 100%);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.24);
+    }
+
+    .modal-header { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 8px; }
+    .modal-title { font-weight: 800; font-size: 1.05rem; }
+    .modal-close { background: none; border: none; color: var(--muted); cursor: pointer; font-weight: 700; }
+
+    .bank-row { display: flex; justify-content: space-between; gap: 10px; font-size: 0.93rem; padding: 8px 10px; border-radius: 10px; background: #f8fafc; }
+    .bank-label { color: var(--muted); }
+
+    /* Notas */
+    .note {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
     }
   </style>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
   <div class="page">
-    <nav class="top-nav" aria-label="Navegación principal">
-      <div class="nav-title">Portal del Inversionista</div>
+    <nav class="top-nav">
+      <a href="index.html" class="brand">PRRE Fund</a>
       <div class="nav-links">
-        <a class="nav-link" href="index.html">Dashboard</a>
-        <a class="nav-link" href="portafolio.html">Nueva Inversión</a>
-        <a class="nav-link" href="kyc-aml.html">KYC / AML</a>
-        <a class="nav-link" href="subscription-agreement.html">Subscription Agreement</a>
-        <a class="nav-link" href="seguridad-transparencia.html">Seguridad y Transparencia</a>
-        <a class="nav-link active" href="portal-del-proyecto.html">Portal del Proyecto</a>
-        <a class="nav-cta" href="portafolio.html">Nueva inversión</a>
+        <a href="index.html" class="nav-link">Dashboard</a>
+        <a href="nueva-inversion.html" class="nav-link">Nueva inversión</a>
+        <a href="portafolio.html" class="nav-link">Portafolio</a>
+        <a href="portal-del-proyecto.html" class="nav-link active">Portal del Proyecto</a>
+        <a href="seguridad-transparencia.html" class="nav-link">Seguridad</a>
+        <a href="kyc-aml.html" class="nav-link">KYC / AML</a>
+        <a href="subscription-agreement.html" class="nav-link">Subscription Agreement</a>
       </div>
     </nav>
-  </div>
 
-  <div id="root"></div>
+    <header class="page-header">
+      <div>
+        <h1 class="page-title">Portal del Proyecto</h1>
+        <p class="page-subtitle">Sigue el avance de tu inversión en el portafolio residencial, descarga documentos clave y completa los pasos necesarios en orden.</p>
+      </div>
+      <div class="pill warn" id="overallStatus">En revisión</div>
+    </header>
 
-  <script type="text/babel">
-    const { useState } = React;
+    <section class="two-col">
+      <div class="card hero-card">
+        <div class="hero-grid">
+          <div>
+            <div class="pill muted" style="margin-bottom: 8px;">Portafolio Residencial</div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Valle Tania & La Canasta</h2>
+            <p class="section-subtitle">Desarrollo y estabilización de comunidades residenciales en Puerto Rico con flujos de caja proyectados de largo plazo.</p>
 
-    const ProjectDetailPanel = () => {
-      const [steps, setSteps] = useState({
-        docs: "current",
-        subscription: "locked",
-        aml: "locked",
-        review: "locked",
-        wire: "locked",
-      });
-
-      const [isApproved, setIsApproved] = useState(false);
-      const [showBankModal, setShowBankModal] = useState(false);
-      const [wireProofName, setWireProofName] = useState(null);
-
-      const project = {
-        name: "Portafolio Residencial Valle Tania & La Canasta",
-        location: "Puerto Rico",
-        strategy:
-          "Desarrollo de urbanizaciones y edificios residenciales con enfoque en creación de comunidades y generación de flujo de caja estable.",
-        term: "Plazo mínimo de permanencia: 24 meses",
-        ppmUrl: "/docs/ppm-ejemplo.pdf",
-        operatingAgreementUrl: "/docs/operating-agreement-ejemplo.pdf",
-        subscriptionUrl: "https://tusitio.com/subscription-agreement",
-        amlUrl: "https://tusitio.com/aml-verification",
-        bankInfo: {
-          bankName: "Banco de Ejemplo",
-          beneficiary: "Puerto Rico Real Estate Fund LLC",
-          accountNumber: "000123456789",
-          routingNumber: "021000021",
-          swift: "BOFAUS3N",
-          referenceNote: "Nombre del inversor + Proyecto Valle Tania",
-        },
-      };
-
-      const investmentClasses = [
-        {
-          min: "USD 50.000",
-          rate: "9%",
-          title: "Clase D",
-          description:
-            "Ideal para quienes desean comenzar con un aporte inicial accesible.",
-          footnote: "Class D — Oferta Internacional bajo Regulation S.",
-        },
-        {
-          min: "USD 250.000",
-          rate: "10%",
-          title: "Clase C",
-          description:
-            "Orientada a quienes buscan una participación más significativa dentro del Fondo.",
-          footnote: "Class C — Oferta Internacional bajo Regulation S.",
-        },
-        {
-          min: "USD 1.000.000",
-          rate: "11%",
-          title: "Clase B",
-          description:
-            "Para inversores que desean participar con un capital mayor y un rendimiento más alto.",
-          footnote: "Class B — Oferta Internacional bajo Regulation S.",
-        },
-      ];
-
-      const totalSteps = 5;
-      const completedCount =
-        (steps.docs === "completed" ? 1 : 0) +
-        (steps.subscription === "completed" ? 1 : 0) +
-        (steps.aml === "completed" ? 1 : 0) +
-        (steps.review === "completed" ? 1 : 0) +
-        (steps.wire === "completed" ? 1 : 0);
-
-      const progressPercent = (completedCount / totalSteps) * 100;
-
-      const handleCompleteStep = (key) => {
-        setSteps((prev) => {
-          const updated = { ...prev };
-
-          if (updated[key] === "locked") return prev;
-
-          updated[key] = "completed";
-
-          if (key === "docs" && updated.subscription === "locked") {
-            updated.subscription = "current";
-          }
-          if (key === "subscription" && updated.aml === "locked") {
-            updated.aml = "current";
-          }
-          if (key === "aml" && updated.review === "locked") {
-            updated.review = "current";
-          }
-
-          return updated;
-        });
-      };
-
-      const simulateApproval = () => {
-        setIsApproved(true);
-        setSteps((prev) => {
-          const updated = { ...prev };
-          updated.review = "completed";
-          if (updated.wire === "locked") {
-            updated.wire = "current";
-          }
-          return updated;
-        });
-      };
-
-      const handleUploadProof = (event) => {
-        const file = event.target.files?.[0];
-        if (file) {
-          setWireProofName(file.name);
-          setSteps((prev) => ({
-            ...prev,
-            wire: "completed",
-          }));
-        }
-      };
-
-      const renderStatusBadge = (status) => {
-        if (status === "completed") {
-          return (
-            <span className="inline-flex items-center rounded-full bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 text-xs font-medium">
-              <span className="mr-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Completado
-            </span>
-          );
-        }
-        if (status === "current") {
-          return (
-            <span className="inline-flex items-center rounded-full bg-sky-500/10 text-sky-400 px-2.5 py-0.5 text-xs font-medium">
-              <span className="mr-1 h-1.5 w-1.5 rounded-full bg-sky-400" />
-              En curso
-            </span>
-          );
-        }
-        return (
-          <span className="inline-flex items-center rounded-full bg-slate-600/40 text-slate-300 px-2.5 py-0.5 text-xs font-medium">
-            <span className="mr-1 h-1.5 w-1.5 rounded-full bg-slate-400" />
-            Bloqueado
-          </span>
-        );
-      };
-
-      return (
-        <div className="min-h-screen bg-slate-950 text-slate-50">
-          <div className="max-w-6xl mx-auto px-4 py-10 space-y-8">
-            <header className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Panel del proyecto
-              </p>
-              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-                <div>
-                  <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
-                    {project.name}
-                  </h1>
-                  <p className="mt-2 text-sm text-slate-300 max-w-2xl">
-                    {project.strategy}
-                  </p>
-                </div>
-                <div className="text-right text-xs sm:text-sm text-slate-300">
-                  <p className="font-medium">{project.location}</p>
-                  <p className="text-slate-400">{project.term}</p>
-                </div>
+            <div style="margin-top: 14px;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95rem;">
+                <span>Avance del proceso</span>
+                <span id="progressLabel">0 de 5 pasos</span>
               </div>
-            </header>
-
-            <section className="grid gap-6 lg:grid-cols-[minmax(0,1.5fr),minmax(0,2fr)]">
-              <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-gradient-to-br from-sky-900/70 via-slate-950 to-slate-950 p-6 flex flex-col justify-between">
-                <div className="absolute inset-0 pointer-events-none opacity-40">
-                  <div className="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-sky-500 blur-3xl" />
-                  <div className="absolute -left-10 bottom-0 h-40 w-40 rounded-full bg-indigo-500 blur-3xl" />
-                </div>
-
-                <div className="relative space-y-4">
-                  <h2 className="text-lg font-semibold">
-                    Resumen del portafolio
-                  </h2>
-                  <p className="text-sm text-slate-200">
-                    Este portafolio agrupa varios desarrollos residenciales
-                    en Puerto Rico, permitiendo al inversionista participar
-                    de nuestra compañía y de los flujos de caja generados
-                    por la venta y renta de las unidades.
-                  </p>
-                  <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5">
-                      <p className="text-slate-400">Tipo de activo</p>
-                      <p className="mt-1 font-semibold text-slate-50">
-                        Real estate residencial
-                      </p>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5">
-                      <p className="text-slate-400">Retorno preferencial</p>
-                      <p className="mt-1 font-semibold text-slate-50">
-                        9% – 11% anual
-                      </p>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5">
-                      <p className="text-slate-400">Frecuencia</p>
-                      <p className="mt-1 font-semibold text-slate-50">
-                        Interés preferencial anual
-                      </p>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5">
-                      <p className="text-slate-400">Horizonte</p>
-                      <p className="mt-1 font-semibold text-slate-50">
-                        Mínimo 24 meses
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="relative mt-5 flex items-center justify-between gap-4">
-                  <div className="flex-1">
-                    <p className="text-xs text-slate-300">
-                      Avance de tu proceso de inversión
-                    </p>
-                    <div className="mt-2 h-2 w-full rounded-full bg-slate-800 overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-sky-400 transition-all"
-                        style={{ width: `${progressPercent}%` }}
-                      />
-                    </div>
-                    <p className="mt-1.5 text-[11px] text-slate-400">
-                      {completedCount} de {totalSteps} pasos completados
-                    </p>
-                  </div>
-                  <div className="shrink-0 text-right">
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-slate-400">
-                      Estado general
-                    </p>
-                    <p className="mt-1 text-sm font-semibold">
-                      {isApproved ? "Aprobado" : "En revisión / pendiente"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-3">
-                {investmentClasses.map((cls) => (
-                  <div
-                    key={cls.title}
-                    className="flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/60 p-4 shadow-sm"
-                  >
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                        Inversión desde
-                      </p>
-                      <p className="mt-1 text-lg font-semibold">
-                        {cls.min}
-                      </p>
-                      <p className="mt-3 text-3xl font-semibold text-rose-400">
-                        {cls.rate}
-                        <span className="text-base text-slate-200 ml-1">
-                          anual*
-                        </span>
-                      </p>
-                      <p className="mt-1 text-xs text-slate-300">
-                        {cls.description}
-                      </p>
-                    </div>
-                    <div className="mt-4 text-[11px] text-slate-400">
-                      {cls.footnote}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="rounded-3xl border border-slate-800 bg-slate-900/60 p-5 space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                <div>
-                  <h2 className="text-sm font-semibold">
-                    Documentos del proyecto
-                  </h2>
-                  <p className="text-xs text-slate-300 mt-1">
-                    Antes de invertir, te recomendamos leer detenidamente
-                    el Private Placement Memorandum (PPM) y el Operating
-                    Agreement.
-                  </p>
-                </div>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <a
-                  href={project.ppmUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 hover:border-sky-500/70 hover:bg-slate-900/80 transition-colors"
-                >
-                  <div>
-                    <p className="text-sm font-medium">Private Placement Memorandum</p>
-                    <p className="text-xs text-slate-300">
-                      Detalles completos de la oferta y riesgos.
-                    </p>
-                  </div>
-                  <span className="ml-4 text-xs text-sky-400 group-hover:underline">
-                    Ver PPM
-                  </span>
-                </a>
-
-                <a
-                  href={project.operatingAgreementUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-950/60 px-4 py-3 hover:border-sky-500/70 hover:bg-slate-900/80 transition-colors"
-                >
-                  <div>
-                    <p className="text-sm font-medium">Operating Agreement</p>
-                    <p className="text-xs text-slate-300">
-                      Estructura de la compañía y derechos del inversor.
-                    </p>
-                  </div>
-                  <span className="ml-4 text-xs text-sky-400 group-hover:underline">
-                    Ver Operating Agreement
-                  </span>
-                </a>
-              </div>
-            </section>
-
-            <section className="space-y-3">
-              <div
-                className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-xs ${
-                  isApproved
-                    ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-100"
-                    : "border-amber-400/60 bg-amber-500/10 text-amber-100"
-                }`}
-              >
-                <div className="mt-0.5 h-2 w-2 rounded-full bg-current" />
-                <div>
-                  <p className="font-semibold">
-                    {isApproved
-                      ? "Tu inversión ha sido aprobada."
-                      : "Estamos revisando tu documentación."}
-                  </p>
-                  <p className="mt-1 opacity-90">
-                    {isApproved
-                      ? "Se habilitó el módulo de transferencia bancaria para que puedas completar tu aporte."
-                      : "Una vez que revisemos el Subscription Agreement y la verificación AML, te notificaremos por correo electrónico y el sistema mostrará tu estado como aprobado."}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={simulateApproval}
-                className="inline-flex items-center rounded-full border border-emerald-500/40 bg-emerald-500/5 px-3 py-1 text-[11px] text-emerald-200 hover:bg-emerald-500/10 transition-colors"
-              >
-                ⚙️ Simular aprobación (solo demo)
-              </button>
-            </section>
-
-            <section className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                <div>
-                  <h2 className="text-sm font-semibold">
-                    Pasos para invertir en este proyecto
-                  </h2>
-                  <p className="text-xs text-slate-300 mt-1">
-                    Completa los pasos en orden. Los pasos siguientes se
-                    desbloquean a medida que finalizas cada etapa.
-                  </p>
-                </div>
-              </div>
-
-              <ol className="space-y-4">
-                <li className="flex gap-3">
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold border ${
-                        steps.docs === "completed"
-                          ? "bg-emerald-500 text-slate-950 border-emerald-400"
-                          : steps.docs === "current"
-                          ? "bg-sky-500 text-slate-950 border-sky-400"
-                          : "bg-slate-800 text-slate-300 border-slate-600"
-                      }`}
-                    >
-                      0
-                    </div>
-                    <div className="h-full w-px bg-slate-700 mt-1" />
-                  </div>
-                  <div className="flex-1 rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <h3 className="text-sm font-medium">
-                          Revisar PPM y Operating Agreement
-                        </h3>
-                        <p className="text-xs text-slate-300 mt-1">
-                          Te sugerimos leer con detenimiento ambos documentos
-                          antes de avanzar con la inversión.
-                        </p>
-                      </div>
-                      {renderStatusBadge(steps.docs)}
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                      <a
-                        href={project.ppmUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900 px-3 py-1 hover:border-sky-500 hover:text-sky-300 transition-colors"
-                      >
-                        Ver PPM
-                      </a>
-                      <a
-                        href={project.operatingAgreementUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900 px-3 py-1 hover:border-sky-500 hover:text-sky-300 transition-colors"
-                      >
-                        Ver Operating Agreement
-                      </a>
-                      <button
-                        type="button"
-                        onClick={() => handleCompleteStep("docs")}
-                        className="inline-flex items-center rounded-full bg-sky-500 px-3 py-1 font-medium text-slate-950 hover:bg-sky-400 transition-colors"
-                      >
-                        Marcar como leído
-                      </button>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="flex gap-3">
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold border ${
-                        steps.subscription === "completed"
-                          ? "bg-emerald-500 text-slate-950 border-emerald-400"
-                          : steps.subscription === "current"
-                          ? "bg-sky-500 text-slate-950 border-sky-400"
-                          : "bg-slate-800 text-slate-300 border-slate-600"
-                      }`}
-                    >
-                      1
-                    </div>
-                    <div className="h-full w-px bg-slate-700 mt-1" />
-                  </div>
-                  <div className="flex-1 rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <h3 className="text-sm font-medium">
-                          Firmar el Subscription Agreement
-                        </h3>
-                        <p className="text-xs text-slate-300 mt-1">
-                          Serás redirigido a nuestra plataforma de firma
-                          electrónica para completar y firmar el acuerdo.
-                        </p>
-                      </div>
-                      {renderStatusBadge(steps.subscription)}
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                      <a
-                        href={project.subscriptionUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={`inline-flex items-center rounded-full px-3 py-1 font-medium transition-colors ${
-                          steps.subscription === "locked"
-                            ? "cursor-not-allowed bg-slate-800 text-slate-500 border border-slate-700"
-                            : "bg-sky-500 text-slate-950 hover:bg-sky-400 border border-sky-500"
-                        }`}
-                      >
-                        Ir a firmar Subscription Agreement
-                      </a>
-                      <button
-                        type="button"
-                        disabled={steps.subscription === "locked"}
-                        onClick={() => handleCompleteStep("subscription")}
-                        className={`inline-flex items-center rounded-full border px-3 py-1 transition-colors ${
-                          steps.subscription === "locked"
-                            ? "cursor-not-allowed border-slate-700 text-slate-500"
-                            : "border-emerald-400 text-emerald-200 hover:bg-emerald-500/10"
-                        }`}
-                      >
-                        Ya lo firmé
-                      </button>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="flex gap-3">
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold border ${
-                        steps.aml === "completed"
-                          ? "bg-emerald-500 text-slate-950 border-emerald-400"
-                          : steps.aml === "current"
-                          ? "bg-sky-500 text-slate-950 border-sky-400"
-                          : "bg-slate-800 text-slate-300 border-slate-600"
-                      }`}
-                    >
-                      2
-                    </div>
-                    <div className="h-full w-px bg-slate-700 mt-1" />
-                  </div>
-                  <div className="flex-1 rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <h3 className="text-sm font-medium">
-                          Completar verificación AML / KYC
-                        </h3>
-                        <p className="text-xs text-slate-300 mt-1">
-                          Deberás completar el formulario de debida diligencia
-                          y cargar la documentación requerida (identificación,
-                          prueba de domicilio, etc.).
-                        </p>
-                      </div>
-                      {renderStatusBadge(steps.aml)}
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                      <a
-                        href={project.amlUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={`inline-flex items-center rounded-full px-3 py-1 font-medium transition-colors ${
-                          steps.aml === "locked"
-                            ? "cursor-not-allowed bg-slate-800 text-slate-500 border border-slate-700"
-                            : "bg-sky-500 text-slate-950 hover:bg-sky-400 border border-sky-500"
-                        }`}
-                      >
-                        Ir al formulario AML
-                      </a>
-                      <button
-                        type="button"
-                        disabled={steps.aml === "locked"}
-                        onClick={() => handleCompleteStep("aml")}
-                        className={`inline-flex items-center rounded-full border px-3 py-1 transition-colors ${
-                          steps.aml === "locked"
-                            ? "cursor-not-allowed border-slate-700 text-slate-500"
-                            : "border-emerald-400 text-emerald-200 hover:bg-emerald-500/10"
-                        }`}
-                      >
-                        Ya completé AML
-                      </button>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="flex gap-3">
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold border ${
-                        steps.review === "completed"
-                          ? "bg-emerald-500 text-slate-950 border-emerald-400"
-                          : steps.review === "current"
-                          ? "bg-sky-500 text-slate-950 border-sky-400"
-                          : "bg-slate-800 text-slate-300 border-slate-600"
-                      }`}
-                    >
-                      3
-                    </div>
-                    <div className="h-full w-px bg-slate-700 mt-1" />
-                  </div>
-                  <div className="flex-1 rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <h3 className="text-sm font-medium">
-                          Revisión y aprobación por parte del Fondo
-                        </h3>
-                        <p className="text-xs text-slate-300 mt-1">
-                          Nuestro equipo revisará tu Subscription Agreement
-                          y la verificación AML. Una vez aprobado, recibirás
-                          el agreement contrafirmado y se habilitará el
-                          siguiente paso.
-                        </p>
-                      </div>
-                      {renderStatusBadge(steps.review)}
-                    </div>
-                    <p className="mt-3 text-[11px] text-slate-400">
-                      Recibirás un correo electrónico con el Subscription
-                      Agreement contrafirmado cuando tu inversión sea
-                      aprobada.
-                    </p>
-                  </div>
-                </li>
-
-                <li className="flex gap-3">
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold border ${
-                        steps.wire === "completed"
-                          ? "bg-emerald-500 text-slate-950 border-emerald-400"
-                          : steps.wire === "current"
-                          ? "bg-sky-500 text-slate-950 border-sky-400"
-                          : "bg-slate-800 text-slate-300 border-slate-600"
-                      }`}
-                    >
-                      4
-                    </div>
-                  </div>
-                  <div className="flex-1 rounded-2xl bg-slate-950/70 border border-slate-800 px-4 py-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div>
-                        <h3 className="text-sm font-medium">
-                          Transferencia bancaria y comprobante
-                        </h3>
-                        <p className="text-xs text-slate-300 mt-1">
-                          Realiza la transferencia a la cuenta del Fondo y
-                          carga el comprobante para que podamos asignar tu
-                          aporte al proyecto.
-                        </p>
-                      </div>
-                      {renderStatusBadge(steps.wire)}
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                      <button
-                        type="button"
-                        disabled={steps.wire === "locked"}
-                        onClick={() => setShowBankModal(true)}
-                        className={`inline-flex items-center rounded-full border px-3 py-1 transition-colors ${
-                          steps.wire === "locked"
-                            ? "cursor-not-allowed border-slate-700 text-slate-500"
-                            : "border-sky-500 text-sky-200 hover:bg-sky-500/10"
-                        }`}
-                      >
-                        Ver datos bancarios
-                      </button>
-                      <label
-                        className={`inline-flex items-center rounded-full border px-3 py-1 transition-colors cursor-pointer ${
-                          steps.wire === "locked"
-                            ? "border-slate-700 text-slate-500 cursor-not-allowed"
-                            : "border-emerald-400 text-emerald-200 hover:bg-emerald-500/10"
-                        }`}
-                      >
-                        <span>Cargar comprobante</span>
-                        <input
-                          type="file"
-                          className="hidden"
-                          disabled={steps.wire === "locked"}
-                          onChange={handleUploadProof}
-                        />
-                      </label>
-                      {wireProofName && (
-                        <span className="inline-flex items-center rounded-full bg-slate-800 px-3 py-1 text-[11px] text-slate-200">
-                          Comprobante cargado: {wireProofName}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </li>
-              </ol>
-            </section>
+              <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+            </div>
           </div>
-
-          {showBankModal && (
-            <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 px-4">
-              <div className="max-w-md w-full rounded-3xl border border-slate-700 bg-slate-950 p-5 space-y-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h2 className="text-sm font-semibold">
-                      Datos bancarios para la transferencia
-                    </h2>
-                    <p className="mt-1 text-xs text-slate-300">
-                      Utiliza la siguiente información para realizar tu
-                      transferencia bancaria al Fondo.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowBankModal(false)}
-                    className="text-xs text-slate-400 hover:text-slate-200"
-                  >
-                    Cerrar ✕
-                  </button>
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Banco</span>
-                    <span className="font-medium">
-                      {project.bankInfo.bankName}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Beneficiario</span>
-                    <span className="font-medium text-right">
-                      {project.bankInfo.beneficiary}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Cuenta</span>
-                    <span className="font-medium">
-                      {project.bankInfo.accountNumber}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">Routing / ABA</span>
-                    <span className="font-medium">
-                      {project.bankInfo.routingNumber}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-slate-400">SWIFT</span>
-                    <span className="font-medium">
-                      {project.bankInfo.swift}
-                    </span>
-                  </div>
-                  <div className="mt-3 rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-2">
-                    <p className="text-[11px] text-slate-300">
-                      <span className="font-semibold">Referencia:</span>{" "}
-                      {project.bankInfo.referenceNote}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-[11px] text-slate-500">
-                  Una vez realizada la transferencia, recuerda cargar el
-                  comprobante en el paso 4 del panel. Nuestro equipo
-                  confirmará la recepción de fondos y la activación de tu
-                  inversión.
-                </p>
+          <div>
+            <div class="mini-grid">
+              <div class="metric-card">
+                <p class="metric-label">Localización</p>
+                <p class="metric-value">Puerto Rico</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-label">Horizonte</p>
+                <p class="metric-value">24 meses mínimo</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-label">Retorno preferencial</p>
+                <p class="metric-value">9% - 11%</p>
+              </div>
+              <div class="metric-card">
+                <p class="metric-label">Frecuencia</p>
+                <p class="metric-value">Interés anual</p>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      );
+      </div>
+
+      <div class="card">
+        <div class="section-title">Clases de inversión</div>
+        <p class="section-subtitle" style="margin-bottom: 10px;">Selecciona la clase que mejor se ajuste a tu aporte. El rendimiento preferencial aumenta según el monto invertido.</p>
+        <div class="investment-grid">
+          <div class="investment-card">
+            <div class="investment-min">Desde USD 50,000</div>
+            <div class="investment-title">Clase D</div>
+            <div class="investment-rate">9%</div>
+            <p class="note">Ideal para comenzar con un aporte accesible. Oferta internacional bajo Regulation S.</p>
+          </div>
+          <div class="investment-card">
+            <div class="investment-min">Desde USD 250,000</div>
+            <div class="investment-title">Clase C</div>
+            <div class="investment-rate" style="color:#0f766e;">10%</div>
+            <p class="note">Para una participación más significativa dentro del Fondo. Oferta internacional bajo Regulation S.</p>
+          </div>
+          <div class="investment-card">
+            <div class="investment-min">Desde USD 1,000,000</div>
+            <div class="investment-title">Clase B</div>
+            <div class="investment-rate" style="color:#f97316;">11%</div>
+            <p class="note">Capital mayor con mayor retorno preferencial. Oferta internacional bajo Regulation S.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">Documentos del proyecto</div>
+      <p class="section-subtitle" style="margin-bottom: 12px;">Revisa y descarga el Private Placement Memorandum y el Operating Agreement antes de continuar.</p>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <a href="/docs/ppm-ejemplo.pdf" target="_blank">Private Placement Memorandum</a>
+          <p>Detalles de la oferta y riesgos asociados.</p>
+        </div>
+        <div class="doc-card">
+          <a href="/docs/operating-agreement-ejemplo.pdf" target="_blank">Operating Agreement</a>
+          <p>Estructura de la compañía y derechos de los inversores.</p>
+        </div>
+        <div class="doc-card">
+          <a href="https://tusitio.com/subscription-agreement" target="_blank">Subscription Agreement</a>
+          <p>Completa y firma electrónicamente tu acuerdo.</p>
+        </div>
+        <div class="doc-card">
+          <a href="https://tusitio.com/aml-verification" target="_blank">Formulario AML / KYC</a>
+          <p>Proceso de debida diligencia y validación de identidad.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">Pasos para invertir</div>
+      <p class="section-subtitle">Completa los pasos en orden. A medida que avances, se desbloquearán los siguientes.</p>
+
+      <div class="steps">
+        <div class="step-card" data-step="docs">
+          <div class="step-number">0</div>
+          <div>
+            <div class="step-header">
+              <div>
+                <div class="section-title" style="margin: 0; font-size: 1rem;">Revisar PPM y Operating Agreement</div>
+                <p class="note">Lee ambos documentos antes de avanzar. Puedes marcarlos como revisados para desbloquear el siguiente paso.</p>
+              </div>
+              <span class="badge" data-status="docs"></span>
+            </div>
+            <div class="step-actions">
+              <a class="btn link" href="/docs/ppm-ejemplo.pdf" target="_blank">Ver PPM</a>
+              <a class="btn link" href="/docs/operating-agreement-ejemplo.pdf" target="_blank">Ver Operating Agreement</a>
+              <button class="btn primary" data-complete="docs">Marcar como leído</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" data-step="subscription">
+          <div class="step-number">1</div>
+          <div>
+            <div class="step-header">
+              <div>
+                <div class="section-title" style="margin: 0; font-size: 1rem;">Firmar Subscription Agreement</div>
+                <p class="note">Accede a la plataforma de firma electrónica y confirma que completaste el acuerdo.</p>
+              </div>
+              <span class="badge" data-status="subscription"></span>
+            </div>
+            <div class="step-actions">
+              <a class="btn primary" data-link="subscription" href="https://tusitio.com/subscription-agreement" target="_blank">Ir a firmar</a>
+              <button class="btn soft" data-complete="subscription">Ya lo firmé</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" data-step="aml">
+          <div class="step-number">2</div>
+          <div>
+            <div class="step-header">
+              <div>
+                <div class="section-title" style="margin: 0; font-size: 1rem;">Completar verificación AML / KYC</div>
+                <p class="note">Sube tu identificación y documentos requeridos en el formulario de debida diligencia.</p>
+              </div>
+              <span class="badge" data-status="aml"></span>
+            </div>
+            <div class="step-actions">
+              <a class="btn primary" data-link="aml" href="https://tusitio.com/aml-verification" target="_blank">Ir al formulario</a>
+              <button class="btn soft" data-complete="aml">Ya completé AML</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" data-step="review">
+          <div class="step-number">3</div>
+          <div>
+            <div class="step-header">
+              <div>
+                <div class="section-title" style="margin: 0; font-size: 1rem;">Revisión y aprobación del Fondo</div>
+                <p class="note">Nuestro equipo validará tu acuerdo y la verificación AML. Recibirás el agreement contrafirmado al aprobarse.</p>
+              </div>
+              <span class="badge" data-status="review"></span>
+            </div>
+            <p class="note" style="margin-top: 8px;">Puedes simular la aprobación para ver cómo se habilita el siguiente paso.</p>
+            <div class="step-actions">
+              <button class="btn link" id="simulateApproval">Simular aprobación</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-card" data-step="wire">
+          <div class="step-number">4</div>
+          <div>
+            <div class="step-header">
+              <div>
+                <div class="section-title" style="margin: 0; font-size: 1rem;">Transferencia bancaria y comprobante</div>
+                <p class="note">Realiza la transferencia al Fondo y sube el comprobante para aplicar tu aporte al proyecto.</p>
+              </div>
+              <span class="badge" data-status="wire"></span>
+            </div>
+            <div class="step-actions">
+              <button class="btn link" id="openBankModal">Ver datos bancarios</button>
+              <label class="btn soft" style="cursor: pointer;">
+                Cargar comprobante
+                <input type="file" id="wireProof" style="display: none;" />
+              </label>
+              <span class="note" id="proofLabel" style="display:none;">Comprobante cargado.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal de banco -->
+  <div class="modal-backdrop" id="bankModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title">Datos bancarios para la transferencia</div>
+          <p class="note">Usa esta referencia al enviar tu aporte para una conciliación más rápida.</p>
+        </div>
+        <button class="modal-close" id="closeBankModal">✕</button>
+      </div>
+      <div class="bank-row"><span class="bank-label">Banco</span><span>Banco de Ejemplo</span></div>
+      <div class="bank-row"><span class="bank-label">Beneficiario</span><span>Puerto Rico Real Estate Fund LLC</span></div>
+      <div class="bank-row"><span class="bank-label">Cuenta</span><span>000123456789</span></div>
+      <div class="bank-row"><span class="bank-label">Routing / ABA</span><span>021000021</span></div>
+      <div class="bank-row"><span class="bank-label">SWIFT</span><span>BOFAUS3N</span></div>
+      <div class="bank-row" style="align-items: flex-start;">
+        <span class="bank-label">Referencia</span>
+        <span>Nombre del inversor + Proyecto Valle Tania</span>
+      </div>
+      <p class="note" style="margin-top: 10px;">Recuerda subir el comprobante en el paso 4 para asignar tu inversión.</p>
+    </div>
+  </div>
+
+  <script>
+    const steps = {
+      docs: 'current',
+      subscription: 'locked',
+      aml: 'locked',
+      review: 'locked',
+      wire: 'locked',
     };
 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<ProjectDetailPanel />);
+    let isApproved = false;
+
+    const badgeLabels = {
+      locked: 'Bloqueado',
+      current: 'En curso',
+      completed: 'Completado',
+    };
+
+    function updateProgress() {
+      const total = 5;
+      const completed = Object.values(steps).filter((s) => s === 'completed').length;
+      const percent = (completed / total) * 100;
+      document.getElementById('progressBar').style.width = `${percent}%`;
+      document.getElementById('progressLabel').textContent = `${completed} de ${total} pasos`;
+      const overall = document.getElementById('overallStatus');
+      if (isApproved) {
+        overall.textContent = 'Aprobado';
+        overall.className = 'pill success';
+      } else {
+        overall.textContent = steps.review === 'completed' ? 'Pendiente de transferencia' : 'En revisión';
+        overall.className = 'pill warn';
+      }
+    }
+
+    function refreshStatuses() {
+      updateProgress();
+      Object.entries(steps).forEach(([key, status]) => {
+        const badge = document.querySelector(`[data-status="${key}"]`);
+        if (!badge) return;
+        badge.textContent = badgeLabels[status];
+        badge.className = `badge ${status}`;
+        const stepCard = document.querySelector(`[data-step="${key}"]`);
+        const buttons = stepCard ? stepCard.querySelectorAll('button, a, input[type="file"]') : [];
+        buttons.forEach((btn) => {
+          if (btn.dataset.link || btn.tagName === 'A') {
+            btn.classList.toggle('disabled', status === 'locked');
+            btn.style.pointerEvents = status === 'locked' ? 'none' : 'auto';
+            btn.style.opacity = status === 'locked' ? '0.6' : '1';
+          }
+          if (btn.dataset.complete || btn.type === 'file' || btn.id === 'wireProof') {
+            btn.disabled = status === 'locked';
+          }
+        });
+      });
+    }
+
+    function setStepCompleted(stepKey) {
+      if (steps[stepKey] === 'locked') return;
+      steps[stepKey] = 'completed';
+      if (stepKey === 'docs' && steps.subscription === 'locked') steps.subscription = 'current';
+      if (stepKey === 'subscription' && steps.aml === 'locked') steps.aml = 'current';
+      if (stepKey === 'aml') {
+        if (steps.review === 'locked') steps.review = 'current';
+      }
+      if (stepKey === 'wire') {
+        // final step, nothing extra
+      }
+      refreshStatuses();
+    }
+
+    document.querySelectorAll('[data-complete]').forEach((btn) => {
+      btn.addEventListener('click', () => setStepCompleted(btn.dataset.complete));
+    });
+
+    document.getElementById('simulateApproval').addEventListener('click', () => {
+      isApproved = true;
+      steps.review = 'completed';
+      if (steps.wire === 'locked') steps.wire = 'current';
+      refreshStatuses();
+    });
+
+    const modal = document.getElementById('bankModal');
+    document.getElementById('openBankModal').addEventListener('click', () => {
+      if (steps.wire === 'locked') return;
+      modal.style.display = 'flex';
+    });
+    document.getElementById('closeBankModal').addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+
+    const proofInput = document.getElementById('wireProof');
+    const proofLabel = document.getElementById('proofLabel');
+    proofInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) {
+        proofLabel.style.display = 'inline';
+        proofLabel.textContent = `Comprobante cargado: ${file.name}`;
+        setStepCompleted('wire');
+      }
+    });
+
+    refreshStatuses();
   </script>
 </body>
 </html>
