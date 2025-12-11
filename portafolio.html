@@ -103,9 +103,8 @@
     }
 
     .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 18px;
+      display: flex;
+      justify-content: flex-start;
     }
 
     .portfolio-card {
@@ -116,7 +115,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      min-height: 420px;
+      height: 420px;
+      width: 420px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -186,7 +186,7 @@
     </nav>
 
     <header class="page-header">
-      <h1 class="page-title">Selecciona tu portafolio</h1>
+      <h1 class="page-title">Elige donde quieres invertir</h1>
       <p class="page-subtitle">Explora las oportunidades disponibles y accede al proceso de inversión en un solo clic. Más proyectos se añadirán próximamente.</p>
     </header>
 
