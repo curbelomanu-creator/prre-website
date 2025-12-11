@@ -183,21 +183,19 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1fr;
       gap: 14px;
-    }
-
-    @media (max-width: 860px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
     .mini-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
       margin-top: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .mini-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 600px) {
@@ -269,6 +267,13 @@
       padding: 12px 14px;
       background: #fff;
       box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .investment-card.selected {
+      border-color: var(--primary);
+      box-shadow: 0 16px 35px rgba(15, 118, 110, 0.2);
     }
 
     .investment-rate { font-size: 2rem; font-weight: 800; color: #0ea5e9; }
@@ -412,35 +417,34 @@
       <div class="card hero-card">
         <div class="hero-grid">
           <div>
-            <div class="pill muted" style="margin-bottom: 8px;">Portafolio Residencial</div>
-            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Valle Tania & La Canasta</h2>
-            <p class="section-subtitle">Desarrollo y estabilización de comunidades residenciales en Puerto Rico con flujos de caja proyectados de largo plazo.</p>
+            <div class="pill muted" style="margin-bottom: 8px;">Portafolio de inversión</div>
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Proyecto Trialo Development</h2>
+            <p class="section-subtitle">El proyecto consta de tres urbanizaciones ubicadas en los municipios de Guánica, Lajas y San Germán (Puerto Rico) donde se están construyendo casas a un valor de venta de $185,000.</p>
 
             <div style="margin-top: 14px;">
               <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95rem;">
-                <span>Avance del proceso</span>
-                <span id="progressLabel">0 de 5 pasos</span>
+                <span>Avance del proyecto</span>
+                <span id="projectProgressLabel">0 de 0 casas</span>
               </div>
-              <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+              <div class="progress"><div class="progress-bar" id="projectProgressBar"></div></div>
             </div>
-          </div>
-          <div>
+
             <div class="mini-grid">
               <div class="metric-card">
-                <p class="metric-label">Localización</p>
-                <p class="metric-value">Puerto Rico</p>
+                <p class="metric-label">Objetivo</p>
+                <p class="metric-value">1190 casas</p>
               </div>
               <div class="metric-card">
-                <p class="metric-label">Horizonte</p>
-                <p class="metric-value">24 meses mínimo</p>
+                <p class="metric-label">Casas vendidas</p>
+                <p class="metric-value">680</p>
               </div>
               <div class="metric-card">
-                <p class="metric-label">Retorno preferencial</p>
-                <p class="metric-value">9% - 11%</p>
+                <p class="metric-label">Próximas</p>
+                <p class="metric-value">510</p>
               </div>
               <div class="metric-card">
-                <p class="metric-label">Frecuencia</p>
-                <p class="metric-value">Interés anual</p>
+                <p class="metric-label">Plazo</p>
+                <p class="metric-value">36 meses</p>
               </div>
             </div>
           </div>
@@ -448,50 +452,50 @@
       </div>
 
       <div class="card">
-        <div class="section-title">Clases de inversión</div>
-        <p class="section-subtitle" style="margin-bottom: 10px;">Selecciona la clase que mejor se ajuste a tu aporte. El rendimiento preferencial aumenta según el monto invertido.</p>
-        <div class="investment-grid">
-          <div class="investment-card">
-            <div class="investment-min">Desde USD 50,000</div>
-            <div class="investment-title">Clase D</div>
-            <div class="investment-rate">9%</div>
-            <p class="note">Ideal para comenzar con un aporte accesible. Oferta internacional bajo Regulation S.</p>
+        <div class="section-title">Documentos del proyecto</div>
+        <p class="section-subtitle" style="margin-bottom: 12px;">Revisa y descarga el Private Placement Memorandum y el Operating Agreement antes de continuar.</p>
+        <div class="doc-grid">
+          <div class="doc-card">
+            <a href="/docs/ppm-ejemplo.pdf" target="_blank">Private Placement Memorandum</a>
+            <p>Detalles de la oferta y riesgos asociados.</p>
           </div>
-          <div class="investment-card">
-            <div class="investment-min">Desde USD 250,000</div>
-            <div class="investment-title">Clase C</div>
-            <div class="investment-rate" style="color:#0f766e;">10%</div>
-            <p class="note">Para una participación más significativa dentro del Fondo. Oferta internacional bajo Regulation S.</p>
+          <div class="doc-card">
+            <a href="/docs/operating-agreement-ejemplo.pdf" target="_blank">Operating Agreement</a>
+            <p>Estructura de la compañía y derechos de los inversores.</p>
           </div>
-          <div class="investment-card">
-            <div class="investment-min">Desde USD 1,000,000</div>
-            <div class="investment-title">Clase B</div>
-            <div class="investment-rate" style="color:#f97316;">11%</div>
-            <p class="note">Capital mayor con mayor retorno preferencial. Oferta internacional bajo Regulation S.</p>
+          <div class="doc-card">
+            <a href="https://tusitio.com/subscription-agreement" target="_blank">Subscription Agreement</a>
+            <p>Completa y firma electrónicamente tu acuerdo.</p>
+          </div>
+          <div class="doc-card">
+            <a href="https://tusitio.com/aml-verification" target="_blank">Formulario AML / KYC</a>
+            <p>Proceso de debida diligencia y validación de identidad.</p>
           </div>
         </div>
       </div>
     </section>
 
     <section class="card">
-      <div class="section-title">Documentos del proyecto</div>
-      <p class="section-subtitle" style="margin-bottom: 12px;">Revisa y descarga el Private Placement Memorandum y el Operating Agreement antes de continuar.</p>
-      <div class="doc-grid">
-        <div class="doc-card">
-          <a href="/docs/ppm-ejemplo.pdf" target="_blank">Private Placement Memorandum</a>
-          <p>Detalles de la oferta y riesgos asociados.</p>
+      <div class="section-title">Clases de inversión</div>
+      <p class="section-subtitle" style="margin-bottom: 10px;">Selecciona la clase que mejor se ajuste a tu aporte. El rendimiento preferencial aumenta según el monto invertido. El periodo mínimo de permanencia es de 24 meses.</p>
+      <div class="investment-grid">
+        <div class="investment-card" data-class="Clase D" data-rate="9%">
+          <div class="investment-min">Desde USD 50,000</div>
+          <div class="investment-title">Clase D</div>
+          <div class="investment-rate">9%</div>
+          <p class="note">Ideal para comenzar con un aporte accesible. Oferta internacional bajo Regulation S.</p>
         </div>
-        <div class="doc-card">
-          <a href="/docs/operating-agreement-ejemplo.pdf" target="_blank">Operating Agreement</a>
-          <p>Estructura de la compañía y derechos de los inversores.</p>
+        <div class="investment-card" data-class="Clase C" data-rate="10%">
+          <div class="investment-min">Desde USD 250,000</div>
+          <div class="investment-title">Clase C</div>
+          <div class="investment-rate" style="color:#0f766e;">10%</div>
+          <p class="note">Para una participación más significativa dentro de la compañía. Oferta internacional bajo Regulation S.</p>
         </div>
-        <div class="doc-card">
-          <a href="https://tusitio.com/subscription-agreement" target="_blank">Subscription Agreement</a>
-          <p>Completa y firma electrónicamente tu acuerdo.</p>
-        </div>
-        <div class="doc-card">
-          <a href="https://tusitio.com/aml-verification" target="_blank">Formulario AML / KYC</a>
-          <p>Proceso de debida diligencia y validación de identidad.</p>
+        <div class="investment-card" data-class="Clase B" data-rate="11%">
+          <div class="investment-min">Desde USD 1,000,000</div>
+          <div class="investment-title">Clase B</div>
+          <div class="investment-rate" style="color:#f97316;">11%</div>
+          <p class="note">Capital mayor con mayor retorno preferencial. Oferta internacional bajo Regulation S.</p>
         </div>
       </div>
     </section>
@@ -500,31 +504,38 @@
       <div class="section-title">Pasos para invertir</div>
       <p class="section-subtitle">Completa los pasos en orden. A medida que avances, se desbloquearán los siguientes.</p>
 
+      <div style="margin: 12px 0 16px;">
+        <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.95rem;">
+          <span>Avance de pasos</span>
+          <span id="stepsProgressLabel">0 de 5 pasos</span>
+        </div>
+        <div class="progress"><div class="progress-bar" id="stepsProgressBar"></div></div>
+      </div>
+
       <div class="steps">
         <div class="step-card" data-step="docs">
-          <div class="step-number">0</div>
+          <div class="step-number">1</div>
           <div>
             <div class="step-header">
               <div>
-                <div class="section-title" style="margin: 0; font-size: 1rem;">Revisar PPM y Operating Agreement</div>
-                <p class="note">Lee ambos documentos antes de avanzar. Puedes marcarlos como revisados para desbloquear el siguiente paso.</p>
+                <div class="section-title" id="ppmStepTitle" style="margin: 0; font-size: 1rem;">Revisar PPM</div>
+                <p class="note">Lee los detalles de la oferta y riesgos asociados.</p>
               </div>
               <span class="badge" data-status="docs"></span>
             </div>
             <div class="step-actions">
               <a class="btn link" href="/docs/ppm-ejemplo.pdf" target="_blank">Ver PPM</a>
-              <a class="btn link" href="/docs/operating-agreement-ejemplo.pdf" target="_blank">Ver Operating Agreement</a>
               <button class="btn primary" data-complete="docs">Marcar como leído</button>
             </div>
           </div>
         </div>
 
         <div class="step-card" data-step="subscription">
-          <div class="step-number">1</div>
+          <div class="step-number">2</div>
           <div>
             <div class="step-header">
               <div>
-                <div class="section-title" style="margin: 0; font-size: 1rem;">Firmar Subscription Agreement</div>
+                <div class="section-title" id="subscriptionStepTitle" style="margin: 0; font-size: 1rem;">Firmar Subscription Agreement</div>
                 <p class="note">Accede a la plataforma de firma electrónica y confirma que completaste el acuerdo.</p>
               </div>
               <span class="badge" data-status="subscription"></span>
@@ -537,7 +548,7 @@
         </div>
 
         <div class="step-card" data-step="aml">
-          <div class="step-number">2</div>
+          <div class="step-number">3</div>
           <div>
             <div class="step-header">
               <div>
@@ -547,18 +558,18 @@
               <span class="badge" data-status="aml"></span>
             </div>
             <div class="step-actions">
-              <a class="btn primary" data-link="aml" href="https://tusitio.com/aml-verification" target="_blank">Ir al formulario</a>
+              <a class="btn primary" data-link="aml" href="kyc-aml.html">Completar procedimiento</a>
               <button class="btn soft" data-complete="aml">Ya completé AML</button>
             </div>
           </div>
         </div>
 
         <div class="step-card" data-step="review">
-          <div class="step-number">3</div>
+          <div class="step-number">4</div>
           <div>
             <div class="step-header">
               <div>
-                <div class="section-title" style="margin: 0; font-size: 1rem;">Revisión y aprobación del Fondo</div>
+                <div class="section-title" style="margin: 0; font-size: 1rem;">Revisión y aprobación de la compañía</div>
                 <p class="note">Nuestro equipo validará tu acuerdo y la verificación AML. Recibirás el agreement contrafirmado al aprobarse.</p>
               </div>
               <span class="badge" data-status="review"></span>
@@ -571,12 +582,12 @@
         </div>
 
         <div class="step-card" data-step="wire">
-          <div class="step-number">4</div>
+          <div class="step-number">5</div>
           <div>
             <div class="step-header">
               <div>
                 <div class="section-title" style="margin: 0; font-size: 1rem;">Transferencia bancaria y comprobante</div>
-                <p class="note">Realiza la transferencia al Fondo y sube el comprobante para aplicar tu aporte al proyecto.</p>
+                <p class="note">Realiza la transferencia a la compañía y sube el comprobante para aplicar tu aporte al proyecto.</p>
               </div>
               <span class="badge" data-status="wire"></span>
             </div>
@@ -613,11 +624,36 @@
         <span class="bank-label">Referencia</span>
         <span>Nombre del inversor + Proyecto Valle Tania</span>
       </div>
-      <p class="note" style="margin-top: 10px;">Recuerda subir el comprobante en el paso 4 para asignar tu inversión.</p>
+      <p class="note" style="margin-top: 10px;">Recuerda subir el comprobante en el paso 5 para asignar tu inversión.</p>
     </div>
   </div>
 
   <script>
+    const investmentCards = Array.from(document.querySelectorAll('.investment-card'));
+    const ppmStepTitle = document.getElementById('ppmStepTitle');
+    const subscriptionStepTitle = document.getElementById('subscriptionStepTitle');
+    let selectedClass = investmentCards[0]?.dataset.class || 'Clase D';
+
+    const totalHouses = 1190;
+    const soldHouses = 680;
+    const projectProgress = Math.min((soldHouses / totalHouses) * 100, 100);
+    document.getElementById('projectProgressBar').style.width = `${projectProgress}%`;
+    document.getElementById('projectProgressLabel').textContent = `${soldHouses} de ${totalHouses} casas`;
+
+    function setSelectedClass(className) {
+      selectedClass = className;
+      investmentCards.forEach((card) => {
+        const isSelected = card.dataset.class === className;
+        card.classList.toggle('selected', isSelected);
+      });
+      ppmStepTitle.textContent = `Revisar PPM - ${className}`;
+      subscriptionStepTitle.textContent = `Firmar Subscription Agreement - ${className}`;
+    }
+
+    investmentCards.forEach((card) => {
+      card.addEventListener('click', () => setSelectedClass(card.dataset.class));
+    });
+
     const steps = {
       docs: 'current',
       subscription: 'locked',
@@ -638,8 +674,8 @@
       const total = 5;
       const completed = Object.values(steps).filter((s) => s === 'completed').length;
       const percent = (completed / total) * 100;
-      document.getElementById('progressBar').style.width = `${percent}%`;
-      document.getElementById('progressLabel').textContent = `${completed} de ${total} pasos`;
+      document.getElementById('stepsProgressBar').style.width = `${percent}%`;
+      document.getElementById('stepsProgressLabel').textContent = `${completed} de ${total} pasos`;
       const overall = document.getElementById('overallStatus');
       if (isApproved) {
         overall.textContent = 'Aprobado';
@@ -721,6 +757,8 @@
     });
 
     refreshStatuses();
+
+    setSelectedClass(selectedClass);
   </script>
 </body>
 </html>
