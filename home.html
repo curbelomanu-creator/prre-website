@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home – PRRE Fund</title>
+  <style>
+    :root {
+      --bg: #0b172a;
+      --card: #0f213c;
+      --muted: #cbd5e1;
+      --text: #e2e8f0;
+      --primary: #0f766e;
+      --primary-soft: rgba(15, 118, 110, 0.15);
+      --accent: #22d3ee;
+      --border: rgba(255, 255, 255, 0.08);
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --shadow: 0 18px 48px rgba(8, 24, 49, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.12), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(15, 118, 110, 0.22), transparent 32%),
+        linear-gradient(135deg, #0a1322, #0c1a30 50%, #0a1527);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 28px 16px 60px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .top-nav {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+      margin-bottom: 32px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.05rem;
+    }
+
+    .nav-links {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link, .nav-cta {
+      padding: 9px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+      border: 1px solid transparent;
+      color: var(--muted);
+    }
+
+    .nav-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border);
+    }
+
+    .nav-link.active {
+      color: #fff;
+      background: rgba(34, 211, 238, 0.16);
+      border-color: rgba(34, 211, 238, 0.45);
+      box-shadow: 0 8px 22px rgba(34, 211, 238, 0.25);
+    }
+
+    .nav-cta {
+      background: linear-gradient(120deg, #0f766e, #0ea5e9);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(14, 165, 233, 0.26);
+    }
+
+    .nav-cta:hover { transform: translateY(-1px); }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(15, 118, 110, 0.12));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      margin: 14px 0 10px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.6;
+      max-width: 42ch;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 22px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: linear-gradient(120deg, #0f766e, #0ea5e9);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 18px 30px rgba(14, 165, 233, 0.24);
+      transition: transform 0.14s ease, box-shadow 0.2s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 38px rgba(14, 165, 233, 0.3);
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 110% 10%, rgba(34, 211, 238, 0.22), transparent 38%);
+      pointer-events: none;
+    }
+
+    .hero-number {
+      font-size: clamp(3.8rem, 10vw, 5.2rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .hero-number small {
+      display: block;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .card-subtext {
+      margin-top: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .inline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: #e5e7eb;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 20px 14px 46px; }
+      .top-nav { flex-direction: column; align-items: flex-start; }
+      .nav-links { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="top-nav" aria-label="Navegación principal">
+      <a href="home.html" class="brand">PRRE Fund</a>
+      <div class="nav-links">
+        <a class="nav-link active" href="home.html">Home</a>
+        <a class="nav-link" href="index.html">Dashboard</a>
+        <a class="nav-link" href="beneficios-contributivos.html">Beneficios Contributivos</a>
+        <a class="nav-link" href="nueva-inversion.html">Nueva inversión</a>
+        <a class="nav-link" href="portafolio.html">Portafolio</a>
+        <a class="nav-link" href="portal-del-proyecto.html">Portal del Proyecto</a>
+        <a class="nav-link" href="seguridad-transparencia.html">Seguridad y Transparencia</a>
+        <a class="nav-link" href="kyc-aml.html">KYC / AML</a>
+        <a class="nav-link" href="subscription-agreement.html">Subscription Agreement</a>
+        <a class="nav-cta" href="nueva-inversion.html">Invertir ahora</a>
+      </div>
+    </nav>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">Estructura contributiva</div>
+        <h1 id="hero-title">0% Impuestos en Puerto Rico</h1>
+        <p>Los ingresos distribuidos a los inversionistas están exentos de contribución sobre ingresos en Puerto Rico, conforme a la Ley 60 – Programa de Zonas de Oportunidad.</p>
+        <a class="cta" href="beneficios-contributivos.html">👉&nbsp;Saber más sobre los beneficios contributivos</a>
+      </div>
+
+      <div class="hero-card" aria-label="Resumen de exención contributiva">
+        <div class="hero-number">
+          0%
+          <small>impuestos en Puerto Rico</small>
+        </div>
+        <p class="card-subtext">
+          Marco contributivo diseñado para los inversionistas de Puerto Rico Real Estate Fund bajo la Ley 60. Sin citas extensas: solo la claridad esencial y un acceso directo al detalle legal.
+        </p>
+        <div class="inline-tags" aria-label="Etiquetas de referencia">
+          <span class="tag">Ley 60</span>
+          <span class="tag">Zonas de Oportunidad</span>
+          <span class="tag">Exención de distribuciones</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
