@@ -167,7 +167,7 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 24px 22px;
+      padding: 24px 22px 26px;
       position: relative;
       overflow: hidden;
     }
@@ -203,21 +203,29 @@
       line-height: 1.5;
     }
 
-    .inline-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .card-actions {
       margin-top: 18px;
     }
 
-    .tag {
-      padding: 6px 10px;
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border);
-      color: #e5e7eb;
-      font-weight: 600;
-      font-size: 0.9rem;
+      text-decoration: none;
+      background: linear-gradient(120deg, #0f766e, #0ea5e9);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 12px 28px rgba(14, 165, 233, 0.24);
+      transition: transform 0.14s ease, box-shadow 0.2s ease;
+    }
+
+    .card-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 32px rgba(14, 165, 233, 0.28);
     }
 
     @media (max-width: 640px) {
@@ -250,7 +258,6 @@
         <div class="eyebrow">Estructura contributiva</div>
         <h1 id="hero-title">0% Impuestos en Puerto Rico</h1>
         <p>Los ingresos distribuidos a los inversionistas están exentos de contribución sobre ingresos en Puerto Rico, conforme a la Ley 60 – Programa de Zonas de Oportunidad.</p>
-        <a class="cta" href="beneficios-contributivos.html">👉&nbsp;Saber más sobre los beneficios contributivos</a>
       </div>
 
       <div class="hero-card" aria-label="Resumen de exención contributiva">
@@ -259,12 +266,10 @@
           <small>impuestos en Puerto Rico</small>
         </div>
         <p class="card-subtext">
-          Marco contributivo diseñado para los inversionistas de Puerto Rico Real Estate Fund bajo la Ley 60. Sin citas extensas: solo la claridad esencial y un acceso directo al detalle legal.
+          Los ingresos distribuidos a los inversionistas están exentos de contribución sobre ingresos en Puerto Rico, conforme a la Ley 60 – Programa de Zonas de Oportunidad.
         </p>
-        <div class="inline-tags" aria-label="Etiquetas de referencia">
-          <span class="tag">Ley 60</span>
-          <span class="tag">Zonas de Oportunidad</span>
-          <span class="tag">Exención de distribuciones</span>
+        <div class="card-actions">
+          <a class="card-cta" href="beneficios-contributivos.html">Conoce más</a>
         </div>
       </div>
     </section>
