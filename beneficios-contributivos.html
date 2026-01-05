@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneficios Contributivos – PRRE Fund</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #4b5563;
+      --primary: #0f766e;
+      --primary-soft: rgba(15, 118, 110, 0.08);
+      --accent: #0ea5e9;
+      --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 20% 8%, rgba(14, 165, 233, 0.14), transparent 22%),
+        radial-gradient(circle at 85% 12%, rgba(15, 118, 110, 0.18), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      padding: 28px 16px 60px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page { width: 100%; max-width: 1200px; }
+
+    .top-nav {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(10px);
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #0b1321;
+      text-decoration: none;
+      font-size: 1.05rem;
+    }
+
+    .nav-links { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .nav-link, .nav-cta {
+      padding: 9px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+      border: 1px solid transparent;
+      color: var(--muted);
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+      background: rgba(15, 118, 110, 0.07);
+      border-color: var(--border);
+    }
+
+    .nav-link.active {
+      color: var(--text);
+      background: rgba(14, 165, 233, 0.12);
+      border-color: rgba(14, 165, 233, 0.32);
+      box-shadow: 0 10px 24px rgba(14, 165, 233, 0.18);
+    }
+
+    .nav-cta {
+      background: linear-gradient(120deg, #0f766e, #0ea5e9);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 12px 28px rgba(14, 165, 233, 0.22);
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #f0f9ff, #ecfdf3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 34px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 2.7rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1.02rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.12);
+      color: #0f5132;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      width: fit-content;
+    }
+
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 22px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    h2.section-title {
+      margin-top: 32px;
+      font-size: 1.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section-lead { margin-top: 8px; color: var(--muted); line-height: 1.6; }
+
+    .quote {
+      background: linear-gradient(135deg, #0f172a, #0b213f);
+      color: #e5e7eb;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin: 12px 0 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+    }
+
+    .quote small { display: block; color: rgba(229, 231, 235, 0.75); margin-bottom: 8px; letter-spacing: 0.02em; font-weight: 700; text-transform: uppercase; }
+    .quote p { line-height: 1.6; font-size: 0.98rem; }
+
+    .pill-figure {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--primary-soft);
+      color: #0f5132;
+      font-weight: 700;
+      margin-top: 10px;
+      border: 1px solid rgba(15, 118, 110, 0.18);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      font-weight: 700;
+    }
+
+    .flow-arrow {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .legal-note {
+      margin-top: 28px;
+      background: #0f172a;
+      color: #e5e7eb;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+      line-height: 1.6;
+    }
+
+    .ddec-block {
+      margin-top: 28px;
+      padding: 20px;
+      background: #f0f4ff;
+      border: 1px solid #cbd5ff;
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .ddec-logo {
+      width: 180px;
+      height: 72px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0f3c7d, #0b2856);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 26px rgba(15, 60, 125, 0.28);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .ddec-logo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.2), transparent 40%);
+      pointer-events: none;
+    }
+
+    .ddec-logo svg { width: 120px; height: 38px; }
+    .ddec-text { color: #0b2856; font-weight: 700; line-height: 1.4; }
+
+    @media (max-width: 640px) {
+      body { padding: 22px 12px 46px; }
+      .top-nav { flex-direction: column; align-items: flex-start; }
+      .nav-links { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="top-nav" aria-label="Navegación principal">
+      <a href="home.html" class="brand">PRRE Fund</a>
+      <div class="nav-links">
+        <a class="nav-link" href="home.html">Home</a>
+        <a class="nav-link active" href="beneficios-contributivos.html">Beneficios Contributivos</a>
+        <a class="nav-link" href="index.html">Dashboard</a>
+        <a class="nav-link" href="portafolio.html">Nueva Inversión</a>
+        <a class="nav-link" href="seguridad-transparencia.html">Seguridad y Transparencia</a>
+        <a class="nav-link" href="portal-del-proyecto.html">Portal del Proyecto</a>
+        <a class="nav-cta" href="nueva-inversion.html">Invertir ahora</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <div class="badge">Ley 60 – Programa de Zonas de Oportunidad</div>
+        <h1>Beneficios Contributivos para los Inversionistas</h1>
+        <p>Estructura diseñada bajo la Ley 60 de Puerto Rico – Programa de Zonas de Oportunidad, orientada a eficiencia fiscal y transparencia.</p>
+      </div>
+      <div class="card">
+        <h2 class="section-title" style="margin-top:0;">Marco legal general</h2>
+        <p class="section-lead">
+          Puerto Rico Real Estate Fund estructura sus inversiones bajo el Programa de Zonas de Oportunidad de la Ley 60, administrado por el Departamento de Desarrollo Económico y Comercio de Puerto Rico (DDEC), que otorga incentivos contributivos a negocios calificados y a las distribuciones derivadas de ingresos elegibles.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section style="margin-top: 18px;">
+        <h2 class="section-title">Tributación de las compañías desarrolladoras</h2>
+        <p class="section-lead">Las compañías desarrolladoras que operan los proyectos del fondo califican como Negocios Exentos bajo la Ley 60.</p>
+        <div class="card">
+          <div class="quote" aria-label="Cita legal sección 6070.56(a)">
+            <small>Sección 6070.56(a) – Ley 60</small>
+            <p>“Un negocio exento estará sujeto a una tasa fija de contribución sobre ingresos sobre su ingreso neto de zonas de oportunidad de dieciocho punto cinco (18.5%) por ciento en lugar de cualquier otra contribución impuesta por el Código de Rentas Internas.”</p>
+          </div>
+          <div class="pill-figure">Tasa fija: 18.5%</div>
+          <p class="note">Aplicable al ingreso neto de Zonas de Oportunidad.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title" style="margin-top: 28px;">Distribuciones a los accionistas de las compañías desarrolladoras</h2>
+        <p class="section-lead">Los accionistas o socios de las compañías desarrolladoras no pagan contribución sobre ingresos en Puerto Rico por las distribuciones provenientes de ingresos calificados.</p>
+        <div class="card">
+          <div class="quote" aria-label="Cita legal sección 6070.56(e)">
+            <small>Sección 6070.56(e) – Ley 60</small>
+            <p>“Los accionistas o socios de una corporación o sociedad que es un negocio exento no estarán sujetos a contribución sobre ingresos sobre distribuciones de dividendos o beneficios…”</p>
+          </div>
+          <p class="note">Esto aplica, entre otros, a Valle Tania Development LLC, Southwest Builders LLC y Paseo del Valle Inc.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title" style="margin-top: 28px;">Distribuciones a los inversionistas del fondo</h2>
+        <p class="section-lead">La Ley 60 extiende la exención contributiva a las distribuciones subsiguientes, incluso cuando se realizan a través de SPV y del holding del fondo.</p>
+        <div class="card">
+          <div class="quote" aria-label="Cita legal sección 6070.56(e)">
+            <small>Sección 6070.56(e) – Ley 60</small>
+            <p>“Las distribuciones subsiguientes de las utilidades y beneficios… también estarán exentas de toda tributación.”</p>
+          </div>
+          <div class="flow" aria-label="Flujo de distribuciones exentas">
+            <div class="flow-step">SPV</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">PRRE Fund</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">Inversionistas</div>
+          </div>
+          <div class="pill-figure" style="margin-top: 16px;">0% contribución sobre ingresos en Puerto Rico</div>
+        </div>
+      </section>
+
+      <section class="card-grid">
+        <div class="card">
+          <h2 class="section-title" style="margin-top:0;">Contribuciones sobre la propiedad</h2>
+          <div class="quote" aria-label="Cita legal sección 6070.57(a)">
+            <small>Sección 6070.57(a) – Ley 60</small>
+            <p>“La propiedad mueble de un negocio exento… tendrá un veinticinco (25) por ciento de exención sobre las contribuciones municipales y estatales sobre la propiedad.”</p>
+          </div>
+        </div>
+        <div class="card">
+          <h2 class="section-title" style="margin-top:0;">Patentes municipales y otros impuestos municipales</h2>
+          <div class="quote" aria-label="Cita legal sección 6070.58">
+            <small>Sección 6070.58 – Ley 60</small>
+            <p>“Los negocios exentos tendrán un veinticinco (25) por ciento de exención sobre las patentes municipales, arbitrios municipales y otras contribuciones municipales…”</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="ddec-block" aria-label="Información institucional DDEC">
+        <div class="ddec-logo" role="img" aria-label="Logo oficial del DDEC">
+          <svg viewBox="0 0 220 70" aria-hidden="true">
+            <defs>
+              <linearGradient id="ddecGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1c64f2"/>
+                <stop offset="100%" stop-color="#0ea5e9"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="14" width="14" height="42" rx="6" fill="#f59e0b"/>
+            <rect x="18" y="8" width="14" height="48" rx="6" fill="#f59e0b" opacity="0.85"/>
+            <text x="50" y="48" fill="url(#ddecGrad)" font-size="40" font-family="Inter, 'Segoe UI', sans-serif" font-weight="800" letter-spacing="2">DDEC</text>
+          </svg>
+        </div>
+        <div class="ddec-text">Programa administrado por el Departamento de Desarrollo Económico y Comercio de Puerto Rico (DDEC).</div>
+      </section>
+
+      <section class="legal-note" aria-label="Nota legal">
+        Esta información es de carácter general y no constituye asesoría legal o contributiva individual. El tratamiento contributivo fuera de Puerto Rico puede variar según la jurisdicción y la situación particular de cada inversionista.
+      </section>
+    </main>
+  </div>
+</body>
+</html>
